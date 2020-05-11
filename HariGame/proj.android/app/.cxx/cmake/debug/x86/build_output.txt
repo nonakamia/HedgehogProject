@@ -1,0 +1,24 @@
+-- using toolchain file:D:\SDK\ndk\21.0.6011959\build\cmake\android.toolchain.cmake
+-- PROJECT_NAME:HariGame
+-- PROJECT_SOURCE_DIR:D:/hariProject/HariGame
+-- COCOS2DX_ROOT_PATH:D:/hariProject/HariGame/cocos2d
+-- CMAKE_MODULE_PATH:D:/hariProject/HariGame/cocos2d/cmake/Modules/
+-- PROJECT_BINARY_DIR:D:/hariProject/HariGame/proj.android/app/.cxx/cmake/debug/x86
+-- ENGINE_BINARY_PATH:D:/hariProject/HariGame/proj.android/app/.cxx/cmake/debug/x86/engine
+-- CMAKE_GENERATOR: Ninja
+-- CMAKE_BUILD_TYPE: Debug
+-- Configuring done
+-- Generating done
+-- using toolchain file:D:\SDK\ndk\21.0.6011959\build\cmake\android.toolchain.cmake
+-- PROJECT_NAME:HariGame
+-- PROJECT_SOURCE_DIR:D:/hariProject/HariGame
+-- COCOS2DX_ROOT_PATH:D:/hariProject/HariGame/cocos2d
+-- CMAKE_MODULE_PATH:D:/hariProject/HariGame/cocos2d/cmake/Modules/
+-- PROJECT_BINARY_DIR:D:/hariProject/HariGame/proj.android/app/.cxx/cmake/debug/x86
+-- ENGINE_BINARY_PATH:D:/hariProject/HariGame/proj.android/app/.cxx/cmake/debug/x86/engine
+-- CMAKE_GENERATOR: Ninja
+-- CMAKE_BUILD_TYPE: Debug
+-- Configuring done
+-- Generating done
+-- Build files have been written to: D:/hariProject/HariGame/proj.android/app/.cxx/cmake/debug/x86
+-- Build files have been written to: D:/hariProject/HariGame/proj.android/app/.cxx/cmake/debug/x86

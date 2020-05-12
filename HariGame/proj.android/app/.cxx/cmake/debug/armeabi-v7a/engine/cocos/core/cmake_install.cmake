@@ -1,4 +1,4 @@
-# Install script for directory: D:/hariProject/HariGame/cocos2d/cocos
+# Install script for directory: D:/HedgehogProject/HedgehogProject/HariGame/cocos2d/cocos
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)
@@ -34,7 +34,7 @@ endif()
 
 if(NOT CMAKE_INSTALL_LOCAL_ONLY)
   # Include the install script for each subdirectory.
-  include("D:/hariProject/HariGame/proj.android/app/.cxx/cmake/debug/armeabi-v7a/engine/external/cmake_install.cmake")
+  include("D:/HedgehogProject/HedgehogProject/HariGame/proj.android/app/.cxx/cmake/debug/armeabi-v7a/engine/external/cmake_install.cmake")
 
 endif()
 

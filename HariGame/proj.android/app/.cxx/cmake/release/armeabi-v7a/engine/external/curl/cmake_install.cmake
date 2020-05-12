@@ -1,4 +1,4 @@
-# Install script for directory: D:/hariProject/HariGame/cocos2d/external/curl
+# Install script for directory: D:/HedgehogProject/HedgehogProject/HariGame/cocos2d/external/curl
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)

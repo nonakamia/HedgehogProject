@@ -1,7 +1,7 @@
 Executable : D:\SDK\cmake\3.6.4111459\bin\cmake.exe
 arguments : 
 --build
-D:\hariProject\HariGame\proj.android\app\.cxx\cmake\debug\x86
+D:\HedgehogProject\HedgehogProject\HariGame\proj.android\app\.cxx\cmake\debug\x86
 --target
 MyGame
 jvmArgs : 

@@ -16,6 +16,9 @@
     <Filter Include="obj\player">
       <UniqueIdentifier>{69cd8988-70bf-4aef-b55a-1dfe5049b896}</UniqueIdentifier>
     </Filter>
+    <Filter Include="action">
+      <UniqueIdentifier>{79e519c5-38c5-4ef8-92f8-646dbaba40c1}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -32,6 +35,9 @@
     </ClCompile>
     <ClCompile Include="..\Classes\GameScene.cpp">
       <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\Action\ACTION.cpp">
+      <Filter>action</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -52,6 +58,9 @@
     </ClInclude>
     <ClInclude Include="..\Classes\Scene\BaseScene.h">
       <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\Action\ACTION.h">
+      <Filter>action</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

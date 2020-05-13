@@ -74,7 +74,7 @@ Player::Player()
 	this->getEventDispatcher()->addEventListenerWithSceneGraphPriority(listener, this);
 #else
 	PlayerRolling();
-	action = ACTION::ROLLING;
+	_action = ACTION::ROLLING;
 #endif
 
 }

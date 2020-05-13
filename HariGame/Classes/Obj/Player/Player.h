@@ -1,7 +1,7 @@
 #pragma once
 #include "cocos2d.h"
 
-#include "obj/Obj.h"
+#include "Obj/Obj.h"
 #include "Action/ACTION.h"
 
 class Player : public Obj
@@ -11,8 +11,8 @@ public:
 	Player();
 	~Player();
 
-	void PlayerRolling();						// ‰ñ“]
-	bool CollsionCheck(cocos2d::Vec2 vec);		// ‘«ê“–‚½‚è”»’è
+	void PlayerRolling();						// å›è»¢
+	bool CollsionCheck(cocos2d::Vec2 vec);		// è¶³å ´ã¨ã®å½“ãŸã‚Šåˆ¤å®š
 private:
 	ACTION _action;
 };

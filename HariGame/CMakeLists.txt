@@ -60,6 +60,7 @@ list(APPEND GAME_HEADER
      Classes/Action/ACTION.h
      Classes/Obj/Player/Player.h
      Classes/Obj/Obj.h
+     Classes/Scene/BaseScene.h
      )
 
 if(ANDROID)

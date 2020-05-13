@@ -23,6 +23,7 @@
  ****************************************************************************/
 
 #include "GameScene.h"
+#include "Scene/BaseScene.h"
 #include "Obj/Player/Player.h"
 //#include "SimpleAudioEngine.h"
 
@@ -118,15 +119,43 @@ bool GameScene::init()
     //    sprite->runAction(RepeatForever::create(RotateBy::create(1.0f, 360.0f)));
     //}
 
+    // ”wŒi
+    auto bgLayer = Layer::create();
+    bgLayer->setName("BG_LAYER");
+    this->addChild(bgLayer, static_cast<int>(zOlder::BG));
+
+    // map“Ç‚Ýž‚Ý
+    auto mapData = TMXTiledMap::create("stage/stage_0.tmx");
+    mapData->setName("MapData");
+    bgLayer->addChild(mapData);
+
+    _scaffoldLayer = mapData->getLayer("scaffold");
+    _scaffoldLayer->setName("Scaffold");
+
+
     // OBJ_LAYER
     auto objLayer = Layer::create();
     objLayer->setName("OBJ_LAYER");
-    this->addChild(objLayer, 0);
+    this->addChild(objLayer, static_cast<int>(zOlder::CHAR));
     // player
     auto playerSprit = Player::createPlayer();
     objLayer->addChild(playerSprit);
     playerSprit->setPosition(Vec2(visibleSize.width / 2 + origin.x, visibleSize.height / 2 + origin.y));
 
+    // ÃÞÊÞ¯¸—p
+#if CC_TARGET_PLATFORM == CC_PLATFORM_WIN32
+    auto listener = EventListenerKeyboard::create();
+    listener->onKeyReleased = [this](cocos2d::EventKeyboard::KeyCode keyCode, cocos2d::Event* event)->bool
+    {
+        // ESC‚ÅI—¹
+        if (keyCode == cocos2d::EventKeyboard::KeyCode::KEY_ESCAPE)
+        {
+            Director::getInstance()->end();
+        }
+        return true;
+    };
+    this->getEventDispatcher()->addEventListenerWithSceneGraphPriority(listener, this);
+#endif
     return true;
 }
 

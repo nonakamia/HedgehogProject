@@ -39,6 +39,8 @@ public:
     
     // implement the "static create()" method manually
     CREATE_FUNC(GameScene);
+
+    cocos2d::TMXLayer* _scaffoldLayer;   // ‘«êÚ²Ô°
 };
 
 #endif // __HELLOWORLD_SCENE_H__

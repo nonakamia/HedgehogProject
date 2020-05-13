@@ -11,9 +11,9 @@ public:
 	Player();
 	~Player();
 
-	void PlayerRolling();
-
+	void PlayerRolling();						// ‰ñ“]
+	bool CollsionCheck(cocos2d::Vec2 vec);		// ‘«ê“–‚½‚è”»’è
 private:
-	ACTION action;
+	ACTION _action;
 };
 

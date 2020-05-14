@@ -3,7 +3,11 @@
 // プレイヤーのアクション
 enum class ACTION {
 	NON,
-	ROLLING,	//回転
+	ROLL,		// 回転
+	ROLLING,	// 回転中
+	FALL,		// 落下
+	JUMP,		// ｼﾞｬﾝﾌﾟ
+	JUMPING,	// ｼﾞｬﾝﾌﾟ中
 	MAX
 };
 

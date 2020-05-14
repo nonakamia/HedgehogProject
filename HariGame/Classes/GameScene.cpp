@@ -138,9 +138,11 @@ bool GameScene::init()
     objLayer->setName("OBJ_LAYER");
     this->addChild(objLayer, static_cast<int>(zOlder::CHAR));
     // player
-    auto playerSprit = Player::createPlayer();
+    auto playerSprit = Player::createPlayer(cocos2d::Vec2(20.0f,20.0f));
     objLayer->addChild(playerSprit);
     playerSprit->setPosition(Vec2(visibleSize.width / 2 + origin.x, visibleSize.height / 2 + origin.y));
+
+    playerSprit->scheduleUpdate();
 
     // ÃÞÊÞ¯¸—p
 #if CC_TARGET_PLATFORM == CC_PLATFORM_WIN32

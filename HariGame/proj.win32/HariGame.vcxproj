@@ -152,6 +152,7 @@ xcopy "$(ProjectDir)..\Resources" "$(OutDir)\Resources\" /D /E /I /F /Y
   <ItemGroup>
     <ClCompile Include="..\Classes\Action\ACTION.cpp" />
     <ClCompile Include="..\Classes\AppDelegate.cpp" />
+    <ClCompile Include="..\Classes\Button\ButtonLayer.cpp" />
     <ClCompile Include="..\Classes\GameScene.cpp" />
     <ClCompile Include="..\Classes\Obj\Obj.cpp" />
     <ClCompile Include="..\Classes\Obj\player\Player.cpp" />
@@ -160,8 +161,10 @@ xcopy "$(ProjectDir)..\Resources" "$(OutDir)\Resources\" /D /E /I /F /Y
   <ItemGroup>
     <ClInclude Include="..\Classes\Action\ACTION.h" />
     <ClInclude Include="..\Classes\AppDelegate.h" />
+    <ClInclude Include="..\Classes\Button\ButtonLayer.h" />
     <ClInclude Include="..\Classes\GameScene.h" />
     <ClInclude Include="..\Classes\Obj\Obj.h" />
+    <ClInclude Include="..\Classes\Obj\OBJ_COLLAR.h" />
     <ClInclude Include="..\Classes\Obj\player\Player.h" />
     <ClInclude Include="..\Classes\Scene\BaseScene.h" />
     <ClInclude Include="main.h" />

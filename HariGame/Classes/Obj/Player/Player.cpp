@@ -3,12 +3,22 @@
 
 USING_NS_CC;
 
-Obj* Player::createPlayer(Vec2 point)
+Obj* Player::createPlayer(OBJ_COLOR playerColor,Vec2 point)
 {
 	Obj* pRet = new(std::nothrow) Player(point);
 	if (pRet && pRet->init())
 	{
-		pRet->setSpriteFrame(Sprite::create("player/player_r_rotate.png")->getSpriteFrame());
+		if (playerColor == OBJ_COLOR::OBJ_RED)
+		{
+			pRet->setSpriteFrame(Sprite::create("player/player_r_rotate.png")->getSpriteFrame());
+			pRet->setTag(static_cast<int>(OBJ_COLOR::OBJ_RED));
+		}
+		else if (playerColor == OBJ_COLOR::OBJ_GREEN)
+		{
+			pRet->setSpriteFrame(Sprite::create("player/player_g_rotate.png")->getSpriteFrame());
+			pRet->setTag(static_cast<int>(OBJ_COLOR::OBJ_GREEN));
+		}
+
 		pRet->setScale(0.2f);
 		pRet->setAnchorPoint(cocos2d::Vec2(0.5f, 0.5f));
 
@@ -91,7 +101,7 @@ void Player::update(float delta)
 {
 	if (_action == ACTION::ROLL)
 	{
- 		//PlayerRolling();
+ 		PlayerRolling();
 		_action = ACTION::ROLLING;
 	}
 	if (_action == ACTION::ROLLING)
@@ -142,6 +152,20 @@ void Player::Falling()
 	}
 }
 
+void Player::Change(int color)
+{
+	if (color == static_cast<int>(OBJ_COLOR::OBJ_RED))
+	{
+		setSpriteFrame(Sprite::create("player/player_r_rotate.png")->getSpriteFrame());
+		setTag(static_cast<int>(OBJ_COLOR::OBJ_RED));
+	}
+	else if (color == static_cast<int>(OBJ_COLOR::OBJ_GREEN))
+	{
+		setSpriteFrame(Sprite::create("player/player_g_rotate.png")->getSpriteFrame());
+		setTag(static_cast<int>(OBJ_COLOR::OBJ_GREEN));
+	}
+}
+
 bool Player::CollsionCheck(cocos2d::Vec2 vec)
 {
 	cocos2d::TMXTiledMap* mapData = (cocos2d::TMXTiledMap*)Director::getInstance()->getRunningScene()->getChildByName("BG_LAYER")->getChildByName("MapData");
@@ -164,4 +188,9 @@ bool Player::CollsionCheck(cocos2d::Vec2 vec)
 	}
 
 	return true;
+}
+
+void Player::setAction(ACTION action)
+{
+	_action = action;
 }

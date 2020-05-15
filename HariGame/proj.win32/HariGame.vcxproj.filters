@@ -19,6 +19,9 @@
     <Filter Include="action">
       <UniqueIdentifier>{79e519c5-38c5-4ef8-92f8-646dbaba40c1}</UniqueIdentifier>
     </Filter>
+    <Filter Include="button">
+      <UniqueIdentifier>{c9868183-55c0-4a1d-b604-3539a9f38ba2}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -38,6 +41,9 @@
     </ClCompile>
     <ClCompile Include="..\Classes\Action\ACTION.cpp">
       <Filter>action</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\Button\ButtonLayer.cpp">
+      <Filter>button</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -61,6 +67,12 @@
     </ClInclude>
     <ClInclude Include="..\Classes\Action\ACTION.h">
       <Filter>action</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\Obj\OBJ_COLLAR.h">
+      <Filter>obj</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\Button\ButtonLayer.h">
+      <Filter>button</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -3,11 +3,12 @@
 
 #include "Obj/Obj.h"
 #include "Action/ACTION.h"
+#include "Obj/OBJ_COLLAR.h"
 
 class Player : public Obj
 {
 public:
-	static Obj* createPlayer(cocos2d::Vec2 point);
+	static Obj* createPlayer(OBJ_COLOR playerColor,cocos2d::Vec2 point);
 	Player(cocos2d::Vec2 point);
 	~Player();
 
@@ -16,7 +17,10 @@ public:
 	void PlayerRolling();						// 回転
 	void Jump();
 	void Falling();
+	void Change(int color);
 	bool CollsionCheck(cocos2d::Vec2 vec);		// 足場との当たり判定
+
+	void setAction(ACTION action);
 private:
 	cocos2d::Vec2 _point;						// 当たり判定範囲
 	ACTION _action;								// ｱｸｼｮﾝ

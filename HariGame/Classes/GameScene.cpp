@@ -25,6 +25,7 @@
 #include "GameScene.h"
 #include "Scene/BaseScene.h"
 #include "Obj/Player/Player.h"
+#include "Button/ButtonLayer.h"
 //#include "SimpleAudioEngine.h"
 
 USING_NS_CC;
@@ -138,11 +139,21 @@ bool GameScene::init()
     objLayer->setName("OBJ_LAYER");
     this->addChild(objLayer, static_cast<int>(zOlder::CHAR));
     // player
-    auto playerSprit = Player::createPlayer(cocos2d::Vec2(20.0f,20.0f));
-    objLayer->addChild(playerSprit);
-    playerSprit->setPosition(Vec2(visibleSize.width / 2 + origin.x, visibleSize.height / 2 + origin.y));
+    auto playerSprit_front = Player::createPlayer(OBJ_COLOR::OBJ_RED, cocos2d::Vec2(20.0f,20.0f));
+    playerSprit_front->setName("player_front");
+    objLayer->addChild(playerSprit_front);
+    playerSprit_front->setPosition(Vec2(visibleSize.width / 2 + origin.x, visibleSize.height / 2 + origin.y));
+    playerSprit_front->scheduleUpdate();
 
-    playerSprit->scheduleUpdate();
+    auto playerSprit_behind = Player::createPlayer(OBJ_COLOR::OBJ_GREEN, cocos2d::Vec2(20.0f, 20.0f));
+    playerSprit_behind->setName("player_behind");
+    objLayer->addChild(playerSprit_behind);
+    playerSprit_behind->setPosition(Vec2(visibleSize.width / 2 + origin.x - 100.0f, visibleSize.height / 2 + origin.y));
+    playerSprit_behind->scheduleUpdate();
+
+    // ÎÞÀÝ
+    auto buttonLayer = ButtonLayer::createButtonLayer();
+    this->addChild(buttonLayer, static_cast<int>(zOlder::BUTTON));
 
     // ÃÞÊÞ¯¸—p
 #if CC_TARGET_PLATFORM == CC_PLATFORM_WIN32

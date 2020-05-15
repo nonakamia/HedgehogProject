@@ -3,6 +3,7 @@
 // zOlder(奥行き)
 enum class zOlder {
 	BG,			// 背景
-	CHAR,		// キャラクター
+	CHAR,		// ｷｬﾗｸﾀｰ
+	BUTTON,		// ﾎﾞﾀﾝ
 	MAX
 };

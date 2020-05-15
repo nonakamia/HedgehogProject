@@ -3,6 +3,6 @@
 
 class Obj : public cocos2d::Sprite
 {
-
+public:
 };
 

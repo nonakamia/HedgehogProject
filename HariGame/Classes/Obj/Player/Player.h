@@ -25,9 +25,13 @@ private:
 
 	float _time;
 	float _vector;								// 落下速度
+	float _maxVec;
 	bool _jumpFlag;
+	float _airTime;								// 滞空時間
 
 	std::map<ACTION, std::list<ACTION>> _blackList;	// ﾌﾞﾗｯｸﾘｽﾄ
+
+	cocos2d::Action* _rollingAction;
 
 	void Jumping();
 

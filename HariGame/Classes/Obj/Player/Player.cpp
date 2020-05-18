@@ -35,12 +35,15 @@ Player::Player(Vec2 point)
 	_point = point;
 	_vector = 0.0f;
 	_time = 0.0f;
+	_maxVec = 40.0f;
 	_jumpFlag = false;
 	_action = ACTION::FALL;
 
 	_blackList[ACTION::JUMP].push_back(ACTION::JUMP);
 	_blackList[ACTION::JUMP].push_back(ACTION::JUMPING);
 	_blackList[ACTION::JUMP].push_back(ACTION::FALL);
+
+	_rollingAction = nullptr;
 
 	// ÃÞÊÞ¯¸—p
 #if CC_TARGET_PLATFORM == CC_PLATFORM_WIN32
@@ -104,7 +107,7 @@ void Player::update(float delta)
 {
 	if (_action == ACTION::ROLL)
 	{
- 		//PlayerRolling();
+ 		PlayerRolling();
 		_action = ACTION::ROLLING;
 	}
 	if (_action == ACTION::ROLLING)
@@ -127,22 +130,25 @@ void Player::update(float delta)
 
 void Player::PlayerRolling()
 {
-	this->runAction(
-		RepeatForever::create(
-			Spawn::create(
-				RotateBy::create(1.0f, 360.0f),
-				MoveBy::create(1.0f,Vec2(96.0f,0.0f)),
-				nullptr)
-		)
-	);
+	if (_rollingAction == nullptr)
+	{
+		_rollingAction = runAction(
+			RepeatForever::create(
+				Spawn::create(
+					RotateBy::create(1.0f, 360.0f),
+					MoveBy::create(1.0f, Vec2(96.0f, 0.0f)),
+					nullptr)
+			)
+		);
+	}
 }
 
 void Player::Jump()
 {
 	if ((!_jumpFlag) && (_vector <= 0.0f))
 	{
-		_vector = 40.0f;
 		_jumpFlag = true;
+		_airTime = 0.8f;
 		_action = ACTION::JUMPING;
 	}
 }
@@ -216,15 +222,25 @@ void Player::setAction(ACTION action)
 
 void Player::Jumping()
 {
-	if ((_jumpFlag) && (_vector > 0.0f))
+	if (_jumpFlag)
 	{
 		Vec2 pos = getPosition();
-		setPosition(Vec2(pos.x, pos.y + _vector));
-		_vector -= 9.8f / 2.0f;
-		if (_vector <= 0.0f)
+		if (_vector > _maxVec)
 		{
-			_vector = 0.0f;
-			_action = ACTION::FALL;
+			if (_airTime <= 0.0f)
+			{
+				_vector = 0.0f;
+				_time = 0.0f;
+				_action = ACTION::FALL;
+				return;
+			}
+			_airTime -= 0.1f;
+		}
+		else
+		{
+			_vector = _maxVec * _time;
+			setPosition(Vec2(pos.x, pos.y + _vector));
+			_time += 0.1f;
 		}
 	}
 }

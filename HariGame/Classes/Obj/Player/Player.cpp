@@ -33,9 +33,14 @@ Obj* Player::createPlayer(OBJ_COLOR color,Vec2 point)
 Player::Player(Vec2 point)
 {
 	_point = point;
-	_fallV = 0.0f;
+	_vector = 0.0f;
 	_time = 0.0f;
+	_jumpFlag = false;
 	_action = ACTION::FALL;
+
+	_blackList[ACTION::JUMP].push_back(ACTION::JUMP);
+	_blackList[ACTION::JUMP].push_back(ACTION::JUMPING);
+	_blackList[ACTION::JUMP].push_back(ACTION::FALL);
 
 	// ÃÞÊÞ¯¸—p
 #if CC_TARGET_PLATFORM == CC_PLATFORM_WIN32
@@ -99,7 +104,7 @@ void Player::update(float delta)
 {
 	if (_action == ACTION::ROLL)
 	{
- 		PlayerRolling();
+ 		//PlayerRolling();
 		_action = ACTION::ROLLING;
 	}
 	if (_action == ACTION::ROLLING)
@@ -109,6 +114,10 @@ void Player::update(float delta)
 	if (_action == ACTION::JUMP)
 	{
 		Jump();
+	}
+	if (_action == ACTION::JUMPING)
+	{
+		Jumping();
 	}
 	if (_action == ACTION::FALL)
 	{
@@ -130,23 +139,27 @@ void Player::PlayerRolling()
 
 void Player::Jump()
 {
-	this->runAction(
-		JumpBy::create(1.0f, Vec2::ZERO, 96.0f, 1)
-	);
-	_action = ACTION::JUMPING;
+	if ((!_jumpFlag) && (_vector <= 0.0f))
+	{
+		_vector = 40.0f;
+		_jumpFlag = true;
+		_action = ACTION::JUMPING;
+	}
 }
 
 void Player::Falling()
 {
-	_fallV = (9.8f * _time)/2;
-	if (CollsionCheck(Vec2(0.0f, -_fallV - _point.y)))
+	_vector = (9.8f * _time)/2;
+	if (CollsionCheck(Vec2(0.0f, -_vector - _point.y)))
 	{
-		setPosition(Vec2(getPosition().x, getPosition().y - _fallV));
+		setPosition(Vec2(getPosition().x, getPosition().y - _vector));
 		_time += 0.1f;
 	}
 	else
 	{
+		_jumpFlag = false;
 		_time = 0.0f;
+		_vector = 0.0f;
 	}
 }
 
@@ -190,5 +203,28 @@ bool Player::CollsionCheck(cocos2d::Vec2 vec)
 
 void Player::setAction(ACTION action)
 {
+	for (auto bl : _blackList[action])
+	{
+		if (_action == bl)
+		{
+			return;
+		}
+	}
+
 	_action = action;
+}
+
+void Player::Jumping()
+{
+	if ((_jumpFlag) && (_vector > 0.0f))
+	{
+		Vec2 pos = getPosition();
+		setPosition(Vec2(pos.x, pos.y + _vector));
+		_vector -= 9.8f / 2.0f;
+		if (_vector <= 0.0f)
+		{
+			_vector = 0.0f;
+			_action = ACTION::FALL;
+		}
+	}
 }

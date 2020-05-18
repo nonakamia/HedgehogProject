@@ -24,6 +24,12 @@ private:
 	ACTION _action;								// ｱｸｼｮﾝ
 
 	float _time;
-	float _fallV;								// 落下速度
+	float _vector;								// 落下速度
+	bool _jumpFlag;
+
+	std::map<ACTION, std::list<ACTION>> _blackList;	// ﾌﾞﾗｯｸﾘｽﾄ
+
+	void Jumping();
+
 };
 

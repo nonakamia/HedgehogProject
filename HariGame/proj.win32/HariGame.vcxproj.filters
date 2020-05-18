@@ -22,6 +22,9 @@
     <Filter Include="button">
       <UniqueIdentifier>{c9868183-55c0-4a1d-b604-3539a9f38ba2}</UniqueIdentifier>
     </Filter>
+    <Filter Include="obj\blackLadybug">
+      <UniqueIdentifier>{5e7b991a-66ac-45e0-bf5b-8a4f94a5b889}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -44,6 +47,9 @@
     </ClCompile>
     <ClCompile Include="..\Classes\Button\ButtonLayer.cpp">
       <Filter>button</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\Obj\BlackLadybug\BlackLadybug.cpp">
+      <Filter>obj\blackLadybug</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -73,6 +79,9 @@
     </ClInclude>
     <ClInclude Include="..\Classes\Button\ButtonLayer.h">
       <Filter>button</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\Obj\BlackLadybug\BlackLadybug.h">
+      <Filter>obj\blackLadybug</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

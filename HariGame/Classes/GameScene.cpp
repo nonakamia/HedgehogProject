@@ -25,6 +25,7 @@
 #include "GameScene.h"
 #include "Scene/BaseScene.h"
 #include "Obj/Player/Player.h"
+#include "Obj/BlackLadybug/BlackLadybug.h"
 #include "Button/ButtonLayer.h"
 //#include "SimpleAudioEngine.h"
 
@@ -126,30 +127,34 @@ bool GameScene::init()
     this->addChild(bgLayer, static_cast<int>(zOlder::BG));
 
     // map“Ç‚Ýž‚Ý
-    auto mapData = TMXTiledMap::create("stage/stage_0.tmx");
+    mapData = TMXTiledMap::create("stage/stage_0.tmx");
     mapData->setName("MapData");
     bgLayer->addChild(mapData);
-
-    _scaffoldLayer = mapData->getLayer("scaffold");
-    _scaffoldLayer->setName("Scaffold");
-
 
     // OBJ_LAYER
     auto objLayer = Layer::create();
     objLayer->setName("OBJ_LAYER");
     this->addChild(objLayer, static_cast<int>(zOlder::CHAR));
+
     // player
     auto playerSprit_front = Player::createPlayer(OBJ_COLOR::OBJ_RED, cocos2d::Vec2(20.0f,20.0f));
     playerSprit_front->setName("player_front");
     objLayer->addChild(playerSprit_front);
     playerSprit_front->setPosition(Vec2(visibleSize.width / 2 + origin.x, visibleSize.height / 2 + origin.y));
+    playerSprit_front->setScale(0.2f);
     playerSprit_front->scheduleUpdate();
 
     auto playerSprit_behind = Player::createPlayer(OBJ_COLOR::OBJ_GREEN, cocos2d::Vec2(20.0f, 20.0f));
     playerSprit_behind->setName("player_behind");
     objLayer->addChild(playerSprit_behind);
     playerSprit_behind->setPosition(Vec2(visibleSize.width / 2 + origin.x - 100.0f, visibleSize.height / 2 + origin.y));
+    playerSprit_behind->setScale(0.2f);
     playerSprit_behind->scheduleUpdate();
+
+    // •‚¢‚Ä‚ñ‚Æ‚¤’Ž  
+    AddBlackLadybug(objLayer);
+
+
 
     // ÎÞÀÝ
     auto buttonLayer = ButtonLayer::createButtonLayer();
@@ -184,4 +189,40 @@ void GameScene::menuCloseCallback(Ref* pSender)
     //_eventDispatcher->dispatchEvent(&customEndEvent);
 
 
+}
+
+void GameScene::AddBlackLadybug(cocos2d::Layer* layer)
+{
+    const Size visibleSize = Director::getInstance()->getVisibleSize();
+    const Vec2 origin = Director::getInstance()->getVisibleOrigin();
+
+    auto obstaclesLayer = mapData->getLayer("obstacles");
+
+    int chipSize = 48;
+    auto mapSize = obstaclesLayer->getLayerSize();
+    for (int y = 0; y < mapSize.height; y++)
+    {
+        for (int x = 0; x < mapSize.width; x++)
+        {
+            auto obstaclesPoint = Vec2{ (float)x,(float)y };
+            auto obstaclesGid = obstaclesLayer->getTileGIDAt(obstaclesPoint);
+
+            if (obstaclesGid == OBSTACLES::LADYBUG_R)
+            {
+                auto blackLadydug = BlackLadybug::createBlackLadybug(OBJ_COLOR::OBJ_RED);
+                blackLadydug->setName("blackLadydug");
+                layer->addChild(blackLadydug);
+                blackLadydug->setPosition(Vec2(obstaclesPoint.x * chipSize + (chipSize / 2) + origin.x, (mapSize.height - obstaclesPoint.y)*chipSize - (chipSize / 2) + origin.y));
+                blackLadydug->setScale(0.2f);
+            }
+            if (obstaclesGid == OBSTACLES::LADYBUG_G)
+            {
+                auto blackLadydug = BlackLadybug::createBlackLadybug(OBJ_COLOR::OBJ_GREEN);
+                blackLadydug->setName("blackLadydug");
+                layer->addChild(blackLadydug);
+                blackLadydug->setPosition(Vec2(obstaclesPoint.x * chipSize + (chipSize / 2) + origin.x, (mapSize.height - obstaclesPoint.y) * chipSize - (chipSize / 2) + origin.y));
+                blackLadydug->setScale(0.2f);
+            }
+        }
+    }
 }

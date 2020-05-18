@@ -37,10 +37,21 @@ public:
     // a selector callback
     void menuCloseCallback(cocos2d::Ref* pSender);
     
+private:
     // implement the "static create()" method manually
     CREATE_FUNC(GameScene);
 
-    cocos2d::TMXLayer* _scaffoldLayer;   // ‘«êÚ²Ô°
+    // áŠQ•¨
+    enum OBSTACLES
+    {
+        LADYBUG_R = 212,
+        LADYBUG_G = 213,
+        MAX
+    };
+
+    void AddBlackLadybug(cocos2d::Layer* layer);                 // •‚¢‚Ä‚ñ‚Æ‚¤’İ’u
+
+    cocos2d::TMXTiledMap* mapData;      // ‘«êÚ²Ô°
 };
 
 #endif // __HELLOWORLD_SCENE_H__

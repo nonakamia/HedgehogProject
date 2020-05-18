@@ -3,23 +3,21 @@
 
 USING_NS_CC;
 
-Obj* Player::createPlayer(OBJ_COLOR playerColor,Vec2 point)
+Obj* Player::createPlayer(OBJ_COLOR color,Vec2 point)
 {
 	Obj* pRet = new(std::nothrow) Player(point);
 	if (pRet && pRet->init())
 	{
-		if (playerColor == OBJ_COLOR::OBJ_RED)
+		if (color == OBJ_COLOR::OBJ_RED)
 		{
 			pRet->setSpriteFrame(Sprite::create("player/player_r_rotate.png")->getSpriteFrame());
-			pRet->setTag(static_cast<int>(OBJ_COLOR::OBJ_RED));
 		}
-		else if (playerColor == OBJ_COLOR::OBJ_GREEN)
+		else if (color == OBJ_COLOR::OBJ_GREEN)
 		{
 			pRet->setSpriteFrame(Sprite::create("player/player_g_rotate.png")->getSpriteFrame());
-			pRet->setTag(static_cast<int>(OBJ_COLOR::OBJ_GREEN));
 		}
 
-		pRet->setScale(0.2f);
+		pRet->setTag(static_cast<int>(color));
 		pRet->setAnchorPoint(cocos2d::Vec2(0.5f, 0.5f));
 
 		return pRet;

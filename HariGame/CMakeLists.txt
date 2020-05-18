@@ -53,6 +53,7 @@ list(APPEND GAME_SOURCE
      Classes/Action/ACTION.cpp
      Classes/Button/ButtonLayer.cpp
      Classes/Obj/Player/Player.cpp
+     Classes/Obj/BlackLadybug/BlackLadybug.cpp
      Classes/Obj/Obj.cpp
      )
 list(APPEND GAME_HEADER
@@ -61,6 +62,7 @@ list(APPEND GAME_HEADER
      Classes/Action/ACTION.h
      Classes/Button/ButtonLayer.h
      Classes/Obj/Player/Player.h
+     Classes/Obj/BlackLadybug/BlackLadybug.h
      Classes/Obj/Obj.h
      Classes/Obj/OBJ_COLLAR.h
      Classes/Scene/BaseScene.h

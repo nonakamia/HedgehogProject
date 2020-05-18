@@ -2,13 +2,11 @@
 #include "cocos2d.h"
 
 #include "Obj/Obj.h"
-#include "Action/ACTION.h"
-#include "Obj/OBJ_COLLAR.h"
 
 class Player : public Obj
 {
 public:
-	static Obj* createPlayer(OBJ_COLOR playerColor,cocos2d::Vec2 point);
+	static Obj* createPlayer(OBJ_COLOR color,cocos2d::Vec2 point);
 	Player(cocos2d::Vec2 point);
 	~Player();
 

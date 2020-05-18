@@ -132,33 +132,33 @@ bool GameScene::init()
     bgLayer->addChild(mapData);
 
     // OBJ_LAYER
-    auto objLayer = Layer::create();
-    objLayer->setName("OBJ_LAYER");
-    this->addChild(objLayer, static_cast<int>(zOlder::CHAR));
+    _objLayer = Layer::create();
+    _objLayer->setName("OBJ_LAYER");
+    this->addChild(_objLayer, static_cast<int>(zOlder::CHAR));
 
     // player
-    auto playerSprit_front = Player::createPlayer(OBJ_COLOR::OBJ_RED, cocos2d::Vec2(20.0f,20.0f));
-    playerSprit_front->setName("player_front");
-    objLayer->addChild(playerSprit_front);
-    playerSprit_front->setPosition(Vec2(visibleSize.width / 2 + origin.x, visibleSize.height / 2 + origin.y));
-    playerSprit_front->setScale(0.2f);
-    playerSprit_front->scheduleUpdate();
+    _playerSprit_front = Player::createPlayer(OBJ_COLOR::OBJ_RED, cocos2d::Vec2(20.0f,20.0f));
+    _playerSprit_front->setName("player_front");
+    _objLayer->addChild(_playerSprit_front);
+    _playerSprit_front->setPosition(Vec2(visibleSize.width / 2 + origin.x, visibleSize.height / 2 + origin.y));
+    _playerSprit_front->setScale(0.2f);
+    _playerSprit_front->scheduleUpdate();
 
     auto playerSprit_behind = Player::createPlayer(OBJ_COLOR::OBJ_GREEN, cocos2d::Vec2(20.0f, 20.0f));
     playerSprit_behind->setName("player_behind");
-    objLayer->addChild(playerSprit_behind);
+    _objLayer->addChild(playerSprit_behind);
     playerSprit_behind->setPosition(Vec2(visibleSize.width / 2 + origin.x - 100.0f, visibleSize.height / 2 + origin.y));
     playerSprit_behind->setScale(0.2f);
     playerSprit_behind->scheduleUpdate();
 
     // •‚¢‚Ä‚ñ‚Æ‚¤’Ž  
-    AddBlackLadybug(objLayer);
-
-
+    AddBlackLadybug();
 
     // ÎÞÀÝ
     auto buttonLayer = ButtonLayer::createButtonLayer();
     this->addChild(buttonLayer, static_cast<int>(zOlder::BUTTON));
+
+    this->scheduleUpdate();
 
     // ÃÞÊÞ¯¸—p
 #if CC_TARGET_PLATFORM == CC_PLATFORM_WIN32
@@ -177,6 +177,26 @@ bool GameScene::init()
     return true;
 }
 
+void GameScene::update(float delta)
+{
+    // “¯‚¶F‚Æ‚Ì“–‚½‚è”»’è
+    auto playerPoint = ((Player*)_playerSprit_front)->getPoint();
+    for (auto obj : _objLayer->getChildren())
+    {
+        if (obj->getName() == "blackLadydug")
+        {
+            if ((_playerSprit_front->getPosition().x - playerPoint.x <= obj->getPosition().x)&&
+                (_playerSprit_front->getPosition().x + playerPoint.x >= obj->getPosition().x)&&
+                (_playerSprit_front->getPosition().y - playerPoint.y <= obj->getPosition().y)&&
+                (_playerSprit_front->getPosition().y + playerPoint.y >= obj->getPosition().y)&&
+                _playerSprit_front->getTag()==obj->getTag())
+            {
+                ((BlackLadybug*)obj)->HitAction();
+            }
+        }
+    }
+}
+
 
 void GameScene::menuCloseCallback(Ref* pSender)
 {
@@ -191,7 +211,7 @@ void GameScene::menuCloseCallback(Ref* pSender)
 
 }
 
-void GameScene::AddBlackLadybug(cocos2d::Layer* layer)
+void GameScene::AddBlackLadybug()
 {
     const Size visibleSize = Director::getInstance()->getVisibleSize();
     const Vec2 origin = Director::getInstance()->getVisibleOrigin();
@@ -211,7 +231,7 @@ void GameScene::AddBlackLadybug(cocos2d::Layer* layer)
             {
                 auto blackLadydug = BlackLadybug::createBlackLadybug(OBJ_COLOR::OBJ_RED);
                 blackLadydug->setName("blackLadydug");
-                layer->addChild(blackLadydug);
+                _objLayer->addChild(blackLadydug);
                 blackLadydug->setPosition(Vec2(obstaclesPoint.x * chipSize + (chipSize / 2) + origin.x, (mapSize.height - obstaclesPoint.y)*chipSize - (chipSize / 2) + origin.y));
                 blackLadydug->setScale(0.2f);
             }
@@ -219,7 +239,7 @@ void GameScene::AddBlackLadybug(cocos2d::Layer* layer)
             {
                 auto blackLadydug = BlackLadybug::createBlackLadybug(OBJ_COLOR::OBJ_GREEN);
                 blackLadydug->setName("blackLadydug");
-                layer->addChild(blackLadydug);
+                _objLayer->addChild(blackLadydug);
                 blackLadydug->setPosition(Vec2(obstaclesPoint.x * chipSize + (chipSize / 2) + origin.x, (mapSize.height - obstaclesPoint.y) * chipSize - (chipSize / 2) + origin.y));
                 blackLadydug->setScale(0.2f);
             }

@@ -27,12 +27,16 @@
 
 #include "cocos2d.h"
 
+#include "Obj/Obj.h"
+
 class GameScene : public cocos2d::Scene
 {
 public:
     static cocos2d::Scene* createGameScene();
 
     virtual bool init();
+
+    void update(float delta);
     
     // a selector callback
     void menuCloseCallback(cocos2d::Ref* pSender);
@@ -49,9 +53,12 @@ private:
         MAX
     };
 
-    void AddBlackLadybug(cocos2d::Layer* layer);                 // •‚¢‚Ä‚ñ‚Æ‚¤’İ’u
+    cocos2d::Layer* _objLayer;
+    Obj* _playerSprit_front;
 
-    cocos2d::TMXTiledMap* mapData;      // ‘«êÚ²Ô°
+    void AddBlackLadybug();                 // •‚¢‚Ä‚ñ‚Æ‚¤’İ’u
+
+    cocos2d::TMXTiledMap* mapData;          // ‘«êÚ²Ô°
 };
 
 #endif // __HELLOWORLD_SCENE_H__

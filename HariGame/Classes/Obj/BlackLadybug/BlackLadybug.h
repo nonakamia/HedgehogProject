@@ -8,6 +8,8 @@ public:
 	static Obj* createBlackLadybug(OBJ_COLOR color);
 	BlackLadybug();
 	~BlackLadybug();
+	void HitAction();
 private:
+	bool _hitFlag;
 };
 

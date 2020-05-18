@@ -30,8 +30,18 @@ Obj* BlackLadybug::createBlackLadybug(OBJ_COLOR color)
 
 BlackLadybug::BlackLadybug()
 {
+	_hitFlag = false;
 }
 
 BlackLadybug::~BlackLadybug()
 {
+}
+
+void BlackLadybug::HitAction()
+{
+	if (!_hitFlag)
+	{
+		setVisible(false);
+		_hitFlag = true;
+	}
 }

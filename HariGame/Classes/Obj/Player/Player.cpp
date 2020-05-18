@@ -220,6 +220,11 @@ void Player::setAction(ACTION action)
 	_action = action;
 }
 
+cocos2d::Vec2 Player::getPoint()
+{
+	return _point;
+}
+
 void Player::Jumping()
 {
 	if (_jumpFlag)

@@ -8,6 +8,7 @@ enum class ACTION {
 	FALL,		// —Ž‰º
 	JUMP,		// ¼Þ¬ÝÌß
 	JUMPING,	// ¼Þ¬ÝÌß’†
+	DAMAGE,		// ÀÞÒ°¼Þ
 	MAX
 };
 

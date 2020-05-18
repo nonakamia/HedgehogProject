@@ -188,10 +188,16 @@ void GameScene::update(float delta)
             if ((_playerSprit_front->getPosition().x - playerPoint.x <= obj->getPosition().x)&&
                 (_playerSprit_front->getPosition().x + playerPoint.x >= obj->getPosition().x)&&
                 (_playerSprit_front->getPosition().y - playerPoint.y <= obj->getPosition().y)&&
-                (_playerSprit_front->getPosition().y + playerPoint.y >= obj->getPosition().y)&&
-                _playerSprit_front->getTag()==obj->getTag())
+                (_playerSprit_front->getPosition().y + playerPoint.y >= obj->getPosition().y))
             {
-                ((BlackLadybug*)obj)->HitAction();
+                if (_playerSprit_front->getTag() == obj->getTag())
+                {
+                    ((BlackLadybug*)obj)->HitAction();
+                }
+                else
+                {
+                    
+                }
             }
         }
     }

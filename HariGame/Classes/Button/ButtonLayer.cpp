@@ -65,7 +65,7 @@ bool ButtonLayer::init()
 		if (rectButton.containsPoint(point))
 		{
 			auto player_front = static_cast<Player*>(Director::getInstance()->getRunningScene()->getChildByName("OBJ_LAYER")->getChildByName("player_front"));
-			player_front->setAction(ACTION::JUMP);
+			player_front->SetAction(ACTION::JUMP);
 			return true;
 		}
 		else

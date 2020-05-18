@@ -18,7 +18,9 @@ public:
 	void Change(int color);
 	bool CollsionCheck(cocos2d::Vec2 vec);		// 足場との当たり判定
 
-	void setAction(ACTION action);
+	void DamageAction();						// ﾀﾞﾒｰｼﾞｱｸｼｮﾝ
+
+	void SetAction(ACTION action);
 	cocos2d::Vec2 getPoint();
 private:
 	cocos2d::Vec2 _point;						// 当たり判定範囲
@@ -32,7 +34,9 @@ private:
 
 	std::map<ACTION, std::list<ACTION>> _blackList;	// ﾌﾞﾗｯｸﾘｽﾄ
 
-	cocos2d::Action* _rollingAction;
+	cocos2d::Action* _rollingAction;			// 回転ｱｸｼｮﾝ
+	cocos2d::Action* _damageAction;
+	bool damageFlag;
 
 	void Jumping();
 

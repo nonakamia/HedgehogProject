@@ -44,6 +44,7 @@ Player::Player(Vec2 point)
 	_blackList[ACTION::JUMP].push_back(ACTION::FALL);
 
 	_rollingAction = nullptr;
+	_damageAction = nullptr;
 
 	// ÃÞÊÞ¯¸—p
 #if CC_TARGET_PLATFORM == CC_PLATFORM_WIN32
@@ -207,7 +208,19 @@ bool Player::CollsionCheck(cocos2d::Vec2 vec)
 	return true;
 }
 
-void Player::setAction(ACTION action)
+void Player::DamageAction()
+{
+	if (_damageAction == nullptr)
+	{
+		stopAllActions();
+		CC_SAFE_RELEASE_NULL(_rollingAction);
+		auto pos = getPosition();
+		_damageAction = runAction(MoveBy::create(1.0f, Vec2(pos.x - 48, pos.y)));
+	}
+
+}
+
+void Player::SetAction(ACTION action)
 {
 	for (auto bl : _blackList[action])
 	{

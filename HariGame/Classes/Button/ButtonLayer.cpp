@@ -1,4 +1,5 @@
 #include "ButtonLayer.h"
+#include "GameScene.h"
 #include "Obj/Player/Player.h"
 #include "Action/ACTION.h"
 
@@ -66,6 +67,7 @@ bool ButtonLayer::init()
 		{
 			auto player_front = static_cast<Player*>(Director::getInstance()->getRunningScene()->getChildByName("OBJ_LAYER")->getChildByName("player_front"));
 			player_front->SetAction(ACTION::JUMP);
+			((GameScene*)Director::getInstance()->getRunningScene())->SetActionConvey(ACTION::JUMP);
 			return true;
 		}
 		else

@@ -35,16 +35,18 @@ Player::Player(Vec2 point)
 	_point = point;
 	_vector = 0.0f;
 	_time = 0.0f;
-	_maxVec = 40.0f;
+	_maxVec = 24.0f;
 	_jumpFlag = false;
+	_damageFlag = false;
 	_action = ACTION::FALL;
 
 	_blackList[ACTION::JUMP].push_back(ACTION::JUMP);
 	_blackList[ACTION::JUMP].push_back(ACTION::JUMPING);
 	_blackList[ACTION::JUMP].push_back(ACTION::FALL);
 
-	_rollingAction = nullptr;
 	_damageAction = nullptr;
+	_rollingAction = nullptr;
+	
 
 	// ÃÞÊÞ¯¸—p
 #if CC_TARGET_PLATFORM == CC_PLATFORM_WIN32
@@ -106,15 +108,12 @@ Player::~Player()
 
 void Player::update(float delta)
 {
-	if (_action == ACTION::ROLL)
+	if (_action == ACTION::ROTATE)
 	{
- 		PlayerRolling();
+ 		Rotate();
 		_action = ACTION::ROLLING;
 	}
-	if (_action == ACTION::ROLLING)
-	{
 
-	}
 	if (_action == ACTION::JUMP)
 	{
 		Jump();
@@ -127,9 +126,15 @@ void Player::update(float delta)
 	{
 		Falling();
 	}
+
+	// ÀÞÒ°¼Þ
+	if (_damageFlag)
+	{
+		DamageAction();
+	}
 }
 
-void Player::PlayerRolling()
+void Player::Rotate()
 {
 	if (_rollingAction == nullptr)
 	{
@@ -137,10 +142,11 @@ void Player::PlayerRolling()
 			RepeatForever::create(
 				Spawn::create(
 					RotateBy::create(1.0f, 360.0f),
-					MoveBy::create(1.0f, Vec2(96.0f, 0.0f)),
+					MoveBy::create(1.0f, Vec2(144.0f, 0.0f)),
 					nullptr)
 			)
 		);
+		CC_SAFE_RETAIN(_rollingAction);
 	}
 }
 
@@ -156,7 +162,7 @@ void Player::Jump()
 
 void Player::Falling()
 {
-	_vector = (9.8f * _time)/2;
+	_vector = (9.8f * _time) / 2.0f;
 	if (CollsionCheck(Vec2(0.0f, -_vector - _point.y)))
 	{
 		setPosition(Vec2(getPosition().x, getPosition().y - _vector));
@@ -200,7 +206,7 @@ bool Player::CollsionCheck(cocos2d::Vec2 vec)
 		if (_action == ACTION::FALL)
 		{
 			setPosition(Vec2(getPosition().x, (checkPoint.y + 1) * 48 - _point.y + 24));
-			_action = ACTION::ROLL;
+			_action = ACTION::ROTATE;
 		}
 		return false;
 	}
@@ -210,14 +216,29 @@ bool Player::CollsionCheck(cocos2d::Vec2 vec)
 
 void Player::DamageAction()
 {
-	if (_damageAction == nullptr)
+	if ((!_damageFlag)&&(_damageAction == nullptr))
 	{
 		stopAllActions();
 		CC_SAFE_RELEASE_NULL(_rollingAction);
 		auto pos = getPosition();
-		_damageAction = runAction(MoveBy::create(1.0f, Vec2(pos.x - 48, pos.y)));
+		_damageAction = runAction(Sequence::create(
+										MoveBy::create(0.2f, Vec2( - 192.0f, 0.0f)),
+										DelayTime::create(0.1f),
+										nullptr
+		));
+		CC_SAFE_RETAIN(_damageAction);
+		_damageFlag = true;
+		return;
 	}
 
+	// ±¸¼®Ý‚ªI‚í‚Á‚½
+	if ((_damageFlag)&&(_damageAction->isDone()))
+	{
+		CC_SAFE_RELEASE_NULL(_damageAction);
+		_damageFlag = false;
+		Rotate();
+		return;
+	}
 }
 
 void Player::SetAction(ACTION action)
@@ -231,6 +252,16 @@ void Player::SetAction(ACTION action)
 	}
 
 	_action = action;
+}
+
+ACTION Player::GetAction()
+{
+	return _action;
+}
+
+bool Player::GetDamageFlag()
+{
+	return _damageFlag;
 }
 
 cocos2d::Vec2 Player::getPoint()
@@ -256,7 +287,7 @@ void Player::Jumping()
 		}
 		else
 		{
-			_vector = _maxVec * _time;
+			_vector = _maxVec * _time / 2.0f;
 			setPosition(Vec2(pos.x, pos.y + _vector));
 			_time += 0.1f;
 		}

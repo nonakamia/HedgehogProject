@@ -51,6 +51,9 @@
     <ClCompile Include="..\Classes\Obj\BlackLadybug\BlackLadybug.cpp">
       <Filter>obj\blackLadybug</Filter>
     </ClCompile>
+    <ClCompile Include="..\Classes\Action\ActionConvey.cpp">
+      <Filter>action</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="main.h">
@@ -82,6 +85,9 @@
     </ClInclude>
     <ClInclude Include="..\Classes\Obj\BlackLadybug\BlackLadybug.h">
       <Filter>obj\blackLadybug</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\Action\ActionConvey.h">
+      <Filter>action</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

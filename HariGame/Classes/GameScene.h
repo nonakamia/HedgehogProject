@@ -40,6 +40,8 @@ public:
     
     // a selector callback
     void menuCloseCallback(cocos2d::Ref* pSender);
+
+    void SetActionConvey(ACTION action);
     
 private:
     // implement the "static create()" method manually
@@ -54,9 +56,15 @@ private:
     };
 
     cocos2d::Layer* _objLayer;
-    Obj* _playerSprit_front;
+    Obj* _player_front;
+    Obj* _player_behind;
+
+    cocos2d::Action* _coolTimeAction;
+    cocos2d::Action* _test;
+    ACTION _playerAction;
 
     void AddBlackLadybug();                 // çïÇ¢ÇƒÇÒÇ∆Ç§íéê›íu
+    void ActionConvey();
 
     cocos2d::TMXTiledMap* mapData;          // ë´èÍ⁄≤‘∞
 };

@@ -12,7 +12,7 @@ public:
 
 	void update(float delta);
 
-	void PlayerRolling();						// 回転
+	void Rotate();						// 回転
 	void Jump();
 	void Falling();
 	void Change(int color);
@@ -21,7 +21,12 @@ public:
 	void DamageAction();						// ﾀﾞﾒｰｼﾞｱｸｼｮﾝ
 
 	void SetAction(ACTION action);
+	ACTION GetAction();
+
+	bool GetDamageFlag();
+
 	cocos2d::Vec2 getPoint();
+
 private:
 	cocos2d::Vec2 _point;						// 当たり判定範囲
 	ACTION _action;								// ｱｸｼｮﾝ
@@ -31,12 +36,14 @@ private:
 	float _maxVec;
 	bool _jumpFlag;
 	float _airTime;								// 滞空時間
+	bool _damageFlag;
 
 	std::map<ACTION, std::list<ACTION>> _blackList;	// ﾌﾞﾗｯｸﾘｽﾄ
 
+	
 	cocos2d::Action* _rollingAction;			// 回転ｱｸｼｮﾝ
-	cocos2d::Action* _damageAction;
-	bool damageFlag;
+
+	cocos2d::Action* _damageAction;				// ﾀﾞﾒｰｼﾞｱｸｼｮﾝ
 
 	void Jumping();
 

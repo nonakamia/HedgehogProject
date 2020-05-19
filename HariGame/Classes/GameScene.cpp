@@ -137,19 +137,19 @@ bool GameScene::init()
     this->addChild(_objLayer, static_cast<int>(zOlder::CHAR));
 
     // player
-    _playerSprit_front = Player::createPlayer(OBJ_COLOR::OBJ_RED, cocos2d::Vec2(20.0f,20.0f));
-    _playerSprit_front->setName("player_front");
-    _objLayer->addChild(_playerSprit_front);
-    _playerSprit_front->setPosition(Vec2(visibleSize.width / 2 + origin.x, visibleSize.height / 2 + origin.y));
-    _playerSprit_front->setScale(0.2f);
-    _playerSprit_front->scheduleUpdate();
+    _player_front = Player::createPlayer(OBJ_COLOR::OBJ_RED, cocos2d::Vec2(20.0f,20.0f));
+    _player_front->setName("player_front");
+    _objLayer->addChild(_player_front);
+    _player_front->setPosition(Vec2(visibleSize.width / 4 + origin.x, visibleSize.height / 2 + origin.y));
+    _player_front->setScale(0.2f);
+    _player_front->scheduleUpdate();
 
-    auto playerSprit_behind = Player::createPlayer(OBJ_COLOR::OBJ_GREEN, cocos2d::Vec2(20.0f, 20.0f));
-    playerSprit_behind->setName("player_behind");
-    _objLayer->addChild(playerSprit_behind);
-    playerSprit_behind->setPosition(Vec2(visibleSize.width / 2 + origin.x - 100.0f, visibleSize.height / 2 + origin.y));
-    playerSprit_behind->setScale(0.2f);
-    playerSprit_behind->scheduleUpdate();
+    _player_behind = Player::createPlayer(OBJ_COLOR::OBJ_GREEN, cocos2d::Vec2(20.0f, 20.0f));
+    _player_behind->setName("player_behind");
+    _objLayer->addChild(_player_behind);
+    _player_behind->setPosition(Vec2(_player_front->getPosition().x + origin.x - 96.0f, _player_front->getPosition().y + origin.y));
+    _player_behind->setScale(0.2f);
+    _player_behind->scheduleUpdate();
 
     // •‚¢‚Ä‚ñ‚Æ‚¤’Ž  
     AddBlackLadybug();
@@ -157,6 +157,12 @@ bool GameScene::init()
     // ÎÞÀÝ
     auto buttonLayer = ButtonLayer::createButtonLayer();
     this->addChild(buttonLayer, static_cast<int>(zOlder::BUTTON));
+
+    _test = this->runAction(Follow::create(_player_front, Rect(0.0f, 0.0f, visibleSize.width * 2.0f, visibleSize.height)));
+    CC_SAFE_RETAIN(_test);
+
+    _coolTimeAction = nullptr;
+    _playerAction = ACTION::NON;
 
     this->scheduleUpdate();
 
@@ -179,27 +185,39 @@ bool GameScene::init()
 
 void GameScene::update(float delta)
 {
+    ActionConvey();
+
     // “¯‚¶F‚Æ‚Ì“–‚½‚è”»’è
-    auto playerPoint = ((Player*)_playerSprit_front)->getPoint();
+    auto playerPoint = ((Player*)_player_front)->getPoint();
     for (auto obj : _objLayer->getChildren())
     {
         if (obj->getName() == "blackLadydug")
         {
-            if ((_playerSprit_front->getPosition().x - playerPoint.x <= obj->getPosition().x)&&
-                (_playerSprit_front->getPosition().x + playerPoint.x >= obj->getPosition().x)&&
-                (_playerSprit_front->getPosition().y - playerPoint.y <= obj->getPosition().y)&&
-                (_playerSprit_front->getPosition().y + playerPoint.y >= obj->getPosition().y))
+            if ((_player_front->getPosition().x - playerPoint.x <= obj->getPosition().x)&&
+                (_player_front->getPosition().x + playerPoint.x >= obj->getPosition().x)&&
+                (_player_front->getPosition().y - playerPoint.y <= obj->getPosition().y)&&
+                (_player_front->getPosition().y + playerPoint.y >= obj->getPosition().y))
             {
-                if (_playerSprit_front->getTag() == obj->getTag())
+                if (_player_front->getTag() == obj->getTag())
                 {
                     ((BlackLadybug*)obj)->HitAction();
                 }
                 else
                 {
-                    
+                    ((Player*)_player_front)->DamageAction();
+                    ((Player*)_player_behind)->DamageAction();
                 }
             }
         }
+    }
+    if (_test == nullptr)
+    {
+        return;
+    }
+
+    if (_test->isDone())
+    {
+        CC_SAFE_RELEASE_NULL(_test);
     }
 }
 
@@ -215,6 +233,13 @@ void GameScene::menuCloseCallback(Ref* pSender)
     //_eventDispatcher->dispatchEvent(&customEndEvent);
 
 
+}
+
+void GameScene::SetActionConvey(ACTION action)
+{
+    _playerAction = action;
+    _coolTimeAction = runAction(DelayTime::create(0.5f));
+    CC_SAFE_RETAIN(_coolTimeAction);
 }
 
 void GameScene::AddBlackLadybug()
@@ -250,5 +275,19 @@ void GameScene::AddBlackLadybug()
                 blackLadydug->setScale(0.2f);
             }
         }
+    }
+}
+
+void GameScene::ActionConvey()
+{
+    if (_coolTimeAction == nullptr)
+    {
+        return;
+   }
+
+    if (_coolTimeAction->isDone())
+    {
+         CC_SAFE_RELEASE_NULL(_coolTimeAction);
+        ((Player*)_player_behind)->SetAction(_playerAction);
     }
 }

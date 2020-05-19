@@ -105,22 +105,6 @@ bool GameScene::init()
         this->addChild(label, 1);
     }
 
-    // add "HelloWorld" splash screen"
-    //auto sprite = Sprite::create("HelloWorld.png");
-    //if (sprite == nullptr)
-    //{
-    //    problemLoading("'HelloWorld.png'");
-    //}
-    //else
-    //{
-    //    // position the sprite on the center of the screen
-    //    sprite->setPosition(Vec2(visibleSize.width/2 + origin.x, visibleSize.height/2 + origin.y));
-
-    //    // add the sprite as a child to this layer
-    //    this->addChild(sprite, 0);
-    //    sprite->runAction(RepeatForever::create(RotateBy::create(1.0f, 360.0f)));
-    //}
-
     // ”wŒi
     auto bgLayer = Layer::create();
     bgLayer->setName("BG_LAYER");
@@ -210,15 +194,7 @@ void GameScene::update(float delta)
             }
         }
     }
-    if (_test == nullptr)
-    {
-        return;
-    }
 
-    if (_test->isDone())
-    {
-        CC_SAFE_RELEASE_NULL(_test);
-    }
 }
 
 

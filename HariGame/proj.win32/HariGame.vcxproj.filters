@@ -25,6 +25,9 @@
     <Filter Include="obj\blackLadybug">
       <UniqueIdentifier>{5e7b991a-66ac-45e0-bf5b-8a4f94a5b889}</UniqueIdentifier>
     </Filter>
+    <Filter Include="camera">
+      <UniqueIdentifier>{f78c7d82-1a8a-49b2-9caf-88ed65d40a07}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -53,6 +56,9 @@
     </ClCompile>
     <ClCompile Include="..\Classes\Action\ActionConvey.cpp">
       <Filter>action</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\Camera\CameraOBJ.cpp">
+      <Filter>camera</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -88,6 +94,9 @@
     </ClInclude>
     <ClInclude Include="..\Classes\Action\ActionConvey.h">
       <Filter>action</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\Camera\CameraOBJ.h">
+      <Filter>camera</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

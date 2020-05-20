@@ -117,6 +117,26 @@ bool ButtonLayer::init()
 	};
 	director->getEventDispatcher()->addEventListenerWithSceneGraphPriority(changeListener, changeButton);
 
+	// ÃÞÊÞ¯¸—p
+#if CC_TARGET_PLATFORM == CC_PLATFORM_WIN32
+	auto listener = EventListenerKeyboard::create();
+	listener->onKeyPressed = [this](cocos2d::EventKeyboard::KeyCode keyCode, cocos2d::Event* event)->bool
+	{
+		if (keyCode == cocos2d::EventKeyboard::KeyCode::KEY_SPACE)
+		{
+
+			auto player_front = static_cast<Player*>(Director::getInstance()->getRunningScene()->getChildByName("OBJ_LAYER")->getChildByName("player_front"));
+			player_front->SetAction(ACTION::JUMP);
+			((GameScene*)Director::getInstance()->getRunningScene())->SetActionConvey(ACTION::JUMP);
+		}
+		return true;
+	};
+	listener->onKeyReleased = [this](cocos2d::EventKeyboard::KeyCode keyCode, cocos2d::Event* event)->bool
+	{
+		return true;
+	};
+	this->getEventDispatcher()->addEventListenerWithSceneGraphPriority(listener, this);
+#endif
 
 	return true;
 }

@@ -52,6 +52,8 @@ list(APPEND GAME_SOURCE
      Classes/GameScene.cpp
      Classes/Action/ACTION.cpp
      Classes/Button/ButtonLayer.cpp
+     Classes/Camera/CameraOBJ.cpp
+     Classes/HP/HPMng.cpp
      Classes/Obj/Player/Player.cpp
      Classes/Obj/BlackLadybug/BlackLadybug.cpp
      Classes/Obj/Obj.cpp
@@ -63,6 +65,8 @@ list(APPEND GAME_HEADER
      Classes/Button/ButtonLayer.h
      Classes/Obj/Player/Player.h
      Classes/Obj/BlackLadybug/BlackLadybug.h
+     Classes/Camera/CameraOBJ.h
+     Classes/HP/HPMng.h
      Classes/Obj/Obj.h
      Classes/Obj/OBJ_COLLAR.h
      Classes/Scene/BaseScene.h

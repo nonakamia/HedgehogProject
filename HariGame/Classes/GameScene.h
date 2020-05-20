@@ -50,8 +50,9 @@ private:
     // áŠQ•¨
     enum OBSTACLES
     {
-        LADYBUG_R = 212,
-        LADYBUG_G = 213,
+        LADYBUG_R = 212,    // •‚¢‚Ä‚ñ‚Æ‚¤’(Ô)
+        LADYBUG_G = 213,    // •‚¢‚Ä‚ñ‚Æ‚¤’(—Î)
+        LAMP = 214,         // ×İÌß(ºŞ°Ù)
         MAX
     };
 
@@ -59,14 +60,15 @@ private:
     Obj* _player_front;
     Obj* _player_behind;
 
+    bool _goalFlag;
+
     cocos2d::Action* _coolTimeAction;
-    cocos2d::Action* _test;
     ACTION _playerAction;
 
     void AddBlackLadybug();                 // •‚¢‚Ä‚ñ‚Æ‚¤’İ’u
     void ActionConvey();
 
-    cocos2d::TMXTiledMap* mapData;          // ‘«êÚ²Ô°
+    cocos2d::TMXTiledMap* _mapData;          // ‘«êÚ²Ô°
 };
 
 #endif // __HELLOWORLD_SCENE_H__

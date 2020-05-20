@@ -5,5 +5,6 @@ enum class zOlder {
 	BG,			// ”wŒi
 	CHAR,		// ·¬×¸À°
 	BUTTON,		// ÎÞÀÝ
+	HP,
 	MAX
 };

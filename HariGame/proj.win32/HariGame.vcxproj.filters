@@ -28,6 +28,9 @@
     <Filter Include="camera">
       <UniqueIdentifier>{f78c7d82-1a8a-49b2-9caf-88ed65d40a07}</UniqueIdentifier>
     </Filter>
+    <Filter Include="HP">
+      <UniqueIdentifier>{68931dc7-f994-4951-8989-2f003dc42322}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -59,6 +62,9 @@
     </ClCompile>
     <ClCompile Include="..\Classes\Camera\CameraOBJ.cpp">
       <Filter>camera</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\HP\HPMng.cpp">
+      <Filter>HP</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -97,6 +103,9 @@
     </ClInclude>
     <ClInclude Include="..\Classes\Camera\CameraOBJ.h">
       <Filter>camera</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\HP\HPMng.h">
+      <Filter>HP</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

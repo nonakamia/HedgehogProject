@@ -1,4 +1,5 @@
 #include "Player.h"
+#include "GameScene.h"
 #include <math.h>
 
 USING_NS_CC;
@@ -38,7 +39,7 @@ Player::Player(Vec2 point)
 	_maxVec = 24.0f;
 	_jumpFlag = false;
 	_damageFlag = false;
-	_action = ACTION::FALL;
+	_action = ACTION::NON;
 
 	_blackList[ACTION::JUMP].push_back(ACTION::JUMP);
 	_blackList[ACTION::JUMP].push_back(ACTION::JUMPING);
@@ -46,60 +47,6 @@ Player::Player(Vec2 point)
 
 	_damageAction = nullptr;
 	_rollingAction = nullptr;
-	
-
-	// ÃÞÊÞ¯¸—p
-#if CC_TARGET_PLATFORM == CC_PLATFORM_WIN32
-	auto listener = EventListenerKeyboard::create();
-	listener->onKeyPressed = [this](cocos2d::EventKeyboard::KeyCode keyCode, cocos2d::Event* event)->bool
-	{
-		if (keyCode == cocos2d::EventKeyboard::KeyCode::KEY_SPACE)
-		{
-
-			_action = ACTION::JUMP;
-		}
-		if (keyCode == cocos2d::EventKeyboard::KeyCode::KEY_UP_ARROW)
-		{
-			if (CollsionCheck(cocos2d::Vec2(_point.x, 24.0f + _point.y)))
-			{
-				this->setPosition(cocos2d::Vec2(this->getPosition().x, this->getPosition().y + 12.0f));
-			}
-		}
-		if (keyCode == cocos2d::EventKeyboard::KeyCode::KEY_DOWN_ARROW)
-		{
-			if (CollsionCheck(cocos2d::Vec2(_point.x, -24.0f - _point.y)))
-			{
-				this->setPosition(cocos2d::Vec2(this->getPosition().x, this->getPosition().y - 12.0f));
-			}
-		}
-		if (keyCode == cocos2d::EventKeyboard::KeyCode::KEY_RIGHT_ARROW)
-		{
-			if ((CollsionCheck(cocos2d::Vec2(24.0f + _point.x, _point.y)))&& (CollsionCheck(cocos2d::Vec2(24.0f + _point.x, -_point.y))))
-			{
-				this->setPosition(cocos2d::Vec2(this->getPosition().x + 12.0f, this->getPosition().y));
-			}
-		}
-		if (keyCode == cocos2d::EventKeyboard::KeyCode::KEY_LEFT_ARROW)
-		{
-			if (CollsionCheck(cocos2d::Vec2(-24.0f - _point.x, 0.0f)))
-			{
-				this->setPosition(cocos2d::Vec2(this->getPosition().x - 12.0f, this->getPosition().y));
-			}
-		}
-		return true;
-	};
-	listener->onKeyReleased = [this](cocos2d::EventKeyboard::KeyCode keyCode, cocos2d::Event* event)->bool
-	{
-		if (keyCode == cocos2d::EventKeyboard::KeyCode::KEY_SPACE)
-		{
-			//stopAllActions();
-		}
-		return true;
-	};
-	this->getEventDispatcher()->addEventListenerWithSceneGraphPriority(listener, this);
-#else
-#endif
-
 }
 
 Player::~Player()
@@ -114,15 +61,25 @@ void Player::update(float delta)
 		_action = ACTION::ROLLING;
 	}
 
+	if (_action == ACTION::ROLLING)
+	{
+		//if (CollsionCheck(Vec2(0.0f, -9.8f)))
+		//{
+		//	_vector = 0.0f;
+		//	_time = 0.0f;
+		//	_action = ACTION::FALL;
+		//}
+	}
+
 	if (_action == ACTION::JUMP)
 	{
 		Jump();
 	}
-	if (_action == ACTION::JUMPING)
+	else if (_action == ACTION::JUMPING)
 	{
 		Jumping();
 	}
-	if (_action == ACTION::FALL)
+	else
 	{
 		Falling();
 	}
@@ -131,6 +88,11 @@ void Player::update(float delta)
 	if (_damageFlag)
 	{
 		DamageAction();
+	}
+
+	if (_rollingAction != nullptr)
+	{
+		
 	}
 }
 
@@ -196,16 +158,25 @@ bool Player::CollsionCheck(cocos2d::Vec2 vec)
 	cocos2d::TMXLayer* scaffoldLayer = mapData->getLayer("scaffold");
 
 	auto mapSize = scaffoldLayer->getLayerSize();
+	auto TileSize = mapData->getTileSize();
 
-	auto checkPoint = Vec2{ this->getPosition().x + vec.x,this->getPosition().y + vec.y }/48;
+	auto checkPoint = Vec2{ floorf((this->getPosition().x + vec.x)/ TileSize.width),floorf((this->getPosition().y + vec.y) / TileSize.height) };
 	checkPoint.y = mapSize.height - checkPoint.y;	// ã‰º”½“]
+
+	// —Ž‚¿‚½ê‡
+	if (checkPoint.y >= mapSize.height)
+	{
+		stopAllActions();
+		return false;
+	}
+
 	auto gid = scaffoldLayer->getTileGIDAt(checkPoint);
 	if ((gid == 210)||(gid == 211))
 	{
 		checkPoint.y = mapSize.height - checkPoint.y;	// ã‰º”½“]
 		if (_action == ACTION::FALL)
 		{
-			setPosition(Vec2(getPosition().x, (checkPoint.y + 1) * 48 - _point.y + 24));
+			setPosition(Vec2(getPosition().x, (checkPoint.y + 1) * TileSize.height - _point.y + (TileSize.height / 2.0f)));
 			_action = ACTION::ROTATE;
 		}
 		return false;
@@ -239,6 +210,28 @@ void Player::DamageAction()
 		Rotate();
 		return;
 	}
+}
+
+bool Player::SetStartPosition(cocos2d::TMXLayer* startPosLayer, cocos2d::Vec2 tileSize)
+{
+	const Size visibleSize = Director::getInstance()->getVisibleSize();
+	const Vec2 origin = Director::getInstance()->getVisibleOrigin();
+	auto mapSize = startPosLayer->getLayerSize();
+	for (int y = 0; y < mapSize.height; y++)
+	{
+		for (int x = 0; x < mapSize.width; x++)
+		{
+			auto startPoint = Vec2{ (float)x,(float)y };
+			auto startGid = startPosLayer->getTileGIDAt(startPoint);
+			if (startGid == 215)
+			{
+				auto putPos = Vec2(startPoint.x * tileSize.x + (tileSize.x / 2) + origin.x, (mapSize.height - startPoint.y) * tileSize.y - (tileSize.y / 2) + _point.y + origin.y);
+				setPosition(putPos);
+				return true;
+			}
+		}
+	}
+	return false;
 }
 
 void Player::SetAction(ACTION action)

@@ -1,5 +1,7 @@
 #include "ActionConvey.h"
 
-void NotesCheck::operator()()
+USING_NS_CC;
+
+void NotesCheck::operator()(ACTION action)
 {
 }

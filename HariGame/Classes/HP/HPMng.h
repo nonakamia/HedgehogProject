@@ -8,9 +8,13 @@ public:
 	HPMng(int maxHP);
 	~HPMng();
 	bool init(); 
+	void DamageHP(int damage);
+
+	int GetHP();
 private:
 	//CREATE_FUNC(HPMng);
 
 	int _maxHP;
+	int _hP;
 };
 

@@ -6,8 +6,8 @@
 class Player : public Obj
 {
 public:
-	static Obj* createPlayer(OBJ_COLOR color,cocos2d::Vec2 point);
-	Player(cocos2d::Vec2 point);
+	static Obj* createPlayer(OBJ_COLOR color);
+	Player();
 	~Player();
 
 	void update(float delta);
@@ -20,17 +20,14 @@ public:
 
 	void DamageAction();						// ﾀﾞﾒｰｼﾞｱｸｼｮﾝ
 
+	void GameOverAction();
+
 	bool SetStartPosition(cocos2d::TMXLayer* startPosLayer, cocos2d::Vec2 tileSize);
 
 	void SetAction(ACTION action);
 	ACTION GetAction();
 
-	bool GetDamageFlag();
-
-	cocos2d::Vec2 getPoint();
-
 private:
-	cocos2d::Vec2 _point;						// 当たり判定範囲
 	ACTION _action;								// ｱｸｼｮﾝ
 
 	float _time;
@@ -38,7 +35,6 @@ private:
 	float _maxVec;
 	bool _jumpFlag;
 	float _airTime;								// 滞空時間
-	bool _damageFlag;
 
 	std::map<ACTION, std::list<ACTION>> _blackList;	// ﾌﾞﾗｯｸﾘｽﾄ
 
@@ -47,7 +43,9 @@ private:
 
 	cocos2d::Action* _damageAction;				// ﾀﾞﾒｰｼﾞｱｸｼｮﾝ
 
-	void Jumping();
+	cocos2d::Action* _gemeOverAction;			// ｹﾞｰﾑｵｰﾊﾞｰｱｸｼｮﾝ
 
+	void Jumping();
+	void Rolling(float delta);
 };
 

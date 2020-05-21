@@ -30,18 +30,52 @@ Obj* BlackLadybug::createBlackLadybug(OBJ_COLOR color)
 
 BlackLadybug::BlackLadybug()
 {
-	_hitFlag = false;
+	_damageFlag = false;
 }
 
 BlackLadybug::~BlackLadybug()
 {
 }
 
-void BlackLadybug::HitAction()
+void BlackLadybug::DamageAction()
 {
-	if (!_hitFlag)
+	if (!_damageFlag)
 	{
 		setVisible(false);
-		_hitFlag = true;
+		_damageFlag = true;
+	}
+}
+
+void BlackLadybug::GameOverAction()
+{
+}
+
+void BlackLadybug::HitCheck(cocos2d::Node* players, HPMng* playerHP)
+{
+	auto _player_front = (Obj*)players->getChildByName("player_front");
+
+	if (_player_front->GetDamageFlag())
+	{
+		return;
+	}
+
+	if ((_player_front->getPosition().x - _player_front->GetPoint().x <= this->getPosition().x + this->GetPoint().x) &&
+		(_player_front->getPosition().x + _player_front->GetPoint().x >= this->getPosition().x - this->GetPoint().x) &&
+		(_player_front->getPosition().y - _player_front->GetPoint().y <= this->getPosition().y + this->GetPoint().y) &&
+		(_player_front->getPosition().y + _player_front->GetPoint().y >= this->getPosition().y - this->GetPoint().y))
+	{
+		if (_player_front->getTag() == this->getTag())
+		{
+			DamageAction();
+		}
+		else if (!_player_front->GetDamageFlag())
+		{
+			for (auto player : players->getChildren())
+			{
+				((Obj*)player)->DamageAction();
+			}
+			DamageAction();
+			playerHP->DamageHP(1);
+		}
 	}
 }

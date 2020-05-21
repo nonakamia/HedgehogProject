@@ -65,7 +65,7 @@ bool ButtonLayer::init()
 		Rect rectButton = jumpButton->getBoundingBox();
 		if (rectButton.containsPoint(point))
 		{
-			auto player_front = static_cast<Player*>(Director::getInstance()->getRunningScene()->getChildByName("OBJ_LAYER")->getChildByName("player_front"));
+			auto player_front = static_cast<Player*>(Director::getInstance()->getRunningScene()->getChildByName("PLAYER_LAYER")->getChildByName("player_front"));
 			player_front->SetAction(ACTION::JUMP);
 			((GameScene*)Director::getInstance()->getRunningScene())->SetActionConvey(ACTION::JUMP);
 			return true;
@@ -110,7 +110,7 @@ bool ButtonLayer::init()
 	// —£‚³‚ê‚½Žž‚Ìˆ—
 	changeListener->onTouchEnded = [this](Touch* touch, Event* event)
 	{
-		auto players = Director::getInstance()->getRunningScene()->getChildByName("OBJ_LAYER");
+		auto players = Director::getInstance()->getRunningScene()->getChildByName("PLAYER_LAYER");
 		auto playerColor = players->getChildByName("player_front")->getTag();
 		static_cast<Player*>(players->getChildByName("player_front"))->Change(players->getChildByName("player_behind")->getTag());
 		static_cast<Player*>(players->getChildByName("player_behind"))->Change(playerColor);
@@ -125,7 +125,7 @@ bool ButtonLayer::init()
 		if (keyCode == cocos2d::EventKeyboard::KeyCode::KEY_SPACE)
 		{
 
-			auto player_front = static_cast<Player*>(Director::getInstance()->getRunningScene()->getChildByName("OBJ_LAYER")->getChildByName("player_front"));
+			auto player_front = static_cast<Player*>(Director::getInstance()->getRunningScene()->getChildByName("PLAYER_LAYER")->getChildByName("player_front"));
 			player_front->SetAction(ACTION::JUMP);
 			((GameScene*)Director::getInstance()->getRunningScene())->SetActionConvey(ACTION::JUMP);
 		}

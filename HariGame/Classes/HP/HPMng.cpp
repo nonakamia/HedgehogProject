@@ -22,6 +22,7 @@ HPMng* HPMng::createHPMng(int maxHP)
 HPMng::HPMng(int maxHP)
 {
 	_maxHP = maxHP;
+	_hP = maxHP;
 }
 
 HPMng::~HPMng()
@@ -50,4 +51,26 @@ bool HPMng::init()
 	}
 
 	return true;
+}
+
+void HPMng::DamageHP(int damage)
+{
+	if (_hP <= 0)
+	{
+		return;
+	}
+
+	for (int hp = 0; hp < damage; hp++)
+	{
+		auto name = std::string("heart_");
+		name.append(std::to_string(_hP - 1));
+		auto heart = getChildByName(name);
+		heart->setVisible(false);
+		_hP--;
+	}
+}
+
+int HPMng::GetHP()
+{
+	return _hP;
 }

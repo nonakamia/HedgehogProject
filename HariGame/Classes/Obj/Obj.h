@@ -7,5 +7,16 @@
 class Obj : public cocos2d::Sprite
 {
 public:
+	virtual void DamageAction() = 0;						// ÀÞÒ°¼Þ±¸¼®Ý
+	virtual void GameOverAction() = 0;
+
+	void SetPoint(cocos2d::Vec2 point);
+	cocos2d::Vec2 GetPoint();
+
+	bool GetDamageFlag();
+protected:
+	cocos2d::Vec2 _point;						// “–‚½‚è”»’è”ÍˆÍ
+	bool _damageFlag;
+	bool _gameOverFlag;
 };
 

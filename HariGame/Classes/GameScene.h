@@ -28,6 +28,7 @@
 #include "cocos2d.h"
 
 #include "Obj/Obj.h"
+#include "HP/HPMng.h"
 
 class GameScene : public cocos2d::Scene
 {
@@ -52,20 +53,25 @@ private:
     {
         LADYBUG_R = 212,    // •‚¢‚Ä‚ñ‚Æ‚¤’(Ô)
         LADYBUG_G = 213,    // •‚¢‚Ä‚ñ‚Æ‚¤’(—Î)
-        LAMP = 214,         // ×İÌß(ºŞ°Ù)
+        WALL = 214,         // •Ç
+        LAMP = 215,         // ×İÌß(ºŞ°Ù)
         MAX
     };
 
-    cocos2d::Layer* _objLayer;
+    cocos2d::Layer* _plauerLayer;
+    cocos2d::Layer* _obstaclesLayer;
     Obj* _player_front;
     Obj* _player_behind;
 
     bool _goalFlag;
+    bool _gameOverFlag;
 
     cocos2d::Action* _coolTimeAction;
     ACTION _playerAction;
+    HPMng* _hpMng;
 
     void AddBlackLadybug();                 // •‚¢‚Ä‚ñ‚Æ‚¤’İ’u
+    void GameOverAction();
     void ActionConvey();
 
     cocos2d::TMXTiledMap* _mapData;          // ‘«êÚ²Ô°

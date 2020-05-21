@@ -28,7 +28,7 @@
 #include "Obj/BlackLadybug/BlackLadybug.h"
 #include "Button/ButtonLayer.h"
 #include "Camera/CameraOBJ.h"
-#include "HP/HPMng.h"
+
 //#include "SimpleAudioEngine.h"
 
 USING_NS_CC;
@@ -119,34 +119,41 @@ bool GameScene::init()
     _mapData->setName("MapData");
     bgLayer->addChild(_mapData);
 
-    // OBJ_LAYER
-    _objLayer = Layer::create();
-    _objLayer->setName("OBJ_LAYER");
-    this->addChild(_objLayer, static_cast<int>(zOlder::CHAR));
+    // OBSTACLES_LAYER
+    _obstaclesLayer = Layer::create();
+    _obstaclesLayer->setName("OBSTACLES_LAYER");
+    this->addChild(_obstaclesLayer, static_cast<int>(zOlder::OBSTACLES));
 
     // •‚¢‚Ä‚ñ‚Æ‚¤’Ž  
     AddBlackLadybug();
 
+    // PLAYER_LAYER
+    _plauerLayer = Layer::create();
+    _plauerLayer->setName("PLAYER_LAYER");
+    this->addChild(_plauerLayer, static_cast<int>(zOlder::PLAYER));
+
     // player
-    _player_front = Player::createPlayer(OBJ_COLOR::OBJ_RED, cocos2d::Vec2(20.0f, 20.0f));
+    _player_front = Player::createPlayer(OBJ_COLOR::OBJ_RED);
     _player_front->setName("player_front");
     ((Player*)_player_front)->SetStartPosition(_mapData->getLayer("startPosition"), _mapData->getTileSize());
     _player_front->setScale(0.2f);
+    _player_front->SetPoint(cocos2d::Vec2(20.0f, 20.0f));
     _player_front->scheduleUpdate();
 
-    _player_behind = Player::createPlayer(OBJ_COLOR::OBJ_GREEN, cocos2d::Vec2(20.0f, 20.0f));
+    _player_behind = Player::createPlayer(OBJ_COLOR::OBJ_GREEN);
     _player_behind->setName("player_behind");
     _player_behind->setPosition(_player_front->getPosition());
     _player_behind->setScale(0.2f);
+    _player_behind->SetPoint(cocos2d::Vec2(20.0f, 20.0f));
     _player_behind->scheduleUpdate();
 
-    _objLayer->addChild(_player_behind);
-    _objLayer->addChild(_player_front);
+    _plauerLayer->addChild(_player_behind);
+    _plauerLayer->addChild(_player_front);
 
     // ¶Ò×
     auto uiCamera = CameraOBJ();
     uiCamera(CameraFlag::USER1, this);
-    getDefaultCamera()->setPosition(Vec2(origin.x + visibleSize.width / 2.0f, origin.y + (_mapData->getMapSize().height-6)*48));
+    getDefaultCamera()->setPosition(Vec2(visibleSize.width / 2.0f, (_mapData->getMapSize().height-6)*48));
 
     // ÎÞÀÝ
     auto buttonLayer = ButtonLayer::createButtonLayer();
@@ -154,11 +161,13 @@ bool GameScene::init()
     this->addChild(buttonLayer, static_cast<int>(zOlder::BUTTON));
 
     // HP
-    auto hpMng = HPMng::createHPMng(3);
-    hpMng->setCameraMask(static_cast<int>(CameraFlag::USER1));
-    this->addChild(hpMng, static_cast<int>(zOlder::BUTTON));
+   _hpMng = HPMng::createHPMng(3);
+   _hpMng->setName("HP");
+    _hpMng->setCameraMask(static_cast<int>(CameraFlag::USER1));
+    this->addChild(_hpMng, static_cast<int>(zOlder::HP));
 
     _goalFlag = false;
+    _gameOverFlag = false;
     _coolTimeAction = nullptr;
     _playerAction = ACTION::NON;
 
@@ -183,6 +192,11 @@ bool GameScene::init()
 
 void GameScene::update(float delta)
 {
+    if (_hpMng->GetHP() <= 0)
+    {
+        GameOverAction();
+    }
+
     ActionConvey();
 
     if (((Player*)_player_front)->GetAction() == ACTION::NON)
@@ -192,31 +206,11 @@ void GameScene::update(float delta)
     }
 
     // “¯‚¶F‚Æ‚Ì“–‚½‚è”»’è
-    auto playerPoint = ((Player*)_player_front)->getPoint();
+    auto playerPoint = ((Player*)_player_front)->GetPoint();
     if (!_goalFlag)
     {
-        for (auto obj : _objLayer->getChildren())
+        for (auto obj : _obstaclesLayer->getChildren())
         {
-
-            if (obj->getName() == "blackLadydug")
-            {
-                if ((_player_front->getPosition().x - playerPoint.x <= obj->getPosition().x) &&
-                    (_player_front->getPosition().x + playerPoint.x >= obj->getPosition().x) &&
-                    (_player_front->getPosition().y - playerPoint.y <= obj->getPosition().y) &&
-                    (_player_front->getPosition().y + playerPoint.y >= obj->getPosition().y))
-                {
-                    if (_player_front->getTag() == obj->getTag())
-                    {
-                        ((BlackLadybug*)obj)->HitAction();
-                    }
-                    else
-                    {
-                        ((Player*)_player_front)->DamageAction();
-                        ((Player*)_player_behind)->DamageAction();
-                    }
-                }
-            }
-
             if (obj->getName() == "lamp")
             {
                 if (_player_front->getPositionX() >= obj->getPositionX())
@@ -224,16 +218,21 @@ void GameScene::update(float delta)
                     _goalFlag = true;
                 }
             }
+
+            if ((obj->getName() == "blackLadydug") && (!((BlackLadybug*)obj)->GetDamageFlag()))
+            {
+                auto blackLadydug = ((BlackLadybug*)obj);
+                blackLadydug->HitCheck(_plauerLayer, _hpMng);
+            }
         }
     }
 
     // ¶Ò×
     auto winSize = Director::getInstance()->getWinSize();
-    if ((!_goalFlag)&&(_player_front->getPositionX() >= winSize.width / 2.0f))
+    if ((!_goalFlag) && (_player_front->getPositionX() >= winSize.width / 2.0f))
     {
         getDefaultCamera()->setPositionX(_player_front->getPositionX());
     }
-
 }
 
 
@@ -260,7 +259,6 @@ void GameScene::SetActionConvey(ACTION action)
 void GameScene::AddBlackLadybug()
 {
     const Size visibleSize = Director::getInstance()->getVisibleSize();
-    const Vec2 origin = Director::getInstance()->getVisibleOrigin();
 
     auto obstaclesLayer = _mapData->getLayer("obstacles");
 
@@ -273,35 +271,50 @@ void GameScene::AddBlackLadybug()
             auto obstaclesPoint = Vec2{ (float)x,(float)y };
             auto obstaclesGid = obstaclesLayer->getTileGIDAt(obstaclesPoint);
 
-            auto putPos = Vec2(obstaclesPoint.x * chipSize + (chipSize / 2) + origin.x, (mapSize.height - obstaclesPoint.y) * chipSize - (chipSize / 2) + origin.y);
+            auto putPos = Vec2(obstaclesPoint.x * chipSize + (chipSize / 2), (mapSize.height - obstaclesPoint.y) * chipSize - (chipSize / 2));
 
             if (obstaclesGid == OBSTACLES::LADYBUG_R)
             {
                 auto blackLadydug = BlackLadybug::createBlackLadybug(OBJ_COLOR::OBJ_RED);
                 blackLadydug->setName("blackLadydug");
-                _objLayer->addChild(blackLadydug);
+                _obstaclesLayer->addChild(blackLadydug);
                 blackLadydug->setPosition(putPos);
                 blackLadydug->setScale(0.2f);
+                blackLadydug->SetPoint(Vec2(20.0f, 20.0f));
             }
             if (obstaclesGid == OBSTACLES::LADYBUG_G)
             {
                 auto blackLadydug = BlackLadybug::createBlackLadybug(OBJ_COLOR::OBJ_GREEN);
                 blackLadydug->setName("blackLadydug");
-                _objLayer->addChild(blackLadydug);
+                _obstaclesLayer->addChild(blackLadydug);
                 blackLadydug->setPosition(putPos);
                 blackLadydug->setScale(0.2f);
+                blackLadydug->SetPoint(Vec2(20.0f, 20.0f));
             }
             if (obstaclesGid == OBSTACLES::LAMP)
             {
                 auto lamp = Sprite::create("Ornament/lamp.png");
                 lamp->setName("lamp");
-                _objLayer->addChild(lamp);
+                _obstaclesLayer->addChild(lamp);
                 lamp->setScale(0.8f);
                 lamp->setAnchorPoint(Point(0.5f, 0.0f));
                 lamp->setPosition(Vec2(putPos.x, putPos.y - (_mapData->getTileSize().height / 2.0f)));
             }
         }
     }
+}
+
+void GameScene::GameOverAction()
+{
+    _gameOverFlag = true;
+    unscheduleUpdate();
+    
+    // player‚ÌGameOverAction
+    for (auto player : _plauerLayer->getChildren())
+    {
+        ((Obj*)player)->GameOverAction();
+    }
+
 }
 
 void GameScene::ActionConvey()

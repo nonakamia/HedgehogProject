@@ -94,20 +94,20 @@ bool GameScene::init()
     // add a label shows "Hello World"
     // create and initialize a label
 
-    auto label = Label::createWithTTF("Hello World", "fonts/Marker Felt.ttf", 24);
-    if (label == nullptr)
-    {
-        problemLoading("'fonts/Marker Felt.ttf'");
-    }
-    else
-    {
-        // position the label on the center of the screen
-        label->setPosition(Vec2(origin.x + visibleSize.width/2,
-                                origin.y + visibleSize.height - label->getContentSize().height));
+    //auto label = Label::createWithTTF("Hello World", "fonts/Marker Felt.ttf", 24);
+    //if (label == nullptr)
+    //{
+    //    problemLoading("'fonts/Marker Felt.ttf'");
+    //}
+    //else
+    //{
+    //    // position the label on the center of the screen
+    //    label->setPosition(Vec2(origin.x + visibleSize.width/2,
+    //                            origin.y + visibleSize.height - label->getContentSize().height));
 
-        // add the label as a child to this layer
-        this->addChild(label, 1);
-    }
+    //    // add the label as a child to this layer
+    //    this->addChild(label, 1);
+    //}
 
     // ”wŒi
     auto bgLayer = Layer::create();
@@ -226,10 +226,23 @@ void GameScene::update(float delta)
             }
         }
     }
+    else
+    {
+        auto winSize = Director::getInstance()->getWinSize();
+        if (_player_behind->getPositionX() - _player_behind->GetPoint().x > getDefaultCamera()->getPositionX()+ winSize.width / 2.0f)
+        {
+            unscheduleUpdate();
+            // player‚ÌGameOverAction
+            for (auto player : _plauerLayer->getChildren())
+            {
+                ((Obj*)player)->GameOverAction();
+            }
+        }
+    }
 
     // ¶Ò×
     auto winSize = Director::getInstance()->getWinSize();
-    if ((!_goalFlag) && (_player_front->getPositionX() >= winSize.width / 2.0f))
+    if ((!_goalFlag) && (_player_front->getPositionX() >= winSize.width / 2.0f)&&(getDefaultCamera()->getPositionX() < _player_front->getPositionX()))
     {
         getDefaultCamera()->setPositionX(_player_front->getPositionX());
     }
@@ -262,6 +275,10 @@ void GameScene::AddBlackLadybug()
 
     auto obstaclesLayer = _mapData->getLayer("obstacles");
 
+    if (obstaclesLayer == nullptr)
+    {
+        return;
+    }
     int chipSize = 48;
     auto mapSize = obstaclesLayer->getLayerSize();
     for (int y = 0; y < mapSize.height; y++)

@@ -74,7 +74,6 @@ void BlackLadybug::HitCheck(cocos2d::Node* players, HPMng* playerHP)
 			{
 				((Obj*)player)->DamageAction();
 			}
-			DamageAction();
 			playerHP->DamageHP(1);
 		}
 	}

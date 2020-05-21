@@ -51,10 +51,9 @@ private:
     // áŠQ•¨
     enum OBSTACLES
     {
-        LADYBUG_R = 212,    // •‚¢‚Ä‚ñ‚Æ‚¤’Ž(Ô)
-        LADYBUG_G = 213,    // •‚¢‚Ä‚ñ‚Æ‚¤’Ž(—Î)
-        WALL = 214,         // •Ç
-        LAMP = 215,         // ×ÝÌß(ºÞ°Ù)
+        LADYBUG_R = 216,    // •‚¢‚Ä‚ñ‚Æ‚¤’Ž(Ô)
+        LADYBUG_G = 217,    // •‚¢‚Ä‚ñ‚Æ‚¤’Ž(—Î)
+        LAMP = 219,         // ×ÝÌß(ºÞ°Ù)
         MAX
     };
 

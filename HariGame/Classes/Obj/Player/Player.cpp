@@ -47,6 +47,9 @@ Player::Player()
 	_blackList[ACTION::JUMP].push_back(ACTION::JUMPING);
 	_blackList[ACTION::JUMP].push_back(ACTION::FALL);
 
+	_blackList[ACTION::FALL].push_back(ACTION::JUMP);
+	_blackList[ACTION::FALL].push_back(ACTION::JUMPING);
+
 	_rollingAction = nullptr;
 	_damageAction = nullptr;
 	_gemeOverAction = nullptr;
@@ -66,7 +69,7 @@ void Player::update(float delta)
 			_action = ACTION::ROLLING;
 		}
 
-		if (_action == ACTION::ROLLING)
+		if (_rollingAction != nullptr)
 		{
 			Rolling(delta);
 		}
@@ -79,10 +82,9 @@ void Player::update(float delta)
 		{
 			Jumping();
 		}
-		else
-		{
-			Falling();
-		}
+
+		Falling();
+
 
 		// ¿ﬁ“∞ºﬁ
 		if (_damageFlag)
@@ -129,11 +131,20 @@ void Player::Jump()
 
 void Player::Falling()
 {
+	for (auto bl : _blackList[ACTION::FALL])
+	{
+		if (_action == bl)
+		{
+			return;
+		}
+	}
+
 	_vector = (9.8f * _time) / 2.0f;
 	if (CollsionCheck(Vec2(0.0f, -_vector - _point.y)))
 	{
 		setPosition(Vec2(getPosition().x, getPosition().y - _vector));
 		_time += 0.1f;
+		//_action = ACTION::FALL;
 	}
 	else
 	{
@@ -183,12 +194,26 @@ bool Player::CollsionCheck(cocos2d::Vec2 vec)
 	}
 
 	auto gid = scaffoldLayer->getTileGIDAt(checkPoint);
-	if ((gid == 210)||(gid == 211))
+	if ((gid != 0))
 	{
-		checkPoint.y = mapSize.height - checkPoint.y;	// è„â∫îΩì]
+		if (gid == 213)
+		{
+			stopAllActions();
+			CC_SAFE_RELEASE_NULL(_rollingAction);
+			setPositionX((checkPoint.x - 1) * TileSize.width + _point.x);
+			return false;
+		}
+		
 		if (vec.y <= 0.0f)
 		{
-			setPosition(Vec2(getPosition().x, (checkPoint.y + 1) * TileSize.height - _point.y + (TileSize.height / 2.0f)));
+			while (gid != 0)
+			{
+				checkPoint.y--;
+				gid = scaffoldLayer->getTileGIDAt(checkPoint);
+			}
+
+			checkPoint.y = mapSize.height - checkPoint.y;	// è„â∫îΩì]
+			setPosition(Vec2(getPosition().x, (checkPoint.y) * TileSize.height - _point.y + (TileSize.height / 2.0f)));
 		}
 		return false;
 	}
@@ -200,12 +225,13 @@ void Player::DamageAction()
 {
 	if ((!_damageFlag)&&(_damageAction == nullptr))
 	{
-		//stopAllActions();
-		//CC_SAFE_RELEASE_NULL(_rollingAction);
+		stopAllActions();
+		CC_SAFE_RELEASE_NULL(_rollingAction);
 		auto pos = getPosition();
 		_damageAction = runAction(Sequence::create(
-										Blink::create(3.0f, 15),
-										nullptr
+									MoveBy::create(0.2f, Vec2(-192.0f, 0.0f)),
+									DelayTime::create(0.1f),
+									nullptr
 		));
 		CC_SAFE_RETAIN(_damageAction);
 		_damageFlag = true;
@@ -224,6 +250,7 @@ void Player::DamageAction()
 	{
 		CC_SAFE_RELEASE_NULL(_damageAction);
 		_damageFlag = false;
+		_jumpFlag = false;
 		Rotate();
 		return;
 	}
@@ -253,7 +280,7 @@ bool Player::SetStartPosition(cocos2d::TMXLayer* startPosLayer, cocos2d::Vec2 ti
 		{
 			auto startPoint = Vec2{ (float)x,(float)y };
 			auto startGid = startPosLayer->getTileGIDAt(startPoint);
-			if (startGid == 216)
+			if (startGid != 0)
 			{
 				auto putPos = Vec2(startPoint.x * tileSize.x + (tileSize.x / 2) + origin.x, (mapSize.height - startPoint.y) * tileSize.y - (tileSize.y / 2) + _point.y + origin.y);
 				setPosition(putPos);
@@ -293,7 +320,7 @@ void Player::Jumping()
 			{
 				_vector = 0.0f;
 				_time = 0.0f;
-				_action = ACTION::FALL;
+				_action = ACTION::ROLLING;
 				return;
 			}
 			_airTime -= 0.1f;

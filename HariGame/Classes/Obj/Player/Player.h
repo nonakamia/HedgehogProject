@@ -22,19 +22,26 @@ public:
 
 	void GameOverAction();
 
+	void HitCheck(cocos2d::Node* players, HPMng* playerHP);
+
 	bool SetStartPosition(cocos2d::TMXLayer* startPosLayer, cocos2d::Vec2 tileSize);
 
 	void SetAction(ACTION action);
 	ACTION GetAction();
 
+	void FlowerRolling(bool flag);
+	bool GetFlowerFlag();
+
 private:
 	ACTION _action;								// ｱｸｼｮﾝ
 
+	float _moveVec;								// 1秒当たりの移動距離
 	float _time;
 	float _vector;								// 落下速度
 	float _maxVec;
 	bool _jumpFlag;
 	float _airTime;								// 滞空時間
+	bool _flowerFlag;							// 花の上を歩いているか
 
 	std::map<ACTION, std::list<ACTION>> _blackList;	// ﾌﾞﾗｯｸﾘｽﾄ
 

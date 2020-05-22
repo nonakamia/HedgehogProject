@@ -1,6 +1,5 @@
 #pragma once
 #include "Obj/Obj.h"
-#include "HP/HPMng.h"
 #include "cocos2d.h"
 
 class BlackLadybug : public Obj

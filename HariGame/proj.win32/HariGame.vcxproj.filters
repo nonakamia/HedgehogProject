@@ -31,6 +31,9 @@
     <Filter Include="HP">
       <UniqueIdentifier>{68931dc7-f994-4951-8989-2f003dc42322}</UniqueIdentifier>
     </Filter>
+    <Filter Include="obj\buds">
+      <UniqueIdentifier>{c506d049-766d-4ec7-acd1-e2cd4a965355}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -65,6 +68,9 @@
     </ClCompile>
     <ClCompile Include="..\Classes\HP\HPMng.cpp">
       <Filter>HP</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\Obj\Buds\Buds.cpp">
+      <Filter>obj\buds</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -106,6 +112,9 @@
     </ClInclude>
     <ClInclude Include="..\Classes\HP\HPMng.h">
       <Filter>HP</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\Obj\Buds\Buds.h">
+      <Filter>obj\buds</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

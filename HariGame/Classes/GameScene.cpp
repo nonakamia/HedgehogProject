@@ -26,6 +26,7 @@
 #include "Scene/BaseScene.h"
 #include "Obj/Player/Player.h"
 #include "Obj/BlackLadybug/BlackLadybug.h"
+#include "Obj/Buds/Buds.h"
 #include "Button/ButtonLayer.h"
 #include "Camera/CameraOBJ.h"
 
@@ -219,10 +220,9 @@ void GameScene::update(float delta)
                 }
             }
 
-            if ((obj->getName() == "blackLadydug") && (!((BlackLadybug*)obj)->GetDamageFlag()))
+            if ((!((Obj*)obj)->GetDamageFlag()))
             {
-                auto blackLadydug = ((BlackLadybug*)obj);
-                blackLadydug->HitCheck(_plauerLayer, _hpMng);
+                ((Obj*)obj)->HitCheck(_plauerLayer, _hpMng);
             }
         }
     }
@@ -290,6 +290,7 @@ void GameScene::AddBlackLadybug()
 
             auto putPos = Vec2(obstaclesPoint.x * chipSize + (chipSize / 2), (mapSize.height - obstaclesPoint.y) * chipSize - (chipSize / 2));
 
+            // •‚¢‚Ä‚ñ‚Æ‚¤’Ž
             if (obstaclesGid == OBSTACLES::LADYBUG_R)
             {
                 auto blackLadydug = BlackLadybug::createBlackLadybug(OBJ_COLOR::OBJ_RED);
@@ -308,6 +309,30 @@ void GameScene::AddBlackLadybug()
                 blackLadydug->setScale(0.2f);
                 blackLadydug->SetPoint(Vec2(20.0f, 20.0f));
             }
+
+            // ÂÎÞÐ
+            if (obstaclesGid == OBSTACLES::BUDS_R)
+            {
+                auto buds = Buds::createBuds(OBJ_COLOR::OBJ_RED);
+                buds->setName("buds");
+                _obstaclesLayer->addChild(buds);
+                buds->setPosition(putPos);
+                buds->setScale(0.5f);
+                buds->SetPoint(Vec2(50.0f, 20.0f));
+                buds->scheduleUpdate();
+            }
+            if (obstaclesGid == OBSTACLES::BUDS_G)
+            {
+                auto buds = Buds::createBuds(OBJ_COLOR::OBJ_GREEN);
+                buds->setName("buds");
+                _obstaclesLayer->addChild(buds);
+                buds->setPosition(putPos);
+                buds->setScale(0.5f);
+                buds->SetPoint(Vec2(50.0f, 20.0f));
+                buds->scheduleUpdate();
+            }
+
+            // ×ÝÌß
             if (obstaclesGid == OBSTACLES::LAMP)
             {
                 auto lamp = Sprite::create("Ornament/lamp.png");

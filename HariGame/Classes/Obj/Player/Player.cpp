@@ -37,10 +37,12 @@ Player::Player()
 	_damageFlag = false;
 	_gameOverFlag = false;
 
+	_moveVec = 192.0f;
 	_vector = 0.0f;
 	_time = 0.0f;
 	_maxVec = 24.0f;
 	_jumpFlag = false;
+	_flowerFlag = false;
 	_action = ACTION::NON;
 
 	_blackList[ACTION::JUMP].push_back(ACTION::JUMP);
@@ -111,7 +113,7 @@ void Player::Rotate()
 			RepeatForever::create(
 				Spawn::create(
 					RotateBy::create(1.0f, 360.0f),
-					MoveBy::create(1.0f, Vec2(144.0f, 0.0f)),
+					MoveBy::create(1.0f, Vec2(_moveVec, 0.0f)),
 					nullptr)
 			)
 		);
@@ -124,6 +126,7 @@ void Player::Jump()
 	if ((!_jumpFlag) && (_vector <= 0.0f))
 	{
 		_jumpFlag = true;
+		_flowerFlag = false;
 		_airTime = 0.8f;
 		_action = ACTION::JUMPING;
 	}
@@ -137,6 +140,11 @@ void Player::Falling()
 		{
 			return;
 		}
+	}
+
+	if (_flowerFlag)
+	{
+		return;
 	}
 
 	_vector = (9.8f * _time) / 2.0f;
@@ -251,6 +259,7 @@ void Player::DamageAction()
 		CC_SAFE_RELEASE_NULL(_damageAction);
 		_damageFlag = false;
 		_jumpFlag = false;
+		
 		Rotate();
 		return;
 	}
@@ -267,6 +276,10 @@ void Player::GameOverAction()
 	_gemeOverAction = runAction(FadeOut::create(1.0f));
 	CC_SAFE_RETAIN(_gemeOverAction);
 	_gameOverFlag = true;
+}
+
+void Player::HitCheck(cocos2d::Node* players, HPMng* playerHP)
+{
 }
 
 bool Player::SetStartPosition(cocos2d::TMXLayer* startPosLayer, cocos2d::Vec2 tileSize)
@@ -309,6 +322,21 @@ ACTION Player::GetAction()
 	return _action;
 }
 
+void Player::FlowerRolling(bool flag)
+{
+	_flowerFlag = flag;
+	_action = ACTION::ROLLING;
+
+	_jumpFlag = false;
+	_vector = 0.0f;
+	_time = 0.0f;
+}
+
+bool Player::GetFlowerFlag()
+{
+	return _flowerFlag;
+}
+
 void Player::Jumping()
 {
 	if (_jumpFlag)
@@ -340,7 +368,7 @@ void Player::Rolling(float delta)
 	{
 		return;
 	}
-	auto test = (1.0f / 144.0f) * delta;
+	auto test = (1.0f / _moveVec) * delta;
 	if (!CollsionCheck(Vec2(test + _point.x, _point.y)))
 	{
 		auto gameScne = Director::getInstance()->getRunningScene();

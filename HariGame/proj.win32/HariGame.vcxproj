@@ -158,6 +158,7 @@ xcopy "$(ProjectDir)..\Resources" "$(OutDir)\Resources\" /D /E /I /F /Y
     <ClCompile Include="..\Classes\GameScene.cpp" />
     <ClCompile Include="..\Classes\HP\HPMng.cpp" />
     <ClCompile Include="..\Classes\Obj\BlackLadybug\BlackLadybug.cpp" />
+    <ClCompile Include="..\Classes\Obj\Buds\Buds.cpp" />
     <ClCompile Include="..\Classes\Obj\Obj.cpp" />
     <ClCompile Include="..\Classes\Obj\player\Player.cpp" />
     <ClCompile Include="main.cpp" />
@@ -171,6 +172,7 @@ xcopy "$(ProjectDir)..\Resources" "$(OutDir)\Resources\" /D /E /I /F /Y
     <ClInclude Include="..\Classes\GameScene.h" />
     <ClInclude Include="..\Classes\HP\HPMng.h" />
     <ClInclude Include="..\Classes\Obj\BlackLadybug\BlackLadybug.h" />
+    <ClInclude Include="..\Classes\Obj\Buds\Buds.h" />
     <ClInclude Include="..\Classes\Obj\Obj.h" />
     <ClInclude Include="..\Classes\Obj\OBJ_COLLAR.h" />
     <ClInclude Include="..\Classes\Obj\player\Player.h" />

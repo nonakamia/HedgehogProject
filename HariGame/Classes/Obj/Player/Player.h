@@ -1,8 +1,6 @@
 #pragma once
 #include "cocos2d.h"
 
-#include"HP/HPMng.h"
-
 #include "Obj/Obj.h"
 
 class Player : public Obj
@@ -23,8 +21,6 @@ public:
 	void DamageAction();						// ﾀﾞﾒｰｼﾞｱｸｼｮﾝ
 
 	void GameOverAction();
-
-	void HitCheck(cocos2d::Node* players, HPMng* playerHP);
 
 	bool SetStartPosition(cocos2d::TMXLayer* startPosLayer, cocos2d::Vec2 tileSize);
 

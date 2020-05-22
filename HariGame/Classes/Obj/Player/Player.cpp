@@ -278,10 +278,6 @@ void Player::GameOverAction()
 	_gameOverFlag = true;
 }
 
-void Player::HitCheck(cocos2d::Node* players, HPMng* playerHP)
-{
-}
-
 bool Player::SetStartPosition(cocos2d::TMXLayer* startPosLayer, cocos2d::Vec2 tileSize)
 {
 	const Size visibleSize = Director::getInstance()->getVisibleSize();

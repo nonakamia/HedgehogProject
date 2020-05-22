@@ -22,16 +22,19 @@
     <Filter Include="button">
       <UniqueIdentifier>{c9868183-55c0-4a1d-b604-3539a9f38ba2}</UniqueIdentifier>
     </Filter>
-    <Filter Include="obj\blackLadybug">
-      <UniqueIdentifier>{5e7b991a-66ac-45e0-bf5b-8a4f94a5b889}</UniqueIdentifier>
-    </Filter>
     <Filter Include="camera">
       <UniqueIdentifier>{f78c7d82-1a8a-49b2-9caf-88ed65d40a07}</UniqueIdentifier>
     </Filter>
     <Filter Include="HP">
       <UniqueIdentifier>{68931dc7-f994-4951-8989-2f003dc42322}</UniqueIdentifier>
     </Filter>
-    <Filter Include="obj\buds">
+    <Filter Include="obj\Obstacles">
+      <UniqueIdentifier>{bbb482ac-d621-4766-9f8f-54e8bac0f2ec}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="obj\Obstacles\blackLadybug">
+      <UniqueIdentifier>{5e7b991a-66ac-45e0-bf5b-8a4f94a5b889}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="obj\Obstacles\buds">
       <UniqueIdentifier>{c506d049-766d-4ec7-acd1-e2cd4a965355}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
@@ -57,9 +60,6 @@
     <ClCompile Include="..\Classes\Button\ButtonLayer.cpp">
       <Filter>button</Filter>
     </ClCompile>
-    <ClCompile Include="..\Classes\Obj\BlackLadybug\BlackLadybug.cpp">
-      <Filter>obj\blackLadybug</Filter>
-    </ClCompile>
     <ClCompile Include="..\Classes\Action\ActionConvey.cpp">
       <Filter>action</Filter>
     </ClCompile>
@@ -69,8 +69,14 @@
     <ClCompile Include="..\Classes\HP\HPMng.cpp">
       <Filter>HP</Filter>
     </ClCompile>
-    <ClCompile Include="..\Classes\Obj\Buds\Buds.cpp">
-      <Filter>obj\buds</Filter>
+    <ClCompile Include="..\Classes\Obj\Obstacles\BlackLadybug\BlackLadybug.cpp">
+      <Filter>obj\Obstacles\blackLadybug</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\Obj\Obstacles\Buds\Buds.cpp">
+      <Filter>obj\Obstacles\buds</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\Obj\Obstacles\Obstacles.cpp">
+      <Filter>obj\Obstacles</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -101,9 +107,6 @@
     <ClInclude Include="..\Classes\Button\ButtonLayer.h">
       <Filter>button</Filter>
     </ClInclude>
-    <ClInclude Include="..\Classes\Obj\BlackLadybug\BlackLadybug.h">
-      <Filter>obj\blackLadybug</Filter>
-    </ClInclude>
     <ClInclude Include="..\Classes\Action\ActionConvey.h">
       <Filter>action</Filter>
     </ClInclude>
@@ -113,8 +116,14 @@
     <ClInclude Include="..\Classes\HP\HPMng.h">
       <Filter>HP</Filter>
     </ClInclude>
-    <ClInclude Include="..\Classes\Obj\Buds\Buds.h">
-      <Filter>obj\buds</Filter>
+    <ClInclude Include="..\Classes\Obj\Obstacles\BlackLadybug\BlackLadybug.h">
+      <Filter>obj\Obstacles\blackLadybug</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\Obj\Obstacles\Buds\Buds.h">
+      <Filter>obj\Obstacles\buds</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\Obj\Obstacles\Obstacles.h">
+      <Filter>obj\Obstacles</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -54,9 +54,10 @@ list(APPEND GAME_SOURCE
      Classes/Button/ButtonLayer.cpp
      Classes/Camera/CameraOBJ.cpp
      Classes/HP/HPMng.cpp
+     Classes/Obj/Obstacles/BlackLadybug/BlackLadybug.cpp
+     Classes/Obj/Obstacles/Buds/Buds.cpp
+     Classes/Obj/Obstacles/Obstacles.cpp
      Classes/Obj/Player/Player.cpp
-     Classes/Obj/BlackLadybug/BlackLadybug.cpp
-     Classes/Obj/Buds/Buds.cpp
      Classes/Obj/Obj.cpp
      )
 list(APPEND GAME_HEADER
@@ -64,9 +65,10 @@ list(APPEND GAME_HEADER
      Classes/GameScene.h
      Classes/Action/ACTION.h
      Classes/Button/ButtonLayer.h
+     Classes/Obj/Obstacles/BlackLadybug/BlackLadybug.h
+     Classes/Obj/Obstacles/Buds/Buds.h
+     Classes/Obj/Obstacles/Obstacles.h
      Classes/Obj/Player/Player.h
-     Classes/Obj/BlackLadybug/BlackLadybug.h
-     Classes/Obj/Buds/Buds.h
      Classes/Camera/CameraOBJ.h
      Classes/HP/HPMng.h
      Classes/Obj/Obj.h

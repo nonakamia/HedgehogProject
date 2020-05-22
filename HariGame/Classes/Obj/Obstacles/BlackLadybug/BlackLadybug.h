@@ -1,10 +1,10 @@
 #pragma once
-#include "Obj/Obj.h"
+#include "Obj/Obstacles/Obstacles.h"
 #include "cocos2d.h"
 
 #include "HP/HPMng.h"
 
-class BlackLadybug : public Obj
+class BlackLadybug : public Obstacles
 {
 public:
 	static Obj* createBlackLadybug(OBJ_COLOR color);

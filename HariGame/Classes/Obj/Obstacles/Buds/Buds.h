@@ -1,11 +1,11 @@
 #pragma once
-#include "Obj/Obj.h"
+#include "Obj/Obstacles/Obstacles.h"
 #include "cocos2d.h"
 
 #include "HP/HPMng.h"
 
 
-class Buds : public Obj
+class Buds : public Obstacles
 {
 public:
 	static Obj* createBuds(OBJ_COLOR color);

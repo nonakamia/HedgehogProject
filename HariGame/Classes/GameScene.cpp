@@ -174,12 +174,11 @@ bool GameScene::init()
 
     this->scheduleUpdate();
 
-    // ﾃﾞﾊﾞｯｸ用
-#if CC_TARGET_PLATFORM == CC_PLATFORM_WIN32
+    // TitleSceneに移動予定
     auto listener = EventListenerKeyboard::create();
     listener->onKeyReleased = [this](cocos2d::EventKeyboard::KeyCode keyCode, cocos2d::Event* event)->bool
     {
-        // ESCで終了
+        // ESCで終了(androidでは戻るﾎﾞﾀﾝと連動)
         if (keyCode == cocos2d::EventKeyboard::KeyCode::KEY_ESCAPE)
         {
             Director::getInstance()->end();
@@ -187,7 +186,7 @@ bool GameScene::init()
         return true;
     };
     this->getEventDispatcher()->addEventListenerWithSceneGraphPriority(listener, this);
-#endif
+
     return true;
 }
 
@@ -220,7 +219,7 @@ void GameScene::update(float delta)
                 }
             }
 
-            if ((!((Obj*)obj)->GetDamageFlag()))
+            if (((obj->getName() == "blackLadydug") || (obj->getName() == "buds")) && (!((BlackLadybug*)obj)->GetDamageFlag()))
             {
                 ((Obj*)obj)->HitCheck(_plauerLayer, _hpMng);
             }

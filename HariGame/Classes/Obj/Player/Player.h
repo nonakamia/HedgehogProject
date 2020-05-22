@@ -1,6 +1,8 @@
 #pragma once
 #include "cocos2d.h"
 
+#include"HP/HPMng.h"
+
 #include "Obj/Obj.h"
 
 class Player : public Obj

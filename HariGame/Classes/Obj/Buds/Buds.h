@@ -1,7 +1,9 @@
 #pragma once
 #include "Obj/Obj.h"
-
 #include "cocos2d.h"
+
+#include "HP/HPMng.h"
+
 
 class Buds : public Obj
 {

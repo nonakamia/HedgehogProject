@@ -2,6 +2,8 @@
 #include "Obj/Obj.h"
 #include "cocos2d.h"
 
+#include "HP/HPMng.h"
+
 class BlackLadybug : public Obj
 {
 public:

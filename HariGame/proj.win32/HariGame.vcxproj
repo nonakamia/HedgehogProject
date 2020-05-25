@@ -155,13 +155,16 @@ xcopy "$(ProjectDir)..\Resources" "$(OutDir)\Resources\" /D /E /I /F /Y
     <ClCompile Include="..\Classes\AppDelegate.cpp" />
     <ClCompile Include="..\Classes\Button\ButtonLayer.cpp" />
     <ClCompile Include="..\Classes\Camera\CameraOBJ.cpp" />
-    <ClCompile Include="..\Classes\GameScene.cpp" />
     <ClCompile Include="..\Classes\HP\HPMng.cpp" />
     <ClCompile Include="..\Classes\Obj\Obj.cpp" />
     <ClCompile Include="..\Classes\Obj\Obstacles\BlackLadybug\BlackLadybug.cpp" />
     <ClCompile Include="..\Classes\Obj\Obstacles\Buds\Buds.cpp" />
     <ClCompile Include="..\Classes\Obj\Obstacles\Obstacles.cpp" />
     <ClCompile Include="..\Classes\Obj\player\Player.cpp" />
+    <ClCompile Include="..\Classes\Scene\BaseScene.cpp" />
+    <ClCompile Include="..\Classes\Scene\GameScene.cpp" />
+    <ClCompile Include="..\Classes\Scene\StageSelectScene.cpp" />
+    <ClCompile Include="..\Classes\Scene\TitleScene.cpp" />
     <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -170,7 +173,6 @@ xcopy "$(ProjectDir)..\Resources" "$(OutDir)\Resources\" /D /E /I /F /Y
     <ClInclude Include="..\Classes\AppDelegate.h" />
     <ClInclude Include="..\Classes\Button\ButtonLayer.h" />
     <ClInclude Include="..\Classes\Camera\CameraOBJ.h" />
-    <ClInclude Include="..\Classes\GameScene.h" />
     <ClInclude Include="..\Classes\HP\HPMng.h" />
     <ClInclude Include="..\Classes\Obj\Obj.h" />
     <ClInclude Include="..\Classes\Obj\OBJ_COLLAR.h" />
@@ -179,6 +181,9 @@ xcopy "$(ProjectDir)..\Resources" "$(OutDir)\Resources\" /D /E /I /F /Y
     <ClInclude Include="..\Classes\Obj\Obstacles\Obstacles.h" />
     <ClInclude Include="..\Classes\Obj\player\Player.h" />
     <ClInclude Include="..\Classes\Scene\BaseScene.h" />
+    <ClInclude Include="..\Classes\Scene\GameScene.h" />
+    <ClInclude Include="..\Classes\Scene\StageSelectScene.h" />
+    <ClInclude Include="..\Classes\Scene\TitleScene.h" />
     <ClInclude Include="main.h" />
   </ItemGroup>
   <ItemGroup>

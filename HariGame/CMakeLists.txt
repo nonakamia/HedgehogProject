@@ -49,7 +49,10 @@ endif()
 # add cross-platforms source files and header files 
 list(APPEND GAME_SOURCE
      Classes/AppDelegate.cpp
-     Classes/GameScene.cpp
+     Classes/Scene/BaseScene.cpp
+     Classes/Scene/GameScene.cpp
+     Classes/Scene/StageSelectScene.cpp
+     Classes/Scene/TitleScene.cpp
      Classes/Action/ACTION.cpp
      Classes/Button/ButtonLayer.cpp
      Classes/Camera/CameraOBJ.cpp
@@ -62,7 +65,10 @@ list(APPEND GAME_SOURCE
      )
 list(APPEND GAME_HEADER
      Classes/AppDelegate.h
-     Classes/GameScene.h
+     Classes/Scene/BaseScene.h
+     Classes/Scene/GameScene.h
+     Classes/Scene/StageSelectScene.h
+     Classes/Scene/TitleScene.h
      Classes/Action/ACTION.h
      Classes/Button/ButtonLayer.h
      Classes/Obj/Obstacles/BlackLadybug/BlackLadybug.h
@@ -73,7 +79,6 @@ list(APPEND GAME_HEADER
      Classes/HP/HPMng.h
      Classes/Obj/Obj.h
      Classes/Obj/OBJ_COLLAR.h
-     Classes/Scene/BaseScene.h
      )
 
 if(ANDROID)

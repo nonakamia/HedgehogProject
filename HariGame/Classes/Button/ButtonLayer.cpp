@@ -1,5 +1,5 @@
 #include "ButtonLayer.h"
-#include "GameScene.h"
+#include "Scene/GameScene.h"
 #include "Obj/Player/Player.h"
 #include "Action/ACTION.h"
 
@@ -10,6 +10,11 @@ Layer* ButtonLayer::createButtonLayer()
 	ButtonLayer* pRet = new(std::nothrow) ButtonLayer();
 	if (pRet && pRet->init())
 	{
+		//SpriteFrameCache::getInstance()->addSpriteFrame(Sprite::create("obstacles/Buds/changeButton_r.png")->getSpriteFrame(), "change_r");
+		//SpriteFrameCache::getInstance()->addSpriteFrame(Sprite::create("obstacles/Buds/changeButton_r_push.png")->getSpriteFrame(), "change_r_push");
+
+		//SpriteFrameCache::getInstance()->addSpriteFrame(Sprite::create("obstacles/Buds/changeButton_g.png")->getSpriteFrame(), "change_g");
+		//SpriteFrameCache::getInstance()->addSpriteFrame(Sprite::create("obstacles/Buds/changeButton_g_push.png")->getSpriteFrame(), "change_g_push");
 		pRet->autorelease();
 		return pRet;
 	}
@@ -83,21 +88,35 @@ bool ButtonLayer::init()
 	director->getEventDispatcher()->addEventListenerWithSceneGraphPriority(jumpListener, jumpButton);
 
 	// “ü‚ê‘Ö‚¦ÎÞÀÝ
-	auto changeButton = MenuItemImage::create("button/button_base.png", "button/button_on_base.png", [](Ref* ref) {});
-	changeButton->setPosition(Vec2(visibleSize.width * 0.1f + origin.x, visibleSize.height * 0.2f + origin.y));
-	changeButton->setOpacity(150.0f);
+	auto changeButton_r = MenuItemImage::create("button/changeButton_r.png", "button/changeButton_r_push.png", [](Ref* ref) {});
+	changeButton_r->setPosition(Vec2(visibleSize.width * 0.1f + origin.x, visibleSize.height * 0.2f + origin.y));
+	changeButton_r->setOpacity(200.0f);
+	changeButton_r->setScale(0.19f);
+	//changeButton_r->setVisible(true);
 
-	auto changeMenu = Menu::create(changeButton, nullptr);
-	changeMenu->setPosition(Point::ZERO);
-	this->addChild(changeMenu);
+	auto changeButton_g = MenuItemImage::create("button/changeButton_g.png", "button/changeButton_g_push.png", [](Ref* ref) {});
+	changeButton_g->setPosition(Vec2(visibleSize.width * 0.1f + origin.x, visibleSize.height * 0.2f + origin.y));
+	changeButton_g->setOpacity(200.0f);
+	changeButton_g->setScale(0.19f);
+	changeButton_g->setVisible(false);
+
+
+	auto changeMenu_r = Menu::create(changeButton_r, nullptr);
+	changeMenu_r->setPosition(Point::ZERO);
+	this->addChild(changeMenu_r);
+
+	auto changeMenu_g = Menu::create(changeButton_g, nullptr);
+	changeMenu_g->setPosition(Point::ZERO);
+	this->addChild(changeMenu_g);
 
 	auto changeListener = EventListenerTouchOneByOne::create();
 	// ‰Ÿ‚³‚ê‚½Žž‚Ìˆ—
-	changeListener->onTouchBegan = [this, visibleSize, changeButton](Touch* touch, Event* event)
+	changeListener->onTouchBegan = [this, visibleSize, changeButton_r, changeButton_g](Touch* touch, Event* event)->bool
 	{
 		Vec2 point = touch->getLocation();
-		Rect rectButton = changeButton->getBoundingBox();
-		if (rectButton.containsPoint(point))
+		Rect rectButton_r = changeButton_r->getBoundingBox();
+		Rect rectButton_g = changeButton_g->getBoundingBox();
+		if ((rectButton_r.containsPoint(point)) || (rectButton_g.containsPoint(point)))
 		{
 
 			return true;
@@ -108,14 +127,27 @@ bool ButtonLayer::init()
 		}
 	};
 	// —£‚³‚ê‚½Žž‚Ìˆ—
-	changeListener->onTouchEnded = [this](Touch* touch, Event* event)
+	changeListener->onTouchEnded = [this, changeButton_r, changeButton_g](Touch* touch, Event* event)->bool
 	{
 		auto players = Director::getInstance()->getRunningScene()->getChildByName("PLAYER_LAYER");
 		auto playerColor = players->getChildByName("player_front")->getTag();
 		static_cast<Player*>(players->getChildByName("player_front"))->Change(players->getChildByName("player_behind")->getTag());
 		static_cast<Player*>(players->getChildByName("player_behind"))->Change(playerColor);
+
+		if (playerColor == static_cast<int>(OBJ_COLOR::OBJ_RED))
+		{
+			changeButton_r->setVisible(false);
+			changeButton_g->setVisible(true);
+		}
+		else if (playerColor == static_cast<int>(OBJ_COLOR::OBJ_GREEN))
+		{
+			changeButton_r->setVisible(true);
+			changeButton_g->setVisible(false);
+		}
+		return true;
+
 	};
-	director->getEventDispatcher()->addEventListenerWithSceneGraphPriority(changeListener, changeButton);
+	director->getEventDispatcher()->addEventListenerWithSceneGraphPriority(changeListener, changeButton_g);
 
 	// ÃÞÊÞ¯¸—p
 #if CC_TARGET_PLATFORM == CC_PLATFORM_WIN32

@@ -88,14 +88,12 @@ bool GameScene::init()
     ((Player*)_player_front)->SetStartPosition(_mapData->getLayer("startPosition"), _mapData->getTileSize());
     _player_front->setScale(0.2f);
     _player_front->SetPoint(cocos2d::Vec2(20.0f, 20.0f));
-    _player_front->scheduleUpdate();
 
     _player_behind = Player::createPlayer(OBJ_COLOR::OBJ_GREEN);
     _player_behind->setName("player_behind");
     _player_behind->setPosition(_player_front->getPosition());
     _player_behind->setScale(0.2f);
     _player_behind->SetPoint(cocos2d::Vec2(20.0f, 20.0f));
-    _player_behind->scheduleUpdate();
 
     _plauerLayer->addChild(_player_behind);
     _plauerLayer->addChild(_player_front);
@@ -103,18 +101,17 @@ bool GameScene::init()
     // ¶Ò×
     auto uiCamera = CameraOBJ();
     uiCamera(CameraFlag::USER1, this);
-    getDefaultCamera()->setPosition(Vec2(visibleSize.width / 2.0f, (_mapData->getMapSize().height-6)*48));
-
-    // ÎÞÀÝ
-    auto buttonLayer = ButtonLayer::createButtonLayer();
-    buttonLayer->setCameraMask(static_cast<int>(CameraFlag::USER1));
-    this->addChild(buttonLayer, static_cast<int>(zOlder::BUTTON));
+    //getDefaultCamera()->setPosition(Vec2(visibleSize.width / 2.0f, (_mapData->getMapSize().height-6)*48));
+    getDefaultCamera()->setPositionY((_mapData->getMapSize().height - 6) * 48);
 
     // HP
    _hpMng = HPMng::createHPMng(3);
    _hpMng->setName("HP");
     _hpMng->setCameraMask(static_cast<int>(CameraFlag::USER1));
     this->addChild(_hpMng, static_cast<int>(zOlder::HP));
+
+    _startAction = runAction(DelayTime::create(3.0f));
+    CC_SAFE_RETAIN(_startAction);
 
     _goalFlag = false;
     _gameOverFlag = false;
@@ -141,58 +138,62 @@ bool GameScene::init()
 
 void GameScene::update(float delta)
 {
-    if (_hpMng->GetHP() <= 0)
+    getDefaultCamera()->setPositionY((_mapData->getMapSize().height - 6) * 48);
+    if (GameStart())
     {
-        GameOverAction();
-    }
-
-    ActionConvey();
-
-    if (((Player*)_player_front)->GetAction() == ACTION::NON)
-    {
-        ((Player*)_player_front)->SetAction(ACTION::ROTATE);
-        SetActionConvey(ACTION::ROTATE);
-    }
-
-    // “¯‚¶F‚Æ‚Ì“–‚½‚è”»’è
-    auto playerPoint = ((Player*)_player_front)->GetPoint();
-    if (!_goalFlag)
-    {
-        for (auto obj : _obstaclesLayer->getChildren())
+        if (_hpMng->GetHP() <= 0)
         {
-            if (obj->getName() == "lamp")
+            GameOverAction();
+        }
+
+        ActionConvey();
+
+        if (((Player*)_player_front)->GetAction() == ACTION::NON)
+        {
+            ((Player*)_player_front)->SetAction(ACTION::ROTATE);
+            SetActionConvey(ACTION::ROTATE);
+        }
+
+        // “¯‚¶F‚Æ‚Ì“–‚½‚è”»’è
+        auto playerPoint = ((Player*)_player_front)->GetPoint();
+        if (!_goalFlag)
+        {
+            for (auto obj : _obstaclesLayer->getChildren())
             {
-                if (_player_front->getPositionX() >= obj->getPositionX())
+                if (obj->getName() == "lamp")
                 {
-                    _goalFlag = true;
+                    if (_player_front->getPositionX() >= obj->getPositionX())
+                    {
+                        _goalFlag = true;
+                    }
+                }
+
+                if (((obj->getName() == "blackLadydug") || (obj->getName() == "buds")) && (!((BlackLadybug*)obj)->GetDamageFlag()))
+                {
+                    ((Obstacles*)obj)->HitCheck(_plauerLayer, _hpMng);
                 }
             }
-
-            if (((obj->getName() == "blackLadydug") || (obj->getName() == "buds")) && (!((BlackLadybug*)obj)->GetDamageFlag()))
-            {
-                ((Obstacles*)obj)->HitCheck(_plauerLayer, _hpMng);
-            }
         }
-    }
-    else
-    {
-        auto winSize = Director::getInstance()->getWinSize();
-        if (_player_behind->getPositionX() - _player_behind->GetPoint().x > getDefaultCamera()->getPositionX()+ winSize.width / 2.0f)
+        else
         {
-            unscheduleUpdate();
-            // player‚ÌGameOverAction
-            for (auto player : _plauerLayer->getChildren())
+            auto winSize = Director::getInstance()->getWinSize();
+            if (_player_behind->getPositionX() - _player_behind->GetPoint().x > getDefaultCamera()->getPositionX() + winSize.width / 2.0f)
             {
-                ((Obj*)player)->GameOverAction();
+                unscheduleUpdate();
+                // player‚ÌGameOverAction
+                for (auto player : _plauerLayer->getChildren())
+                {
+                    ((Obj*)player)->GameOverAction();
+                }
             }
         }
-    }
 
-    // ¶Ò×
-    auto winSize = Director::getInstance()->getWinSize();
-    if ((!_goalFlag) && (_player_front->getPositionX() >= winSize.width / 2.0f)&&(getDefaultCamera()->getPositionX() < _player_front->getPositionX()))
-    {
-        getDefaultCamera()->setPositionX(_player_front->getPositionX());
+        // ¶Ò×
+        auto winSize = Director::getInstance()->getWinSize();
+        if ((!_goalFlag) && (_player_front->getPositionX() >= winSize.width / 2.0f) && (getDefaultCamera()->getPositionX() < _player_front->getPositionX()))
+        {
+            getDefaultCamera()->setPositionX(_player_front->getPositionX());
+        }
     }
 }
 
@@ -292,6 +293,31 @@ void GameScene::AddBlackLadybug()
             }
         }
     }
+}
+
+bool GameScene::GameStart()
+{
+    if (_startAction == nullptr)
+    {
+        return true;
+    }
+
+    if (_startAction->isDone())
+    {
+        CC_SAFE_RELEASE_NULL(_startAction);
+
+        _player_front->scheduleUpdate();
+        _player_behind->scheduleUpdate();
+
+        // ÎÞÀÝ
+        auto buttonLayer = ButtonLayer::createButtonLayer();
+        buttonLayer->setCameraMask(static_cast<int>(CameraFlag::USER1));
+        this->addChild(buttonLayer, static_cast<int>(zOlder::BUTTON));
+
+        return true;
+    }
+
+    return false;
 }
 
 void GameScene::GameOverAction()

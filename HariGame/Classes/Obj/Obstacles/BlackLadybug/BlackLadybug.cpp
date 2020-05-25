@@ -54,15 +54,7 @@ void BlackLadybug::HitCheck(cocos2d::Node* players, HPMng* playerHP)
 {
 	auto _player_front = (Obj*)players->getChildByName("player_front");
 
-	if (_player_front->GetDamageFlag())
-	{
-		return;
-	}
-
-	if ((_player_front->getPosition().x - _player_front->GetPoint().x <= this->getPosition().x + this->GetPoint().x) &&
-		(_player_front->getPosition().x + _player_front->GetPoint().x >= this->getPosition().x - this->GetPoint().x) &&
-		(_player_front->getPosition().y - _player_front->GetPoint().y <= this->getPosition().y + this->GetPoint().y) &&
-		(_player_front->getPosition().y + _player_front->GetPoint().y >= this->getPosition().y - this->GetPoint().y))
+	if(Check(_player_front))
 	{
 		if (_player_front->getTag() == this->getTag())
 		{

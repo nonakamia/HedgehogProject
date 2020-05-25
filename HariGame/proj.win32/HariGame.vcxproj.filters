@@ -7,9 +7,6 @@
     <Filter Include="resource">
       <UniqueIdentifier>{715254bc-d70b-4ec5-bf29-467dd3ace079}</UniqueIdentifier>
     </Filter>
-    <Filter Include="src">
-      <UniqueIdentifier>{bb6c862e-70e9-49d9-81b7-3829a6f50471}</UniqueIdentifier>
-    </Filter>
     <Filter Include="obj">
       <UniqueIdentifier>{0d9d8a00-bc61-4535-8e4f-d6079f65df85}</UniqueIdentifier>
     </Filter>
@@ -37,22 +34,22 @@
     <Filter Include="obj\Obstacles\buds">
       <UniqueIdentifier>{c506d049-766d-4ec7-acd1-e2cd4a965355}</UniqueIdentifier>
     </Filter>
+    <Filter Include="scene">
+      <UniqueIdentifier>{bb6c862e-70e9-49d9-81b7-3829a6f50471}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
       <Filter>win32</Filter>
     </ClCompile>
     <ClCompile Include="..\Classes\AppDelegate.cpp">
-      <Filter>src</Filter>
+      <Filter>scene</Filter>
     </ClCompile>
     <ClCompile Include="..\Classes\Obj\Obj.cpp">
       <Filter>obj</Filter>
     </ClCompile>
     <ClCompile Include="..\Classes\Obj\player\Player.cpp">
       <Filter>obj\player</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Classes\GameScene.cpp">
-      <Filter>src</Filter>
     </ClCompile>
     <ClCompile Include="..\Classes\Action\ACTION.cpp">
       <Filter>action</Filter>
@@ -78,13 +75,25 @@
     <ClCompile Include="..\Classes\Obj\Obstacles\Obstacles.cpp">
       <Filter>obj\Obstacles</Filter>
     </ClCompile>
+    <ClCompile Include="..\Classes\Scene\GameScene.cpp">
+      <Filter>scene</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\Scene\TitleScene.cpp">
+      <Filter>scene</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\Scene\StageSelectScene.cpp">
+      <Filter>scene</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\Scene\BaseScene.cpp">
+      <Filter>scene</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="main.h">
       <Filter>win32</Filter>
     </ClInclude>
     <ClInclude Include="..\Classes\AppDelegate.h">
-      <Filter>src</Filter>
+      <Filter>scene</Filter>
     </ClInclude>
     <ClInclude Include="..\Classes\Obj\Obj.h">
       <Filter>obj</Filter>
@@ -92,11 +101,8 @@
     <ClInclude Include="..\Classes\Obj\player\Player.h">
       <Filter>obj\player</Filter>
     </ClInclude>
-    <ClInclude Include="..\Classes\GameScene.h">
-      <Filter>src</Filter>
-    </ClInclude>
     <ClInclude Include="..\Classes\Scene\BaseScene.h">
-      <Filter>src</Filter>
+      <Filter>scene</Filter>
     </ClInclude>
     <ClInclude Include="..\Classes\Action\ACTION.h">
       <Filter>action</Filter>
@@ -124,6 +130,15 @@
     </ClInclude>
     <ClInclude Include="..\Classes\Obj\Obstacles\Obstacles.h">
       <Filter>obj\Obstacles</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\Scene\GameScene.h">
+      <Filter>scene</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\Scene\TitleScene.h">
+      <Filter>scene</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\Scene\StageSelectScene.h">
+      <Filter>scene</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

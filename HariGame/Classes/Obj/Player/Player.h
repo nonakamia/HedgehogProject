@@ -52,5 +52,7 @@ private:
 
 	void Jumping();
 	void Rolling(float delta);
+
+	void SetImage(ACTION action);
 };
 

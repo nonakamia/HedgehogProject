@@ -1,5 +1,5 @@
 #include "Player.h"
-#include "GameScene.h"
+#include "Scene/GameScene.h"
 #include "HP/HPMng.h"
 #include <math.h>
 
@@ -10,13 +10,19 @@ Obj* Player::createPlayer(OBJ_COLOR color)
 	Obj* pRet = new(std::nothrow) Player();
 	if (pRet && pRet->init())
 	{
+		SpriteFrameCache::getInstance()->addSpriteFrame(Sprite::create("player/player_r_rotate.png")->getSpriteFrame(), "rotate_r");
+		SpriteFrameCache::getInstance()->addSpriteFrame(Sprite::create("player/player_g_rotate.png")->getSpriteFrame(), "rotate_g");
+
+		SpriteFrameCache::getInstance()->addSpriteFrame(Sprite::create("player/player_r_jump.png")->getSpriteFrame(), "jump_r");
+		SpriteFrameCache::getInstance()->addSpriteFrame(Sprite::create("player/player_g_jump.png")->getSpriteFrame(), "jump_g");
+
 		if (color == OBJ_COLOR::OBJ_RED)
 		{
-			pRet->setSpriteFrame(Sprite::create("player/player_r_rotate.png")->getSpriteFrame());
+			pRet->setSpriteFrame(SpriteFrameCache::getInstance()->getSpriteFrameByName("rotate_r"));
 		}
 		else if (color == OBJ_COLOR::OBJ_GREEN)
 		{
-			pRet->setSpriteFrame(Sprite::create("player/player_g_rotate.png")->getSpriteFrame());
+			pRet->setSpriteFrame(SpriteFrameCache::getInstance()->getSpriteFrameByName("rotate_g"));
 		}
 
 		pRet->setTag(static_cast<int>(color));
@@ -129,6 +135,7 @@ void Player::Jump()
 		_flowerFlag = false;
 		_airTime = 0.8f;
 		_action = ACTION::JUMPING;
+
 	}
 }
 
@@ -373,5 +380,16 @@ void Player::Rolling(float delta)
 			((Obj*)player)->DamageAction();
 		}
 		((HPMng*)gameScne->getChildByName("HP"))->DamageHP(1);
+	}
+}
+
+void Player::SetImage(ACTION action)
+{
+	if (action == ACTION::JUMP)
+	{
+		if (getTag() == static_cast<int>(OBJ_COLOR::OBJ_RED))
+		{
+
+		}
 	}
 }

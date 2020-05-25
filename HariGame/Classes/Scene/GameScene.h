@@ -26,11 +26,13 @@
 #define __HELLOWORLD_SCENE_H__
 
 #include "cocos2d.h"
+#include "BaseScene.h"
 
 #include "Obj/Obj.h"
 #include "HP/HPMng.h"
 
-class GameScene : public cocos2d::Scene
+
+class GameScene : public BaseScene
 {
 public:
     static cocos2d::Scene* createGameScene();
@@ -64,6 +66,8 @@ private:
     Obj* _player_front;
     Obj* _player_behind;
 
+    cocos2d::Action* _startAction;          // Ω¿∞ƒéûÇÃ±∏ºÆ›
+
     bool _goalFlag;
     bool _gameOverFlag;
 
@@ -72,6 +76,7 @@ private:
     HPMng* _hpMng;
 
     void AddBlackLadybug();                 // çïÇ¢ÇƒÇÒÇ∆Ç§íéê›íu
+    bool GameStart();
     void GameOverAction();
     void ActionConvey();
 

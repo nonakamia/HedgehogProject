@@ -1,6 +1,6 @@
 ﻿#pragma once
 #include "cocos2d.h"
-#include "GameScene.h"
+#include "Scene/GameScene.h"
 
 struct CameraOBJ
 {

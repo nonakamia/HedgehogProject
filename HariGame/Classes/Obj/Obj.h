@@ -10,6 +10,7 @@ class Obj : public cocos2d::Sprite
 public:
 	virtual void DamageAction() = 0;						// ÀÞÒ°¼Þ±¸¼®Ý
 	virtual void GameOverAction() = 0;
+	virtual void GameClearAction() = 0;
 
 	void SetPoint(cocos2d::Vec2 point);
 	cocos2d::Vec2 GetPoint();

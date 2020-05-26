@@ -69,6 +69,11 @@ Player::~Player()
 
 void Player::update(float delta)
 {
+	if (Director::getInstance()->getRunningScene()->getName() != "GameScene")
+	{
+		return;
+	}
+
 	if (!_gameOverFlag)
 	{
 		if (_action == ACTION::ROTATE)
@@ -86,7 +91,7 @@ void Player::update(float delta)
 		{
 			Jump();
 		}
-		else if (_action == ACTION::JUMPING)
+		if (_action == ACTION::JUMPING)
 		{
 			Jumping();
 		}
@@ -95,7 +100,7 @@ void Player::update(float delta)
 
 
 		// ¿ﬁ“∞ºﬁ
-		if (_damageFlag)
+		if ((_damageFlag))
 		{
 			DamageAction();
 		}
@@ -238,17 +243,28 @@ bool Player::CollsionCheck(cocos2d::Vec2 vec)
 
 void Player::DamageAction()
 {
-	if ((!_damageFlag)&&(_damageAction == nullptr))
+	if ((_action != ACTION::DAMAGE)&&(!_damageFlag)&&(_damageAction == nullptr))
 	{
 		stopAllActions();
 		CC_SAFE_RELEASE_NULL(_rollingAction);
-		auto pos = getPosition();
-		_damageAction = runAction(Sequence::create(
-									MoveBy::create(0.2f, Vec2(-192.0f, 0.0f)),
-									DelayTime::create(0.1f),
-									nullptr
-		));
+
+		float time = 0.3f;
+		if (getName() == "player_front")
+		{
+			auto behindPosX = Director::getInstance()->getRunningScene()->getChildByName("PLAYER_LAYER")->getChildByName("player_behind")->getPositionX();
+			_damageAction = runAction(Sequence::create(
+				MoveTo::create(time - 0.1f, Vec2(behindPosX, 0.0f)),
+				DelayTime::create(time - 0.2f),
+				nullptr
+			));
+		}
+		else if (getName() == "player_behind")
+		{
+			_damageAction = runAction(DelayTime::create(time));
+		}
+
 		CC_SAFE_RETAIN(_damageAction);
+		_action = ACTION::DAMAGE;
 		_damageFlag = true;
 		return;
 	}
@@ -266,8 +282,12 @@ void Player::DamageAction()
 		CC_SAFE_RELEASE_NULL(_damageAction);
 		_damageFlag = false;
 		_jumpFlag = false;
-		
-		Rotate();
+		if (getName() == "player_front")
+		{
+			_action = ACTION::ROTATE;
+			((GameScene*)Director::getInstance()->getRunningScene())->SetActionConvey(ACTION::ROTATE);
+		}
+		//Rotate();
 		return;
 	}
 }
@@ -283,6 +303,18 @@ void Player::GameOverAction()
 	_gemeOverAction = runAction(FadeOut::create(1.0f));
 	CC_SAFE_RETAIN(_gemeOverAction);
 	_gameOverFlag = true;
+}
+
+void Player::GameClearAction()
+{
+	// ç°ÇÃ±∏ºÆ›Çé~ÇﬂÇÈ
+	stopAllActions();
+	CC_SAFE_RELEASE_NULL(_damageAction);
+	CC_SAFE_RELEASE_NULL(_rollingAction);
+
+	unscheduleUpdate();
+
+	setVisible(false);
 }
 
 bool Player::SetStartPosition(cocos2d::TMXLayer* startPosLayer, cocos2d::Vec2 tileSize)

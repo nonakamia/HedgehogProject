@@ -30,6 +30,7 @@
 
 #include "Obj/Obj.h"
 #include "HP/HPMng.h"
+#include "Action/ActionConvey.h"
 
 
 class GameScene : public BaseScene
@@ -65,22 +66,28 @@ private:
     cocos2d::Layer* _obstaclesLayer;
     Obj* _player_front;
     Obj* _player_behind;
+    ActionConvey* _actionConvey;           // ±¸¼®İ“`’B
 
     cocos2d::Action* _startAction;          // ½À°Ä‚Ì±¸¼®İ
 
     bool _goalFlag;
+
+    cocos2d::Action* _gameOverAction;       // ¹Ş°Ñµ°ÊŞ°‚Ì±¸¼®İ
     bool _gameOverFlag;
 
     cocos2d::Action* _coolTimeAction;
     ACTION _playerAction;
     HPMng* _hpMng;
 
+    cocos2d::TMXTiledMap* _mapData;          // ‘«êÚ²Ô°
+
     void AddBlackLadybug();                 // •‚¢‚Ä‚ñ‚Æ‚¤’İ’u
     bool GameStart();
     void GameOverAction();
     void ActionConvey();
 
-    cocos2d::TMXTiledMap* _mapData;          // ‘«êÚ²Ô°
+    void changeScene(Ref* pSender);         // StageSelectScene‚ÉˆÚ“®
+    
 };
 
 #endif // __HELLOWORLD_SCENE_H__

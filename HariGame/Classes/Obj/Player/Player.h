@@ -22,6 +22,8 @@ public:
 
 	void GameOverAction();
 
+	void GameClearAction();
+
 	bool SetStartPosition(cocos2d::TMXLayer* startPosLayer, cocos2d::Vec2 tileSize);
 
 	void SetAction(ACTION action);

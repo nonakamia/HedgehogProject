@@ -43,6 +43,11 @@ Buds::~Buds()
 
 void Buds::update(float delta)
 {
+	if (Director::getInstance()->getRunningScene()->getName() != "GameScene")
+	{
+		return;
+	}
+
 	if (_openFlag)
 	{
 		// player‚ğ‰Ô‚Ìã‚ğ•à‚Ü‚¹‚é
@@ -69,6 +74,10 @@ void Buds::DamageAction()
 }
 
 void Buds::GameOverAction()
+{
+}
+
+void Buds::GameClearAction()
 {
 }
 

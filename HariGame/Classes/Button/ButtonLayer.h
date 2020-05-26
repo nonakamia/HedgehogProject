@@ -1,6 +1,8 @@
 #pragma once
 #include "cocos2d.h"
 
+#include "Action/ActionConvey.h"
+
 class ButtonLayer : public cocos2d::Layer
 {
 public:

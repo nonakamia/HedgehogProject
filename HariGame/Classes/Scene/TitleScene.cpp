@@ -49,8 +49,8 @@ bool TitleScene::init()
 		this->addChild(label, 2);
 	}
 
-	auto titleImage = Sprite::create("stage/back_0.png");
-	addChild(titleImage, 1);
+	auto titleImage = Sprite::create("image.png");
+	addChild(titleImage, static_cast<int>(zOlder::BG));
 	titleImage->setPosition(Vec2(origin.x + visibleSize.width / 2.0f,
 		origin.y + visibleSize.height / 2.0f));
 
@@ -91,8 +91,8 @@ void TitleScene::changeScene(Ref* pSender)
 	if (!_changeSceneFlag)
 	{
 		// ƒZƒŒƒNƒgƒV[ƒ“‚É‰æ–Ê‘JˆÚ‚·‚éB
-		auto StageSelectScene = StageSelectScene::createStageSelectScene();
-		auto* fade = TransitionFadeUp::create(1.0f, StageSelectScene);
+		auto stageSelectScene = StageSelectScene::createStageSelectScene();
+		auto* fade = TransitionFadeUp::create(1.0f, stageSelectScene);
 		// TitleScene‚ð”jŠü‚µ‚ÄStageSelectScene‚É‘JˆÚ‚·‚é
 		Director::getInstance()->replaceScene(fade);
 

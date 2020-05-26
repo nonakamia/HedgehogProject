@@ -23,6 +23,7 @@
  ****************************************************************************/
 
 #include "GameScene.h"
+#include "StageSelectScene.h"
 #include "Scene/BaseScene.h"
 #include "Obj/Player/Player.h"
 #include "Obj/Obstacles/Obstacles.h"
@@ -54,7 +55,7 @@ bool GameScene::init()
     {
         return false;
     }
-    setName("GameScnene");
+    setName("GameScene");
 
     const Size visibleSize = Director::getInstance()->getVisibleSize();
     const Vec2 origin = Director::getInstance()->getVisibleOrigin();
@@ -113,6 +114,8 @@ bool GameScene::init()
     _startAction = runAction(DelayTime::create(3.0f));
     CC_SAFE_RETAIN(_startAction);
 
+    _gameOverAction = nullptr;
+
     _goalFlag = false;
     _gameOverFlag = false;
     _coolTimeAction = nullptr;
@@ -146,12 +149,13 @@ void GameScene::update(float delta)
             GameOverAction();
         }
 
-        ActionConvey();
+        //ActionConvey();
 
         if (((Player*)_player_front)->GetAction() == ACTION::NON)
         {
+           
             ((Player*)_player_front)->SetAction(ACTION::ROTATE);
-            SetActionConvey(ACTION::ROTATE);
+            _actionConvey->SetActionConvey(ACTION::ROTATE);
         }
 
         // “¯‚¶F‚Æ‚Ì“–‚½‚è”»’è
@@ -183,8 +187,9 @@ void GameScene::update(float delta)
                 // player‚ÌGameOverAction
                 for (auto player : _plauerLayer->getChildren())
                 {
-                    ((Obj*)player)->GameOverAction();
+                    ((Obj*)player)->GameClearAction();
                 }
+                changeScene(this);
             }
         }
 
@@ -309,6 +314,12 @@ bool GameScene::GameStart()
         _player_front->scheduleUpdate();
         _player_behind->scheduleUpdate();
 
+        // ±¸¼®Ý“`’B
+        _actionConvey = ActionConvey::createActionConvey();
+        _actionConvey->setName("actionConvey");
+        this->addChild(_actionConvey);
+        _actionConvey->scheduleUpdate();
+
         // ÎÞÀÝ
         auto buttonLayer = ButtonLayer::createButtonLayer();
         buttonLayer->setCameraMask(static_cast<int>(CameraFlag::USER1));
@@ -322,13 +333,29 @@ bool GameScene::GameStart()
 
 void GameScene::GameOverAction()
 {
-    _gameOverFlag = true;
-    unscheduleUpdate();
-    
-    // player‚ÌGameOverAction
-    for (auto player : _plauerLayer->getChildren())
+    if (!_gameOverFlag)
     {
-        ((Obj*)player)->GameOverAction();
+        _gameOverFlag = true;
+
+        // player‚ÌGameOverAction
+        for (auto player : _plauerLayer->getChildren())
+        {
+            ((Obj*)player)->GameOverAction();
+        }
+        _gameOverAction = runAction(DelayTime::create(1.5f));
+        CC_SAFE_RETAIN(_gameOverAction);
+        return;
+    }
+
+    if (_gameOverAction == nullptr)
+    {
+        return;
+    }
+
+    if (_gameOverAction->isDone())
+    {
+        CC_SAFE_RELEASE_NULL(_gameOverAction);
+        changeScene(this);
     }
 
 }
@@ -344,5 +371,26 @@ void GameScene::ActionConvey()
     {
          CC_SAFE_RELEASE_NULL(_coolTimeAction);
         ((Player*)_player_behind)->SetAction(_playerAction);
+    }
+}
+
+void GameScene::changeScene(Ref* pSender)
+{
+    if (_changeSceneFlag)
+    {
+        return;
+    }
+
+    if (!_changeSceneFlag)
+    {
+        unscheduleUpdate();
+
+        // ƒZƒŒƒNƒgƒV[ƒ“‚É‰æ–Ê‘JˆÚ‚·‚éB
+        auto stageSelectScene = StageSelectScene::createStageSelectScene();
+        auto* fade = TransitionFade::create(1.0f, stageSelectScene, Color3B::BLACK);
+        // GameScene‚ð”jŠü‚µ‚ÄStageSelectScene‚É‘JˆÚ‚·‚é
+        Director::getInstance()->replaceScene(fade);
+
+        _changeSceneFlag = true;
     }
 }

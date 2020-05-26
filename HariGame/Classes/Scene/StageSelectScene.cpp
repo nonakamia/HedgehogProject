@@ -48,6 +48,11 @@ bool StageSelectScene::init()
 		this->addChild(label, 1);
 	}
 
+	auto image = Sprite::create("image2.png");
+	addChild(image, static_cast<int>(zOlder::BG));
+	image->setPosition(Vec2(origin.x + visibleSize.width / 2.0f,
+		origin.y + visibleSize.height / 2.0f));
+
 	auto stage = Sprite::create("StageSelect/stage.png");
 	addChild(stage, static_cast<int>(zOlder::OBSTACLES));
 	stage->setPosition(Vec2(origin.x + visibleSize.width / 2.0f,
@@ -92,8 +97,8 @@ void StageSelectScene::changeScene(Ref* pSender)
 	if (!_changeSceneFlag)
 	{
 		// ƒZƒŒƒNƒgƒV[ƒ“‚É‰æ–Ê‘JˆÚ‚·‚éB
-		auto GameScene = GameScene::createGameScene();
-		auto* fade = TransitionFade::create(1.0f, GameScene,Color3B::BLACK);
+		auto gameScene = GameScene::createGameScene();
+		auto* fade = TransitionFade::create(1.0f, gameScene,Color3B::BLACK);
 		// TitleScene‚ð”jŠü‚µ‚ÄGameScene‚É‘JˆÚ‚·‚é
 		Director::getInstance()->replaceScene(fade);
 

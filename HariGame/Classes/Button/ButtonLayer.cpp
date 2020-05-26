@@ -3,6 +3,7 @@
 #include "Obj/Player/Player.h"
 #include "Action/ACTION.h"
 
+
 USING_NS_CC;
 
 Layer* ButtonLayer::createButtonLayer()
@@ -10,11 +11,6 @@ Layer* ButtonLayer::createButtonLayer()
 	ButtonLayer* pRet = new(std::nothrow) ButtonLayer();
 	if (pRet && pRet->init())
 	{
-		//SpriteFrameCache::getInstance()->addSpriteFrame(Sprite::create("obstacles/Buds/changeButton_r.png")->getSpriteFrame(), "change_r");
-		//SpriteFrameCache::getInstance()->addSpriteFrame(Sprite::create("obstacles/Buds/changeButton_r_push.png")->getSpriteFrame(), "change_r_push");
-
-		//SpriteFrameCache::getInstance()->addSpriteFrame(Sprite::create("obstacles/Buds/changeButton_g.png")->getSpriteFrame(), "change_g");
-		//SpriteFrameCache::getInstance()->addSpriteFrame(Sprite::create("obstacles/Buds/changeButton_g_push.png")->getSpriteFrame(), "change_g_push");
 		pRet->autorelease();
 		return pRet;
 	}
@@ -52,6 +48,8 @@ bool ButtonLayer::init()
 	const Size visibleSize = Director::getInstance()->getVisibleSize();
 	const Vec2 origin = Director::getInstance()->getVisibleOrigin();
 	auto director = Director::getInstance();
+
+	auto _actionConvey = (ActionConvey*)Director::getInstance()->getRunningScene()->getChildByName("actionConvey");
 
 	// ¼Þ¬ÝÌßÎÞÀÝ
 	auto jumpButton = MenuItemImage::create("button/button_base.png", "button/button_on_base.png", [](Ref* ref) {});

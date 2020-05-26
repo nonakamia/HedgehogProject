@@ -50,6 +50,10 @@ void BlackLadybug::GameOverAction()
 {
 }
 
+void BlackLadybug::GameClearAction()
+{
+}
+
 void BlackLadybug::HitCheck(cocos2d::Node* players, HPMng* playerHP)
 {
 	auto _player_front = (Obj*)players->getChildByName("player_front");
@@ -66,6 +70,7 @@ void BlackLadybug::HitCheck(cocos2d::Node* players, HPMng* playerHP)
 			{
 				((Obj*)player)->DamageAction();
 			}
+
 			playerHP->DamageHP(1);
 		}
 	}

@@ -12,6 +12,8 @@ public:
 	~BlackLadybug();
 	void DamageAction();						// ÀÞÒ°¼Þ±¸¼®Ý
 	void GameOverAction();
+	void GameClearAction();
+
 	void HitCheck(cocos2d::Node* players,HPMng* playerHP);
 private:
 };

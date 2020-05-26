@@ -118,7 +118,6 @@ bool GameScene::init()
 
     _goalFlag = false;
     _gameOverFlag = false;
-    _coolTimeAction = nullptr;
     _playerAction = ACTION::NON;
 
     this->scheduleUpdate();
@@ -214,13 +213,6 @@ void GameScene::menuCloseCallback(Ref* pSender)
     //_eventDispatcher->dispatchEvent(&customEndEvent);
 
 
-}
-
-void GameScene::SetActionConvey(ACTION action)
-{
-    _playerAction = action;
-    _coolTimeAction = runAction(DelayTime::create(0.6f));
-    CC_SAFE_RETAIN(_coolTimeAction);
 }
 
 void GameScene::AddBlackLadybug()
@@ -358,20 +350,6 @@ void GameScene::GameOverAction()
         changeScene(this);
     }
 
-}
-
-void GameScene::ActionConvey()
-{
-    if (_coolTimeAction == nullptr)
-    {
-        return;
-   }
-
-    if (_coolTimeAction->isDone())
-    {
-         CC_SAFE_RELEASE_NULL(_coolTimeAction);
-        ((Player*)_player_behind)->SetAction(_playerAction);
-    }
 }
 
 void GameScene::changeScene(Ref* pSender)

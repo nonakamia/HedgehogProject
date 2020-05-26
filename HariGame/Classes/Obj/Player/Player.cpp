@@ -1,6 +1,7 @@
 #include "Player.h"
 #include "Scene/GameScene.h"
 #include "HP/HPMng.h"
+#include "Action/ActionConvey.h"
 #include <math.h>
 
 USING_NS_CC;
@@ -285,7 +286,7 @@ void Player::DamageAction()
 		if (getName() == "player_front")
 		{
 			_action = ACTION::ROTATE;
-			((GameScene*)Director::getInstance()->getRunningScene())->SetActionConvey(ACTION::ROTATE);
+			((ActionConvey*)Director::getInstance()->getRunningScene()->getChildByName("actionConvey"))->SetActionConvey(ACTION::ROTATE);
 		}
 		//Rotate();
 		return;

@@ -12,4 +12,6 @@ public:
 	bool init();
 private:
 	CREATE_FUNC(ButtonLayer);
+
+	ActionConvey* _actionConvey;
 };

@@ -16,15 +16,14 @@ public:
 
 	void update(float delta);
 
-	void SetActionConvey(ACTION action);		// 前のﾌﾟﾚｲﾔｰが行ったｱｸｼｮﾝを1.5秒後に後ろのﾌﾟﾚｲﾔｰが行う
+	void SetActionConvey(ACTION action);		// 前のﾌﾟﾚｲﾔｰが行ったｱｸｼｮﾝを0.6秒後に後ろのﾌﾟﾚｲﾔｰが行う
 private:
 	CREATE_FUNC(ActionConvey);
 
-	Player*  _player_front;
 	Player* _player_behind;
 
 	std::vector<ACTION> _actionList;
 
-	cocos2d::Action* _conveyAction;
+	std::vector <cocos2d::Action*> _conveyAction;
 };
 

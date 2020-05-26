@@ -49,7 +49,7 @@ bool ButtonLayer::init()
 	const Vec2 origin = Director::getInstance()->getVisibleOrigin();
 	auto director = Director::getInstance();
 
-	auto _actionConvey = (ActionConvey*)Director::getInstance()->getRunningScene()->getChildByName("actionConvey");
+	_actionConvey = (ActionConvey*)Director::getInstance()->getRunningScene()->getChildByName("actionConvey");
 
 	// ¼Þ¬ÝÌßÎÞÀÝ
 	auto jumpButton = MenuItemImage::create("button/button_base.png", "button/button_on_base.png", [](Ref* ref) {});
@@ -70,7 +70,7 @@ bool ButtonLayer::init()
 		{
 			auto player_front = static_cast<Player*>(Director::getInstance()->getRunningScene()->getChildByName("PLAYER_LAYER")->getChildByName("player_front"));
 			player_front->SetAction(ACTION::JUMP);
-			((GameScene*)Director::getInstance()->getRunningScene())->SetActionConvey(ACTION::JUMP);
+			_actionConvey->SetActionConvey(ACTION::JUMP);
 			return true;
 		}
 		else
@@ -157,7 +157,7 @@ bool ButtonLayer::init()
 
 			auto player_front = static_cast<Player*>(Director::getInstance()->getRunningScene()->getChildByName("PLAYER_LAYER")->getChildByName("player_front"));
 			player_front->SetAction(ACTION::JUMP);
-			((GameScene*)Director::getInstance()->getRunningScene())->SetActionConvey(ACTION::JUMP);
+			_actionConvey->SetActionConvey(ACTION::JUMP);
 		}
 		return true;
 	};

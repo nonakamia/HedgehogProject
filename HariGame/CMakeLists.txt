@@ -54,6 +54,7 @@ list(APPEND GAME_SOURCE
      Classes/Scene/StageSelectScene.cpp
      Classes/Scene/TitleScene.cpp
      Classes/Action/ACTION.cpp
+     Classes/Action/ActionConvey.cpp
      Classes/Button/ButtonLayer.cpp
      Classes/Camera/CameraOBJ.cpp
      Classes/HP/HPMng.cpp
@@ -70,6 +71,7 @@ list(APPEND GAME_HEADER
      Classes/Scene/StageSelectScene.h
      Classes/Scene/TitleScene.h
      Classes/Action/ACTION.h
+     Classes/Action/ActionConvey.h
      Classes/Button/ButtonLayer.h
      Classes/Obj/Obstacles/BlackLadybug/BlackLadybug.h
      Classes/Obj/Obstacles/Buds/Buds.h

@@ -44,8 +44,6 @@ public:
     
     // a selector callback
     void menuCloseCallback(cocos2d::Ref* pSender);
-
-    void SetActionConvey(ACTION action);
     
 private:
     // implement the "static create()" method manually
@@ -75,7 +73,6 @@ private:
     cocos2d::Action* _gameOverAction;       // πﬁ∞—µ∞ ﬁ∞éûÇÃ±∏ºÆ›
     bool _gameOverFlag;
 
-    cocos2d::Action* _coolTimeAction;
     ACTION _playerAction;
     HPMng* _hpMng;
 
@@ -84,7 +81,6 @@ private:
     void AddBlackLadybug();                 // çïÇ¢ÇƒÇÒÇ∆Ç§íéê›íu
     bool GameStart();
     void GameOverAction();
-    void ActionConvey();
 
     void changeScene(Ref* pSender);         // StageSelectSceneÇ…à⁄ìÆ
     

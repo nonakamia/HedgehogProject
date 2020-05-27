@@ -58,6 +58,7 @@ list(APPEND GAME_SOURCE
      Classes/Button/ButtonLayer.cpp
      Classes/Camera/CameraOBJ.cpp
      Classes/HP/HPMng.cpp
+     Classes/menu/MenuLayer.cpp
      Classes/Obj/Obstacles/BlackLadybug/BlackLadybug.cpp
      Classes/Obj/Obstacles/Buds/Buds.cpp
      Classes/Obj/Obstacles/Obstacles.cpp
@@ -79,6 +80,7 @@ list(APPEND GAME_HEADER
      Classes/Obj/Player/Player.h
      Classes/Camera/CameraOBJ.h
      Classes/HP/HPMng.h
+     Classes/menu/MenuLayer.h
      Classes/Obj/Obj.h
      Classes/Obj/OBJ_COLLAR.h
      )

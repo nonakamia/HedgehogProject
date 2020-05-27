@@ -11,6 +11,7 @@ cocos2d::Scene* TitleScene::createTitleScene()
 TitleScene::TitleScene()
 {
 	BaseScene();
+	_endGameFlag = false;
 }
 
 TitleScene::~TitleScene()
@@ -25,7 +26,6 @@ static void problemLoading(const char* filename)
 
 bool TitleScene::init()
 {
-
 	if (!Scene::init())
 	{
 		return false;
@@ -54,12 +54,41 @@ bool TitleScene::init()
 	titleImage->setPosition(Vec2(origin.x + visibleSize.width / 2.0f,
 		origin.y + visibleSize.height / 2.0f));
 
-	auto listener = EventListenerTouchOneByOne::create();
+	_endGameImage = Sprite::create("endGame/endGameImage.png");
+	addChild(_endGameImage);
+	_endGameImage->setPosition(Vec2(origin.x + visibleSize.width / 2.0f,
+		origin.y + visibleSize.height / 2.0f));
+	_endGameImage->setScale(0.0f);
 
+	_yesButton = MenuItemImage::create(
+		"endGame/yes.png",
+		"endGame/yes.png",
+		CC_CALLBACK_1(TitleScene::EndGame,this));
+	_yesButton->setPosition(Vec2(origin.x + visibleSize.width / 3.0f,
+		origin.y + visibleSize.height / 2.5f));
+	_yesButton->setVisible(false);
+	auto yesMenu = Menu::create(_yesButton, nullptr);
+	yesMenu->setPosition(Vec2::ZERO);
+	this->addChild(yesMenu);
+
+	_noButton = MenuItemImage::create(
+		"endGame/no.png",
+		"endGame/no.png",
+		CC_CALLBACK_1(TitleScene::SetEndGame,this)
+	);
+	_noButton->setPosition(Vec2(origin.x + visibleSize.width / 1.5f,
+		origin.y + visibleSize.height / 2.5f));
+	_noButton->setVisible(false);
+	auto noMenu = Menu::create(_noButton, nullptr);
+	noMenu->setPosition(Vec2::ZERO);
+	this->addChild(noMenu);
+
+	// À¯Á²ÍÞÝÄ
+	auto listener = EventListenerTouchOneByOne::create();
 	// ‰Ÿ‚µ‚½Žž
 	listener->onTouchBegan = [this](Touch* touch, Event* event)->bool
 	{
-		Size visibleSize = Director::getInstance()->getVisibleSize();
+		_touchPoint = touch->getLocation();
 	
 		return true;
 	};
@@ -73,10 +102,38 @@ bool TitleScene::init()
 	// —£‚µ‚½Žž
 	listener->onTouchEnded = [this](Touch* touch, Event* event)->bool
 	{
-		changeScene(this);
+		if ((abs(_touchPoint.x- touch->getLocation().x)<50.0f)&&(!_endGameFlag))
+		{
+			changeScene(this);
+		}
+
+		if (_endGameFlag)
+		{
+			SetEndGame(this);
+		}
+
 		return true;
 	};
 	this->getEventDispatcher()->addEventListenerWithSceneGraphPriority(listener, this);
+
+	auto keyListener = EventListenerKeyboard::create();
+	keyListener->onKeyReleased = [this](cocos2d::EventKeyboard::KeyCode keyCode, cocos2d::Event* event)->bool
+	{
+		// ESC‚ÅI—¹(android‚Å‚Í–ß‚éÎÞÀÝ‚Æ˜A“®)
+		if (keyCode == cocos2d::EventKeyboard::KeyCode::KEY_ESCAPE)
+		{
+			if (!_endGameFlag)
+			{
+				SetEndGame(this);
+			}
+			else
+			{
+				Director::getInstance()->end();
+			}
+		}
+		return true;
+	};
+	this->getEventDispatcher()->addEventListenerWithSceneGraphPriority(keyListener, this);
 
 	return true;
 }
@@ -98,4 +155,27 @@ void TitleScene::changeScene(Ref* pSender)
 
 		_changeSceneFlag = true;
 	}
+}
+
+void TitleScene::SetEndGame(Ref* pSender)
+{
+	if (!_endGameFlag)
+	{
+		_endGameImage->runAction(ScaleTo::create(0.2f, 1.0f));
+		_yesButton->setVisible(true);
+		_noButton->setVisible(true);
+	}
+	else if (_endGameFlag)
+	{
+		_endGameImage->runAction(ScaleTo::create(0.2f, 0.0f));
+		_yesButton->setVisible(false);
+		_noButton->setVisible(false);
+	}
+	
+	_endGameFlag = !_endGameFlag;
+}
+
+void TitleScene::EndGame(Ref* pSender)
+{
+	Director::getInstance()->end();
 }

@@ -1,5 +1,6 @@
 #include "StageSelectScene.h"
 #include "GameScene.h"
+#include "menu/MenuLayer.h"
 
 USING_NS_CC;
 
@@ -84,24 +85,45 @@ bool StageSelectScene::init()
 	};
 	getEventDispatcher()->addEventListenerWithSceneGraphPriority(changeListener, this);
 
+	// ÒÆ­°ÎÞÀÝ
+	auto buttonv= MenuItemImage::create(
+		"menu/menuButton.png",
+		"menu/menuButton.png",
+		CC_CALLBACK_1(StageSelectScene::SetMenu, this));
+	buttonv->setPosition(Vec2(origin.x + 50.0f,
+		origin.y + visibleSize.height - 50.0f));
+	auto menu = Menu::create(buttonv,nullptr);
+	menu->setPosition(Vec2::ZERO);
+	addChild(menu,static_cast<int>(zOlder::BUTTON));
+
 	return true;
 }
 
 void StageSelectScene::changeScene(Ref* pSender)
 {
-	if (_changeSceneFlag)
+	if ((_changeSceneFlag)||(_menuFlag))
 	{
 		return;
 	}
 
 	if (!_changeSceneFlag)
 	{
-		// ƒZƒŒƒNƒgƒV[ƒ“‚É‰æ–Ê‘JˆÚ‚·‚éB
+		// ¹Þ°Ñ¼°Ý‚É‰æ–Ê‘JˆÚ‚·‚éB
 		auto gameScene = GameScene::createGameScene();
 		auto* fade = TransitionFade::create(1.0f, gameScene,Color3B::BLACK);
 		// TitleScene‚ð”jŠü‚µ‚ÄGameScene‚É‘JˆÚ‚·‚é
 		Director::getInstance()->replaceScene(fade);
 
 		_changeSceneFlag = true;
+	}
+}
+
+void StageSelectScene::SetMenu(Ref* pSender)
+{
+	if (!_menuFlag)
+	{
+		auto menuLayer = MenuLayer::createMenuLayer();
+		this->addChild(menuLayer, static_cast<int>(zOlder::MENU));
+		_menuFlag = true;
 	}
 }

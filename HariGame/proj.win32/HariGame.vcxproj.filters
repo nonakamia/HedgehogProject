@@ -37,6 +37,9 @@
     <Filter Include="scene">
       <UniqueIdentifier>{bb6c862e-70e9-49d9-81b7-3829a6f50471}</UniqueIdentifier>
     </Filter>
+    <Filter Include="menu">
+      <UniqueIdentifier>{d8dffbcf-5110-4985-8940-f5bacc53ae11}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -86,6 +89,9 @@
     </ClCompile>
     <ClCompile Include="..\Classes\Scene\BaseScene.cpp">
       <Filter>scene</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\menu\MenuLayer.cpp">
+      <Filter>menu</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -139,6 +145,9 @@
     </ClInclude>
     <ClInclude Include="..\Classes\Scene\StageSelectScene.h">
       <Filter>scene</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\menu\MenuLayer.h">
+      <Filter>menu</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

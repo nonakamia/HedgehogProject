@@ -15,5 +15,15 @@ public:
 
 private:
 	CREATE_FUNC(TitleScene);
+	
+	cocos2d::Point _touchPoint;
+
+	cocos2d::Sprite* _endGameImage;
+	bool _endGameFlag;								// ÉQÅ[ÉÄèIóπâÊñ 
+	cocos2d::MenuItemImage* _yesButton;
+	cocos2d::MenuItemImage* _noButton;
+
+	void SetEndGame(Ref* pSender);
+	void EndGame(Ref* pSender);
 };
 

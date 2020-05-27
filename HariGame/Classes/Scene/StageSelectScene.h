@@ -14,5 +14,7 @@ public:
 
 private:
 	CREATE_FUNC(StageSelectScene);
+
+	void SetMenu(Ref* pSender);										// ÒÆ­°‰æ–Ê‚ð•\Ž¦‚·‚é
 };
 

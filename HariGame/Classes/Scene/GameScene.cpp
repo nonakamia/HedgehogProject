@@ -122,19 +122,6 @@ bool GameScene::init()
 
     this->scheduleUpdate();
 
-    // TitleScene‚ÉˆÚ“®—\’è
-    auto listener = EventListenerKeyboard::create();
-    listener->onKeyReleased = [this](cocos2d::EventKeyboard::KeyCode keyCode, cocos2d::Event* event)->bool
-    {
-        // ESC‚ÅI—¹(android‚Å‚Í–ß‚éÎÞÀÝ‚Æ˜A“®)
-        if (keyCode == cocos2d::EventKeyboard::KeyCode::KEY_ESCAPE)
-        {
-            Director::getInstance()->end();
-        }
-        return true;
-    };
-    this->getEventDispatcher()->addEventListenerWithSceneGraphPriority(listener, this);
-
     return true;
 }
 

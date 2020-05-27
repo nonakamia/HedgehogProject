@@ -11,15 +11,19 @@ public:
 		PLAYER,		// ÌßÚ²Ô°
 		BUTTON,		// ÎÞÀÝ
 		HP,
+		MENU,
 		MAX
 	};
 
 	BaseScene();
 	~BaseScene();
 
+	void SetMenuFlag(bool flag);
+
 private:
 
 protected:
 	bool _changeSceneFlag;
+	bool _menuFlag;
 
 };

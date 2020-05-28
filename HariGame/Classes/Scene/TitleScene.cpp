@@ -10,12 +10,17 @@ cocos2d::Scene* TitleScene::createTitleScene()
 
 TitleScene::TitleScene()
 {
-	BaseScene();
+	_changeSceneFlag = false;
 	_endGameFlag = false;
 }
 
 TitleScene::~TitleScene()
 {
+	// ƒV[ƒ“Ø‘ÖŽž‚É~ƒ{ƒ^ƒ“‰Ÿ‚µ‚½‚ç‚Á”ò‚Ô‚Ì‚ð–h‚®
+	if (_running)
+	{
+		onExit();
+	}
 }
 
 static void problemLoading(const char* filename)
@@ -92,13 +97,6 @@ bool TitleScene::init()
 	
 		return true;
 	};
-
-	// ‰Ÿ‚µ‚Ä‚©‚ç“®‚©‚µ‚½Žž
-	listener->onTouchMoved = [this](Touch* touch, Event* event)->bool
-	{
-		return true;
-	};
-
 	// —£‚µ‚½Žž
 	listener->onTouchEnded = [this](Touch* touch, Event* event)->bool
 	{
@@ -106,12 +104,10 @@ bool TitleScene::init()
 		{
 			changeScene(this);
 		}
-
 		if (_endGameFlag)
 		{
 			SetEndGame(this);
 		}
-
 		return true;
 	};
 	this->getEventDispatcher()->addEventListenerWithSceneGraphPriority(listener, this);
@@ -128,7 +124,9 @@ bool TitleScene::init()
 			}
 			else
 			{
+#if CC_TARGET_PLATFORM == CC_PLATFORM_WIN32
 				Director::getInstance()->end();
+#endif
 			}
 		}
 		return true;
@@ -178,4 +176,8 @@ void TitleScene::SetEndGame(Ref* pSender)
 void TitleScene::EndGame(Ref* pSender)
 {
 	Director::getInstance()->end();
+}
+
+void TitleScene::Resume()
+{
 }

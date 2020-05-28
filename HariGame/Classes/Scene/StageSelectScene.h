@@ -10,11 +10,15 @@ public:
 	~StageSelectScene();
 	bool init();
 
-	void changeScene(Ref* pSender);
+	void Resume();
 
 private:
 	CREATE_FUNC(StageSelectScene);
 
+	cocos2d::Sprite* _callout;
+	bool _calloutFlag;
+
+	void changeScene(Ref* pSender);									// ½Ã°¼Þ¾Ú¸Ä‰æ–Ê‚ÉˆÚ“®
 	void SetMenu(Ref* pSender);										// ÒÆ­°‰æ–Ê‚ð•\Ž¦‚·‚é
 };
 

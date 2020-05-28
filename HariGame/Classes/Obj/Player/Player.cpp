@@ -119,18 +119,15 @@ void Player::update(float delta)
 
 void Player::Rotate()
 {
-	if (_rollingAction == nullptr)
-	{
-		_rollingAction = runAction(
-			RepeatForever::create(
-				Spawn::create(
-					RotateBy::create(1.0f, 360.0f),
-					MoveBy::create(1.0f, Vec2(_moveVec, 0.0f)),
-					nullptr)
-			)
-		);
-		CC_SAFE_RETAIN(_rollingAction);
-	}
+	_rollingAction = runAction(
+		RepeatForever::create(
+			Spawn::create(
+				RotateBy::create(1.0f, 360.0f),
+				MoveBy::create(1.0f, Vec2(_moveVec, 0.0f)),
+				nullptr)
+		)
+	);
+	CC_SAFE_RETAIN(_rollingAction);
 }
 
 void Player::Jump()
@@ -263,6 +260,8 @@ void Player::DamageAction()
 		{
 			_damageAction = runAction(DelayTime::create(time));
 		}
+
+		((ActionConvey*)Director::getInstance()->getRunningScene()->getChildByName("actionConvey"))->ConveyClear();
 
 		CC_SAFE_RETAIN(_damageAction);
 		_action = ACTION::DAMAGE;

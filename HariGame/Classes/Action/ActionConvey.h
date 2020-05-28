@@ -17,6 +17,7 @@ public:
 	void update(float delta);
 
 	void SetActionConvey(ACTION action);		// ‘O‚ÌÌßÚ²Ô°‚ªs‚Á‚½±¸¼®İ‚ğ0.6•bŒã‚ÉŒã‚ë‚ÌÌßÚ²Ô°‚ªs‚¤
+	void ConveyClear();
 private:
 	CREATE_FUNC(ActionConvey);
 

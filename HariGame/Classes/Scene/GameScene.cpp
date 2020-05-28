@@ -31,6 +31,7 @@
 #include "Obj/Obstacles/Buds/Buds.h"
 #include "Button/ButtonLayer.h"
 #include "Camera/CameraOBJ.h"
+#include "menu/MenuLayer.h"
 
 //#include "SimpleAudioEngine.h"
 
@@ -39,6 +40,21 @@ USING_NS_CC;
 Scene* GameScene::createGameScene()
 {
     return GameScene::create();
+}
+
+GameScene::GameScene()
+{
+    _changeSceneFlag = false;
+    _menuFlag = false;
+}
+
+GameScene::~GameScene()
+{
+    // ƒV[ƒ“Ø‘ÖŽž‚É~ƒ{ƒ^ƒ“‰Ÿ‚µ‚½‚ç‚Á”ò‚Ô‚Ì‚ð–h‚®
+    if (_running)
+    {
+        onExit();
+    }
 }
 
 // Print useful error message instead of segfaulting when files are not there.
@@ -111,6 +127,18 @@ bool GameScene::init()
     _hpMng->setCameraMask(static_cast<int>(CameraFlag::USER1));
     this->addChild(_hpMng, static_cast<int>(zOlder::HP));
 
+    // ÒÆ­°ÎÞÀÝ
+    auto button = MenuItemImage::create(
+        "menu/menuButton.png",
+        "menu/menuButton.png",
+        CC_CALLBACK_1(GameScene::SetMenu, this));
+    button->setPosition(Vec2(origin.x + 50.0f,
+        origin.y + visibleSize.height - 50.0f));
+    auto menu = Menu::create(button, nullptr);
+    menu->setPosition(Vec2::ZERO);
+    menu->setCameraMask(static_cast<int>(CameraFlag::USER1));
+    addChild(menu, static_cast<int>(zOlder::BUTTON));
+
     _startAction = runAction(DelayTime::create(3.0f));
     CC_SAFE_RETAIN(_startAction);
 
@@ -133,15 +161,6 @@ void GameScene::update(float delta)
         if (_hpMng->GetHP() <= 0)
         {
             GameOverAction();
-        }
-
-        //ActionConvey();
-
-        if (((Player*)_player_front)->GetAction() == ACTION::NON)
-        {
-           
-            ((Player*)_player_front)->SetAction(ACTION::ROTATE);
-            _actionConvey->SetActionConvey(ACTION::ROTATE);
         }
 
         // “¯‚¶F‚Æ‚Ì“–‚½‚è”»’è
@@ -169,7 +188,6 @@ void GameScene::update(float delta)
             auto winSize = Director::getInstance()->getWinSize();
             if (_player_behind->getPositionX() - _player_behind->GetPoint().x > getDefaultCamera()->getPositionX() + winSize.width / 2.0f)
             {
-                unscheduleUpdate();
                 // player‚ÌGameOverAction
                 for (auto player : _plauerLayer->getChildren())
                 {
@@ -299,6 +317,10 @@ bool GameScene::GameStart()
         this->addChild(_actionConvey);
         _actionConvey->scheduleUpdate();
 
+        //“]‚ª‚è
+        ((Player*)_player_front)->SetAction(ACTION::ROTATE);
+        _actionConvey->SetActionConvey(ACTION::ROTATE);
+
         // ÎÞÀÝ
         auto buttonLayer = ButtonLayer::createButtonLayer();
         buttonLayer->setCameraMask(static_cast<int>(CameraFlag::USER1));
@@ -358,4 +380,38 @@ void GameScene::changeScene(Ref* pSender)
 
         _changeSceneFlag = true;
     }
+}
+
+void GameScene::SetMenu(Ref* pSender)
+{
+    if (!_menuFlag)
+    {
+        this->unscheduleUpdate();
+        for (auto player : _plauerLayer->getChildren())
+        {
+            player->stopAllActions();
+            player->unscheduleUpdate();
+        }
+
+        auto menuLayer = MenuLayer::createMenuLayer();
+        this->addChild(menuLayer, static_cast<int>(zOlder::MENU));
+        menuLayer->setCameraMask(static_cast<int>(CameraFlag::USER1));
+        _menuFlag = true;
+    }
+}
+
+void GameScene::Resume()
+{
+    _menuFlag = false;
+    this->scheduleUpdate();
+    for (auto player : _plauerLayer->getChildren())
+    {
+        player->scheduleUpdate();
+        ((Player*)player)->Rotate();;
+    }
+}
+
+bool GameScene::GetGoalFlag()
+{
+    return _goalFlag;
 }

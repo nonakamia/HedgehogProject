@@ -48,7 +48,8 @@ bool ButtonLayer::init()
 	const Vec2 origin = Director::getInstance()->getVisibleOrigin();
 	auto director = Director::getInstance();
 
-	_actionConvey = (ActionConvey*)Director::getInstance()->getRunningScene()->getChildByName("actionConvey");
+	auto scene = Director::getInstance()->getRunningScene();
+	_actionConvey = (ActionConvey*)scene->getChildByName("actionConvey");
 
 	// ¼Þ¬ÝÌßÎÞÀÝ
 	auto jumpButton = MenuItemImage::create("button/button_base.png", "button/button_on_base.png", [](Ref* ref) {});
@@ -61,21 +62,25 @@ bool ButtonLayer::init()
 
 	auto jumpListener = EventListenerTouchOneByOne::create();
 	// ‰Ÿ‚³‚ê‚½Žž‚Ìˆ—
-	jumpListener->onTouchBegan = [this, visibleSize, jumpButton](Touch* touch, Event* event)
+	jumpListener->onTouchBegan = [this, scene, jumpButton](Touch* touch, Event* event)
 	{
-		Vec2 point = touch->getLocation();
-		Rect rectButton = jumpButton->getBoundingBox();
-		if (rectButton.containsPoint(point))
+		if ((!((GameScene*)scene)->GetMenuFlag()) && ((!((GameScene*)scene)->GetGoalFlag())))
 		{
-			auto player_front = static_cast<Player*>(Director::getInstance()->getRunningScene()->getChildByName("PLAYER_LAYER")->getChildByName("player_front"));
-			player_front->SetAction(ACTION::JUMP);
-			_actionConvey->SetActionConvey(ACTION::JUMP);
-			return true;
+			Vec2 point = touch->getLocation();
+			Rect rectButton = jumpButton->getBoundingBox();
+			if (rectButton.containsPoint(point))
+			{
+				auto player_front = static_cast<Player*>(scene->getChildByName("PLAYER_LAYER")->getChildByName("player_front"));
+				player_front->SetAction(ACTION::JUMP);
+				_actionConvey->SetActionConvey(ACTION::JUMP);
+				return true;
+			}
+			else
+			{
+				return false;
+			}
 		}
-		else
-		{
-			return false;
-		}
+		return false;
 	};
 	// —£‚³‚ê‚½Žž‚Ìˆ—
 	jumpListener->onTouchEnded = [this](Touch* touch, Event* event)
@@ -124,25 +129,27 @@ bool ButtonLayer::init()
 		}
 	};
 	// —£‚³‚ê‚½Žž‚Ìˆ—
-	changeListener->onTouchEnded = [this, changeButton_r, changeButton_g](Touch* touch, Event* event)->bool
+	changeListener->onTouchEnded = [this, scene, changeButton_r, changeButton_g](Touch* touch, Event* event)->bool
 	{
-		auto players = Director::getInstance()->getRunningScene()->getChildByName("PLAYER_LAYER");
-		auto playerColor = players->getChildByName("player_front")->getTag();
-		static_cast<Player*>(players->getChildByName("player_front"))->Change(players->getChildByName("player_behind")->getTag());
-		static_cast<Player*>(players->getChildByName("player_behind"))->Change(playerColor);
+		if ((!((GameScene*)scene)->GetMenuFlag())&&((!((GameScene*)scene)->GetGoalFlag())))
+		{
+			auto players = Director::getInstance()->getRunningScene()->getChildByName("PLAYER_LAYER");
+			auto playerColor = players->getChildByName("player_front")->getTag();
+			static_cast<Player*>(players->getChildByName("player_front"))->Change(players->getChildByName("player_behind")->getTag());
+			static_cast<Player*>(players->getChildByName("player_behind"))->Change(playerColor);
 
-		if (playerColor == static_cast<int>(OBJ_COLOR::OBJ_RED))
-		{
-			changeButton_r->setVisible(false);
-			changeButton_g->setVisible(true);
-		}
-		else if (playerColor == static_cast<int>(OBJ_COLOR::OBJ_GREEN))
-		{
-			changeButton_r->setVisible(true);
-			changeButton_g->setVisible(false);
+			if (playerColor == static_cast<int>(OBJ_COLOR::OBJ_RED))
+			{
+				changeButton_r->setVisible(false);
+				changeButton_g->setVisible(true);
+			}
+			else if (playerColor == static_cast<int>(OBJ_COLOR::OBJ_GREEN))
+			{
+				changeButton_r->setVisible(true);
+				changeButton_g->setVisible(false);
+			}
 		}
 		return true;
-
 	};
 	director->getEventDispatcher()->addEventListenerWithSceneGraphPriority(changeListener, changeButton_g);
 

@@ -34,7 +34,6 @@ Obj* Buds::createBuds(OBJ_COLOR color)
 Buds::Buds()
 {
 	_damageFlag = false;
-	_openFlag = false;
 }
 
 Buds::~Buds()
@@ -48,13 +47,14 @@ void Buds::update(float delta)
 		return;
 	}
 
-	if (_openFlag)
+	if (_damageFlag)
 	{
 		// player‚ð‰Ô‚Ìã‚ð•à‚Ü‚¹‚é
 		for (auto player : Director::getInstance()->getRunningScene()->getChildByName("PLAYER_LAYER")->getChildren())
 		{
-			if (((Player*)player)->GetFlowerFlag())
+			if (player->getPositionY() <= this->getPositionY())
 			{
+				((Player*)player)->FlowerRolling(true);
 				player->setPositionY(getPositionY() + ((Obj*)player)->GetPoint().y);
 			}
 		}
@@ -66,11 +66,7 @@ void Buds::DamageAction()
 {
 	// ‰Ô‚ªŠJ‚­
 	setSpriteFrame(SpriteFrameCache::getInstance()->getSpriteFrameByName("open"));
-	_openFlag = true;
-	for (auto player : Director::getInstance()->getRunningScene()->getChildByName("PLAYER_LAYER")->getChildren())
-	{
-		((Player*)player)->FlowerRolling(true);
-	}
+	_damageFlag = true;
 }
 
 void Buds::GameOverAction()
@@ -84,11 +80,6 @@ void Buds::GameClearAction()
 void Buds::HitCheck(cocos2d::Node* players, HPMng* playerHP)
 {
 	// ‰Ô‚ªŠJ‚¢‚Ä‚¢‚é‚Ì‚È‚çˆ—‚µ‚È‚­‚Ä‚æ‚¢
-	if (_openFlag)
-	{
-		return;
-	}
-
 	auto _player_front = (Obj*)players->getChildByName("player_front");
 
 	if (Check(_player_front))

@@ -13,7 +13,7 @@ BaseScene::~BaseScene()
 {
 }
 
-void BaseScene::SetMenuFlag(bool flag)
+bool BaseScene::GetMenuFlag()
 {
-	_menuFlag = flag;
+	return _menuFlag;
 }

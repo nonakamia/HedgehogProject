@@ -48,3 +48,12 @@ void ActionConvey::SetActionConvey(ACTION action)
 	_conveyAction.push_back(runAction(DelayTime::create(0.6f)));
 	CC_SAFE_RETAIN(_conveyAction.back());
 }
+
+void ActionConvey::ConveyClear()
+{
+	for (auto action : _conveyAction)
+	{
+		CC_SAFE_RELEASE_NULL(action);
+	}
+	_conveyAction.clear();
+}

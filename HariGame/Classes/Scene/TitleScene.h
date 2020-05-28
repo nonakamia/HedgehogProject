@@ -10,8 +10,7 @@ public:
 	TitleScene();
 	~TitleScene();
 	bool init();
-
-	void changeScene(Ref* pSender);					// �ð�޾ڸĉ�ʂւ̐ؑ֗p�֐�
+	void Resume();                          // �ްэĊJ
 
 private:
 	CREATE_FUNC(TitleScene);
@@ -23,7 +22,11 @@ private:
 	cocos2d::MenuItemImage* _yesButton;
 	cocos2d::MenuItemImage* _noButton;
 
+	void changeScene(Ref* pSender);					// �ð�޾ڸĉ�ʂւ̐ؑ֗p�֐�
+
 	void SetEndGame(Ref* pSender);
 	void EndGame(Ref* pSender);
+
+	
 };
 

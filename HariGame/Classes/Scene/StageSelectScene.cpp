@@ -17,11 +17,19 @@ static void problemLoading(const char* filename)
 
 StageSelectScene::StageSelectScene()
 {
-	BaseScene();
+	_changeSceneFlag = false;
+	_menuFlag = false;
+
+	_calloutFlag = false;
 }
 
 StageSelectScene::~StageSelectScene()
 {
+	// ƒV[ƒ“Ø‘ÖŽž‚É~ƒ{ƒ^ƒ“‰Ÿ‚µ‚½‚ç‚Á”ò‚Ô‚Ì‚ð–h‚®
+	if (_running)
+	{
+		onExit();
+	}
 }
 
 bool StageSelectScene::init()
@@ -59,8 +67,6 @@ bool StageSelectScene::init()
 	stage->setPosition(Vec2(origin.x + visibleSize.width / 2.0f,
 		origin.y + visibleSize.height/4.0f));
 
-	stage->getBoundingBox();
-
 	auto changeListener = EventListenerTouchOneByOne::create();
 	// ‰Ÿ‚³‚ê‚½Žž‚Ìˆ—
 	changeListener->onTouchBegan = [this, visibleSize, stage](Touch* touch, Event* event)
@@ -72,31 +78,50 @@ bool StageSelectScene::init()
 
 			return true;
 		}
-		else
-		{
-			return false;
-		}
+		return false;
 	};
 	// —£‚³‚ê‚½Žž‚Ìˆ—
 	changeListener->onTouchEnded = [this](Touch* touch, Event* event)
 	{
-		changeScene(this);
+		if (!_calloutFlag)
+		{
+			_callout->runAction(ScaleTo::create(0.1f, 1.0f));
+			_calloutFlag = true;
+		}
+		else
+		{
+			changeScene(this);
+		}
 		return true;
 	};
 	getEventDispatcher()->addEventListenerWithSceneGraphPriority(changeListener, this);
 
+	_callout = Sprite::create("StageSelect/callout.png");
+	addChild(_callout);
+	_callout->setAnchorPoint(Point(0.5f, 0.0f));
+	_callout->setPosition(Vec2(
+		origin.x + visibleSize.width / 2.0f,
+		origin.y + visibleSize.height / 2.0f
+	));
+	_callout->setScale(0.0f);
+
 	// ÒÆ­°ÎÞÀÝ
-	auto buttonv= MenuItemImage::create(
+	auto button= MenuItemImage::create(
 		"menu/menuButton.png",
 		"menu/menuButton.png",
 		CC_CALLBACK_1(StageSelectScene::SetMenu, this));
-	buttonv->setPosition(Vec2(origin.x + 50.0f,
+	button->setPosition(Vec2(origin.x + 50.0f,
 		origin.y + visibleSize.height - 50.0f));
-	auto menu = Menu::create(buttonv,nullptr);
+	auto menu = Menu::create(button,nullptr);
 	menu->setPosition(Vec2::ZERO);
 	addChild(menu,static_cast<int>(zOlder::BUTTON));
 
 	return true;
+}
+
+void StageSelectScene::Resume()
+{
+	_menuFlag = false;
 }
 
 void StageSelectScene::changeScene(Ref* pSender)

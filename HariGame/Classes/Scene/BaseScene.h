@@ -18,8 +18,9 @@ public:
 	BaseScene();
 	~BaseScene();
 
-	void SetMenuFlag(bool flag);
-
+	virtual void Resume() = 0;
+	
+	bool GetMenuFlag();
 private:
 
 protected:

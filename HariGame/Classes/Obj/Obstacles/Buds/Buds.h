@@ -20,6 +20,5 @@ public:
 
 	void HitCheck(cocos2d::Node* players, HPMng* playerHP);
 private:
-	bool _openFlag;								// ŠJ‰Ô‚µ‚Ä‚¢‚é‚©
 };
 

@@ -38,12 +38,19 @@ class GameScene : public BaseScene
 public:
     static cocos2d::Scene* createGameScene();
 
+    GameScene();
+    ~GameScene();
+
     virtual bool init();
 
     void update(float delta);
     
     // a selector callback
     void menuCloseCallback(cocos2d::Ref* pSender);
+
+    void Resume();                          // ¹Ş°ÑÄŠJ
+
+    bool GetGoalFlag();
     
 private:
     // implement the "static create()" method manually
@@ -83,7 +90,8 @@ private:
     void GameOverAction();
 
     void changeScene(Ref* pSender);         // StageSelectScene‚ÉˆÚ“®
-    
+
+    void SetMenu(Ref* pSender);             // ÒÆ­°‚ğŠJ‚­
 };
 
 #endif // __HELLOWORLD_SCENE_H__

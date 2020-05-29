@@ -36,7 +36,7 @@
 class GameScene : public BaseScene
 {
 public:
-    static cocos2d::Scene* createGameScene();
+    static cocos2d::Scene* createGameScene(std::string map);
 
     GameScene();
     ~GameScene();
@@ -51,6 +51,9 @@ public:
     void Resume();                          // ｹﾞｰﾑ再開
 
     bool GetGoalFlag();
+
+    static void SetMap(std::string mapName);
+    static std::string GetMapName();
     
 private:
     // implement the "static create()" method manually
@@ -73,6 +76,7 @@ private:
     Obj* _player_behind;
     ActionConvey* _actionConvey;           // ｱｸｼｮﾝ伝達
 
+
     cocos2d::Action* _startAction;          // ｽﾀｰﾄ時のｱｸｼｮﾝ
 
     bool _goalFlag;
@@ -83,15 +87,20 @@ private:
     ACTION _playerAction;
     HPMng* _hpMng;
 
-    cocos2d::TMXTiledMap* _mapData;          // 足場ﾚｲﾔｰ
+    cocos2d::TMXTiledMap* _mapData;          // ﾏｯﾌﾟﾃﾞｰﾀ
+    static std::string _mapName;
 
     void AddBlackLadybug();                 // 黒いてんとう虫設置
     bool GameStart();
     void GameOverAction();
 
+    void AddClearLayer();                   // ｸﾘｱ画面表示
+
     void changeScene(Ref* pSender);         // StageSelectSceneに移動
 
     void SetMenu(Ref* pSender);             // ﾒﾆｭｰを開く
+
+   
 };
 
 #endif // __HELLOWORLD_SCENE_H__

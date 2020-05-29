@@ -51,9 +51,11 @@ void ActionConvey::SetActionConvey(ACTION action)
 
 void ActionConvey::ConveyClear()
 {
+	stopAllActions();
 	for (auto action : _conveyAction)
 	{
 		CC_SAFE_RELEASE_NULL(action);
 	}
 	_conveyAction.clear();
+	_actionList.clear();
 }

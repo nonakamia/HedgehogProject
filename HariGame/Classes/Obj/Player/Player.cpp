@@ -132,13 +132,17 @@ void Player::Rotate()
 
 void Player::Jump()
 {
-	if ((!_jumpFlag) && (_vector <= 0.0f))
+	if ((!_jumpFlag) && (_vector == 0.0f))
 	{
 		_jumpFlag = true;
 		_flowerFlag = false;
 		_airTime = 0.8f;
 		_action = ACTION::JUMPING;
 
+	}
+	else
+	{
+		_action = ACTION::ROLLING;
 	}
 }
 
@@ -162,7 +166,7 @@ void Player::Falling()
 	{
 		setPosition(Vec2(getPosition().x, getPosition().y - _vector));
 		_time += 0.1f;
-		//_action = ACTION::FALL;
+		_jumpFlag = true;
 	}
 	else
 	{
@@ -265,6 +269,8 @@ void Player::DamageAction()
 
 		CC_SAFE_RETAIN(_damageAction);
 		_action = ACTION::DAMAGE;
+		//_jumpFlag = false;
+
 		_damageFlag = true;
 		return;
 	}
@@ -281,7 +287,7 @@ void Player::DamageAction()
 	{
 		CC_SAFE_RELEASE_NULL(_damageAction);
 		_damageFlag = false;
-		_jumpFlag = false;
+		//_jumpFlag = false;
 		if (getName() == "player_front")
 		{
 			_action = ACTION::ROTATE;

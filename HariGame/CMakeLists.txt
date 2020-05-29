@@ -57,6 +57,7 @@ list(APPEND GAME_SOURCE
      Classes/Action/ActionConvey.cpp
      Classes/Button/ButtonLayer.cpp
      Classes/Camera/CameraOBJ.cpp
+     Classes/ClearLayer/ClearLayer.cpp
      Classes/HP/HPMng.cpp
      Classes/menu/MenuLayer.cpp
      Classes/Obj/Obstacles/BlackLadybug/BlackLadybug.cpp
@@ -64,6 +65,7 @@ list(APPEND GAME_SOURCE
      Classes/Obj/Obstacles/Obstacles.cpp
      Classes/Obj/Player/Player.cpp
      Classes/Obj/Obj.cpp
+     Classes/stage/StageLayer.cpp
      )
 list(APPEND GAME_HEADER
      Classes/AppDelegate.h
@@ -79,10 +81,12 @@ list(APPEND GAME_HEADER
      Classes/Obj/Obstacles/Obstacles.h
      Classes/Obj/Player/Player.h
      Classes/Camera/CameraOBJ.h
+     Classes/ClearLayer/ClearLayer.h
      Classes/HP/HPMng.h
      Classes/menu/MenuLayer.h
      Classes/Obj/Obj.h
      Classes/Obj/OBJ_COLLAR.h
+     Classes/stage/StageLayer.h
      )
 
 if(ANDROID)

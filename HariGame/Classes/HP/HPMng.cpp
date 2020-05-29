@@ -47,7 +47,8 @@ bool HPMng::init()
 		name.append(std::to_string(hp));
 		heart->setName(name);
 		addChild(heart);
-		heart->setPosition(Vec2(visibleSize.width - heart->getContentSize().width - ((heart->getContentSize().width+10) * hp), visibleSize.height - heart->getContentSize().height));
+		heart->setPosition(Vec2(origin.x + visibleSize.width - heart->getContentSize().width - ((heart->getContentSize().width+10) * hp),
+			origin.y + visibleSize.height - heart->getContentSize().height));
 	}
 
 	return true;

@@ -93,13 +93,11 @@ bool ButtonLayer::init()
 	auto changeButton_r = MenuItemImage::create("button/changeButton_r.png", "button/changeButton_r_push.png", [](Ref* ref) {});
 	changeButton_r->setPosition(Vec2(visibleSize.width * 0.1f + origin.x, visibleSize.height * 0.3f + origin.y));
 	changeButton_r->setOpacity(200.0f);
-	changeButton_r->setScale(0.19f);
 	//changeButton_r->setVisible(true);
 
 	auto changeButton_g = MenuItemImage::create("button/changeButton_g.png", "button/changeButton_g_push.png", [](Ref* ref) {});
 	changeButton_g->setPosition(Vec2(visibleSize.width * 0.1f + origin.x, visibleSize.height * 0.3f + origin.y));
 	changeButton_g->setOpacity(200.0f);
-	changeButton_g->setScale(0.19f);
 	changeButton_g->setVisible(false);
 
 

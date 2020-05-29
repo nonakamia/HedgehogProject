@@ -40,25 +40,36 @@ bool TitleScene::init()
 	Size visibleSize = Director::getInstance()->getVisibleSize();
 	Vec2 origin = Director::getInstance()->getVisibleOrigin();
 
-	auto label = Label::createWithTTF("TitleScene", "fonts/Marker Felt.ttf", 24);
-	if (label == nullptr)
-	{
-		problemLoading("'fonts/Marker Felt.ttf'");
-	}
-	else
-	{
-		// position the label on the center of the screen
-		label->setPosition(Vec2(origin.x + visibleSize.width / 2.0f,
-			origin.y + visibleSize.height - label->getContentSize().height));
-		// add the label as a child to this layer
-		this->addChild(label, 2);
-	}
-
 	auto titleImage = Sprite::create("image.png");
 	addChild(titleImage, static_cast<int>(zOlder::BG));
-	titleImage->setPosition(Vec2(origin.x + visibleSize.width / 2.0f,
+	titleImage->setPosition(Vec2(
+		origin.x + visibleSize.width / 2.0f,
 		origin.y + visibleSize.height / 2.0f));
 
+	auto gameName = Sprite::create("TitleScene/gameName.png");
+	addChild(gameName);
+	gameName->setPosition(Vec2(
+		origin.x + visibleSize.width / 2.0f,
+		origin.y + visibleSize.height / 1.5f
+	));
+
+	// tap to start
+	auto tapImage = Sprite::create("TitleScene/tapToStart.png");
+	addChild(tapImage);
+	tapImage->setPosition(Vec2(
+		origin.x + visibleSize.width / 2.0f,
+		origin.y + visibleSize.height / 4.0f
+	));
+	tapImage->runAction(
+		RepeatForever::create(
+			Sequence::create(
+				FadeOut::create(1.0f),
+				DelayTime::create(0.5f),
+				FadeIn::create(1.0f),
+				nullptr
+		)));
+
+	// ¹Þ°ÑI—¹
 	_endGameImage = Sprite::create("endGame/endGameImage.png");
 	addChild(_endGameImage);
 	_endGameImage->setPosition(Vec2(origin.x + visibleSize.width / 2.0f,

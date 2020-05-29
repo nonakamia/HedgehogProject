@@ -40,6 +40,12 @@
     <Filter Include="menu">
       <UniqueIdentifier>{d8dffbcf-5110-4985-8940-f5bacc53ae11}</UniqueIdentifier>
     </Filter>
+    <Filter Include="scene\StageSelectScene">
+      <UniqueIdentifier>{0ad76106-1288-4927-b37d-f548c8258f72}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="scene\StageSelectScene\stage">
+      <UniqueIdentifier>{fd0466da-b633-4afd-96c2-1c9553bfcbfb}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -84,15 +90,19 @@
     <ClCompile Include="..\Classes\Scene\TitleScene.cpp">
       <Filter>scene</Filter>
     </ClCompile>
-    <ClCompile Include="..\Classes\Scene\StageSelectScene.cpp">
-      <Filter>scene</Filter>
-    </ClCompile>
     <ClCompile Include="..\Classes\Scene\BaseScene.cpp">
       <Filter>scene</Filter>
     </ClCompile>
     <ClCompile Include="..\Classes\menu\MenuLayer.cpp">
       <Filter>menu</Filter>
     </ClCompile>
+    <ClCompile Include="..\Classes\stage\StageLayer.cpp">
+      <Filter>scene\StageSelectScene\stage</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\Scene\StageSelectScene.cpp">
+      <Filter>scene\StageSelectScene</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\ClearLayer\ClearLayer.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="main.h">
@@ -143,12 +153,16 @@
     <ClInclude Include="..\Classes\Scene\TitleScene.h">
       <Filter>scene</Filter>
     </ClInclude>
-    <ClInclude Include="..\Classes\Scene\StageSelectScene.h">
-      <Filter>scene</Filter>
-    </ClInclude>
     <ClInclude Include="..\Classes\menu\MenuLayer.h">
       <Filter>menu</Filter>
     </ClInclude>
+    <ClInclude Include="..\Classes\stage\StageLayer.h">
+      <Filter>scene\StageSelectScene\stage</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\Scene\StageSelectScene.h">
+      <Filter>scene\StageSelectScene</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\ClearLayer\ClearLayer.h" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="game.rc">

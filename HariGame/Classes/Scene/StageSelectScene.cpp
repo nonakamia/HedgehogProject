@@ -1,5 +1,6 @@
 #include "StageSelectScene.h"
 #include "GameScene.h"
+#include "stage/StageLayer.h"
 #include "menu/MenuLayer.h"
 
 USING_NS_CC;
@@ -19,8 +20,7 @@ StageSelectScene::StageSelectScene()
 {
 	_changeSceneFlag = false;
 	_menuFlag = false;
-
-	_calloutFlag = false;
+	
 }
 
 StageSelectScene::~StageSelectScene()
@@ -43,67 +43,22 @@ bool StageSelectScene::init()
 	Size visibleSize = Director::getInstance()->getVisibleSize();
 	Vec2 origin = Director::getInstance()->getVisibleOrigin();
 
-	auto label = Label::createWithTTF("StageSelectScene", "fonts/Marker Felt.ttf", 24);
-	if (label == nullptr)
-	{
-		problemLoading("'fonts/Marker Felt.ttf'");
-	}
-	else
-	{
-		// position the label on the center of the screen
-		label->setPosition(Vec2(origin.x + visibleSize.width / 2.0f,
-			origin.y + visibleSize.height - label->getContentSize().height));
-		// add the label as a child to this layer
-		this->addChild(label, 1);
-	}
-
 	auto image = Sprite::create("image2.png");
 	addChild(image, static_cast<int>(zOlder::BG));
 	image->setPosition(Vec2(origin.x + visibleSize.width / 2.0f,
 		origin.y + visibleSize.height / 2.0f));
 
-	auto stage = Sprite::create("StageSelect/stage.png");
+	// ½Ã°¼Ş
+	// •¡”ì¬—\’è‚¾‚©‚çƒNƒ‰ƒX‰»‚·‚é—\’è
+	auto stage = StageLayer::createStageLayer("stage/stage_0.tmx",
+		Vec2(origin.x + visibleSize.width / 2.0f,
+		origin.y + visibleSize.height / 4.0f));
 	addChild(stage, static_cast<int>(zOlder::OBSTACLES));
-	stage->setPosition(Vec2(origin.x + visibleSize.width / 2.0f,
-		origin.y + visibleSize.height/4.0f));
 
-	auto changeListener = EventListenerTouchOneByOne::create();
-	// ‰Ÿ‚³‚ê‚½‚Ìˆ—
-	changeListener->onTouchBegan = [this, visibleSize, stage](Touch* touch, Event* event)
-	{
-		Vec2 point = touch->getLocation();
-		Rect rectButton = stage->getBoundingBox();
-		if (rectButton.containsPoint(point))
-		{
-
-			return true;
-		}
-		return false;
-	};
-	// —£‚³‚ê‚½‚Ìˆ—
-	changeListener->onTouchEnded = [this](Touch* touch, Event* event)
-	{
-		if (!_calloutFlag)
-		{
-			_callout->runAction(ScaleTo::create(0.1f, 1.0f));
-			_calloutFlag = true;
-		}
-		else
-		{
-			changeScene(this);
-		}
-		return true;
-	};
-	getEventDispatcher()->addEventListenerWithSceneGraphPriority(changeListener, this);
-
-	_callout = Sprite::create("StageSelect/callout.png");
-	addChild(_callout);
-	_callout->setAnchorPoint(Point(0.5f, 0.0f));
-	_callout->setPosition(Vec2(
-		origin.x + visibleSize.width / 2.0f,
-		origin.y + visibleSize.height / 2.0f
-	));
-	_callout->setScale(0.0f);
+	auto stage2 = StageLayer::createStageLayer("stage/stage_1.tmx",
+		Vec2(origin.x + visibleSize.width / 1.5f,
+			origin.y + visibleSize.height / 4.0f));
+	addChild(stage2, static_cast<int>(zOlder::OBSTACLES));
 
 	// ÒÆ­°ÎŞÀİ
 	auto button= MenuItemImage::create(
@@ -124,7 +79,7 @@ void StageSelectScene::Resume()
 	_menuFlag = false;
 }
 
-void StageSelectScene::changeScene(Ref* pSender)
+void StageSelectScene::changeScene(Ref* pSender, std::string map)
 {
 	if ((_changeSceneFlag)||(_menuFlag))
 	{
@@ -134,7 +89,7 @@ void StageSelectScene::changeScene(Ref* pSender)
 	if (!_changeSceneFlag)
 	{
 		// ¹Ş°Ñ¼°İ‚É‰æ–Ê‘JˆÚ‚·‚éB
-		auto gameScene = GameScene::createGameScene();
+		auto gameScene = GameScene::createGameScene(map);
 		auto* fade = TransitionFade::create(1.0f, gameScene,Color3B::BLACK);
 		// TitleScene‚ğ”jŠü‚µ‚ÄGameScene‚É‘JˆÚ‚·‚é
 		Director::getInstance()->replaceScene(fade);

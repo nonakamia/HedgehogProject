@@ -153,7 +153,7 @@ void MenuLayer::SromScratch(Ref* pSender)
 	}
 
 	// ¹Þ°Ñ¼°Ý‚É‰æ–Ê‘JˆÚ‚·‚éB
-	auto gameScene = GameScene::createGameScene();
+	auto gameScene = GameScene::createGameScene(((GameScene*)Director::getInstance()->getRunningScene())->GetMapName());
 	auto* fade = TransitionFade::create(1.0f, gameScene, Color3B::BLACK);
 	// TitleScene‚ð”jŠü‚µ‚ÄGameScene‚É‘JˆÚ‚·‚é
 	Director::getInstance()->replaceScene(fade);

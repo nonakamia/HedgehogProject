@@ -23,8 +23,9 @@
  ****************************************************************************/
 
 #include "GameScene.h"
+#include "BaseScene.h"
 #include "StageSelectScene.h"
-#include "Scene/BaseScene.h"
+#include "ClearLayer/ClearLayer.h"
 #include "Obj/Player/Player.h"
 #include "Obj/Obstacles/Obstacles.h"
 #include "Obj/Obstacles/BlackLadybug/BlackLadybug.h"
@@ -37,8 +38,36 @@
 
 USING_NS_CC;
 
-Scene* GameScene::createGameScene()
+std::string GameScene::_mapName;
+
+Scene* GameScene::createGameScene(std::string map)
 {
+    GameScene* pRet = new(std::nothrow) GameScene();
+
+    if (pRet)
+    {
+        // mapî•ñ‚ð•Û‘¶‚·‚é
+        pRet->SetMap(map);
+    }
+    else
+    {
+        delete pRet;
+        pRet = nullptr;
+        return nullptr;
+    }
+
+    if (pRet->init())
+    {
+        pRet->autorelease();
+
+        return pRet;
+    }
+    else
+    {
+        delete pRet;
+        pRet = nullptr;
+        return nullptr;
+    }
     return GameScene::create();
 }
 
@@ -82,7 +111,7 @@ bool GameScene::init()
     this->addChild(bgLayer, static_cast<int>(zOlder::BG));
 
     // map“Ç‚Ýž‚Ý
-    _mapData = TMXTiledMap::create("stage/stage_0.tmx");
+    _mapData = TMXTiledMap::create(_mapName);
     _mapData->setName("MapData");
     bgLayer->addChild(_mapData);
 
@@ -173,6 +202,7 @@ void GameScene::update(float delta)
                 {
                     if (_player_front->getPositionX() >= obj->getPositionX())
                     {
+                        AddClearLayer();
                         _goalFlag = true;
                     }
                 }
@@ -185,6 +215,7 @@ void GameScene::update(float delta)
         }
         else
         {
+          
             auto winSize = Director::getInstance()->getWinSize();
             if (_player_behind->getPositionX() - _player_behind->GetPoint().x > getDefaultCamera()->getPositionX() + winSize.width / 2.0f)
             {
@@ -193,7 +224,7 @@ void GameScene::update(float delta)
                 {
                     ((Obj*)player)->GameClearAction();
                 }
-                changeScene(this);
+               // changeScene(this);
             }
         }
 
@@ -361,6 +392,13 @@ void GameScene::GameOverAction()
 
 }
 
+void GameScene::AddClearLayer()
+{
+    auto clearLayer = ClearLayer::createClearLayer();
+    clearLayer->setCameraMask(static_cast<int>(CameraFlag::USER1));
+    this->addChild(clearLayer, static_cast<int>(zOlder::MENU));
+}
+
 void GameScene::changeScene(Ref* pSender)
 {
     if (_changeSceneFlag)
@@ -400,6 +438,11 @@ void GameScene::SetMenu(Ref* pSender)
     }
 }
 
+void GameScene::SetMap(std::string mapName)
+{
+    _mapName = mapName;
+}
+
 void GameScene::Resume()
 {
     _menuFlag = false;
@@ -414,4 +457,9 @@ void GameScene::Resume()
 bool GameScene::GetGoalFlag()
 {
     return _goalFlag;
+}
+
+std::string GameScene::GetMapName()
+{
+    return _mapName;
 }

@@ -132,13 +132,13 @@ bool GameScene::init()
     _player_front = Player::createPlayer(OBJ_COLOR::OBJ_RED);
     _player_front->setName("player_front");
     ((Player*)_player_front)->SetStartPosition(_mapData->getLayer("startPosition"), _mapData->getTileSize());
-    _player_front->setScale(0.2f);
+    //_player_front->setScale(0.2f);
     _player_front->SetPoint(cocos2d::Vec2(20.0f, 20.0f));
 
     _player_behind = Player::createPlayer(OBJ_COLOR::OBJ_GREEN);
     _player_behind->setName("player_behind");
     _player_behind->setPosition(_player_front->getPosition());
-    _player_behind->setScale(0.2f);
+    //_player_behind->setScale(0.2f);
     _player_behind->SetPoint(cocos2d::Vec2(20.0f, 20.0f));
 
     _plauerLayer->addChild(_player_behind);
@@ -422,6 +422,11 @@ void GameScene::changeScene(Ref* pSender)
 
 void GameScene::SetMenu(Ref* pSender)
 {
+    if ((!GameStart())||(_goalFlag))
+    {
+        return;
+    }
+
     if (!_menuFlag)
     {
         this->unscheduleUpdate();

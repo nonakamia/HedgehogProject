@@ -52,7 +52,7 @@ bool ButtonLayer::init()
 	_actionConvey = (ActionConvey*)scene->getChildByName("actionConvey");
 
 	// ¼Þ¬ÝÌßÎÞÀÝ
-	auto jumpButton = MenuItemImage::create("button/button_base.png", "button/button_on_base.png", [](Ref* ref) {});
+	auto jumpButton = MenuItemImage::create("button/jumpButton.png", "button/jumpButton_push.png", [](Ref* ref) {});
 	jumpButton->setPosition(Vec2(visibleSize.width * 0.9f + origin.x, visibleSize.height * 0.3f + origin.y));
 	jumpButton->setOpacity(150.0f);
 

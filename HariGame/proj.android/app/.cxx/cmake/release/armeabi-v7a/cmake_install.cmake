@@ -1,4 +1,4 @@
-# Install script for directory: D:/HedgehogProject/HedgehogProject/HariGame
+# Install script for directory: D:/HedgehogProject/git/HariGame
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)
@@ -34,8 +34,8 @@ endif()
 
 if(NOT CMAKE_INSTALL_LOCAL_ONLY)
   # Include the install script for each subdirectory.
-  include("D:/HedgehogProject/HedgehogProject/HariGame/proj.android/app/.cxx/cmake/release/armeabi-v7a/engine/cocos/core/cmake_install.cmake")
-  include("D:/HedgehogProject/HedgehogProject/HariGame/proj.android/app/.cxx/cmake/release/armeabi-v7a/engine/cocos/platform/cmake_install.cmake")
+  include("D:/HedgehogProject/git/HariGame/proj.android/app/.cxx/cmake/release/armeabi-v7a/engine/cocos/core/cmake_install.cmake")
+  include("D:/HedgehogProject/git/HariGame/proj.android/app/.cxx/cmake/release/armeabi-v7a/engine/cocos/platform/cmake_install.cmake")
 
 endif()
 
@@ -47,5 +47,5 @@ endif()
 
 string(REPLACE ";" "\n" CMAKE_INSTALL_MANIFEST_CONTENT
        "${CMAKE_INSTALL_MANIFEST_FILES}")
-file(WRITE "D:/HedgehogProject/HedgehogProject/HariGame/proj.android/app/.cxx/cmake/release/armeabi-v7a/${CMAKE_INSTALL_MANIFEST}"
+file(WRITE "D:/HedgehogProject/git/HariGame/proj.android/app/.cxx/cmake/release/armeabi-v7a/${CMAKE_INSTALL_MANIFEST}"
      "${CMAKE_INSTALL_MANIFEST_CONTENT}")

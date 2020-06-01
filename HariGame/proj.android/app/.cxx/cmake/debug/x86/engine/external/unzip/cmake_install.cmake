@@ -1,4 +1,4 @@
-# Install script for directory: D:/HedgehogProject/HedgehogProject/HariGame/cocos2d/external/unzip
+# Install script for directory: D:/HedgehogProject/git/HariGame/cocos2d/external/unzip
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)

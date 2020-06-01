@@ -44,12 +44,35 @@ USING_NS_CC;
 
 static cocos2d::Size designResolutionSize = cocos2d::Size(1024, 576);
 
+
+#if CK_PLATFORM_ANDROID
+#ifdef __cplusplus
+extern "C" {
+#endif
+    JNIEXPORT void JNICALL
+        Java_org_cocos2dx_cpp_AppActivity_initCricket(JNIEnv* env, jclass activity,
+            jobject context)
+    {
+        CkConfig config(env, context);
+        CkInit(&config);
+        // CkSound *sound = CkSound::newStreamSound("sound/burning_heart.cks");
+        // sound->setLoopCount(0);
+        // sound->play();
+    }
+#ifdef __cplusplus
+}
+#endif
+#endif
+
 AppDelegate::AppDelegate()
 {
 }
 
 AppDelegate::~AppDelegate() 
 {
+    //@cricket
+    CkShutdown();
+
 #if USE_AUDIO_ENGINE
     AudioEngine::end();
 #elif USE_SIMPLE_AUDIO_ENGINE
@@ -99,6 +122,12 @@ bool AppDelegate::applicationDidFinishLaunching() {
 
     register_all_packages();
 
+    //@cricket
+#ifdef CK_PLATFORM_WIN
+    CkConfig config;
+    CkInit(&config);
+#endif
+
     // create a scene. it's an autorelease object
     auto titleScene = TitleScene::createTitleScene();
 
@@ -114,6 +143,9 @@ void AppDelegate::applicationDidEnterBackground() {
     Director::getInstance()->stopAnimation();
     Director::getInstance()->getRunningScene()->pause();
 
+    //@cricket
+    CkSuspend();// ˆê’â~
+
 #if USE_AUDIO_ENGINE
     AudioEngine::pauseAll();
 #elif USE_SIMPLE_AUDIO_ENGINE
@@ -126,6 +158,9 @@ void AppDelegate::applicationDidEnterBackground() {
 void AppDelegate::applicationWillEnterForeground() {
     Director::getInstance()->startAnimation();
     Director::getInstance()->getRunningScene()->resume();
+
+    //@cricket
+    CkResume();// ÄŠJ
 
 #if USE_AUDIO_ENGINE
     AudioEngine::resumeAll();

@@ -1,12 +1,24 @@
 -- using toolchain file:D:\SDK\ndk\21.0.6011959\build\cmake\android.toolchain.cmake
--- PROJECT_NAME:HariGame
--- PROJECT_SOURCE_DIR:D:/HedgehogProject/HedgehogProject/HariGame
--- COCOS2DX_ROOT_PATH:D:/HedgehogProject/HedgehogProject/HariGame/cocos2d
--- CMAKE_MODULE_PATH:D:/HedgehogProject/HedgehogProject/HariGame/cocos2d/cmake/Modules/
--- PROJECT_BINARY_DIR:D:/HedgehogProject/HedgehogProject/HariGame/proj.android/app/.cxx/cmake/debug/armeabi-v7a
--- ENGINE_BINARY_PATH:D:/HedgehogProject/HedgehogProject/HariGame/proj.android/app/.cxx/cmake/debug/armeabi-v7a/engine
+-- PROJECT_NAME:BrusselsGame
+-- PROJECT_SOURCE_DIR:D:/HedgehogProject/git/HariGame
+-- COCOS2DX_ROOT_PATH:D:/HedgehogProject/git/HariGame/cocos2d
+-- CMAKE_MODULE_PATH:D:/HedgehogProject/git/HariGame/cocos2d/cmake/Modules/
+-- PROJECT_BINARY_DIR:D:/HedgehogProject/git/HariGame/proj.android/app/.cxx/cmake/debug/armeabi-v7a
+-- ENGINE_BINARY_PATH:D:/HedgehogProject/git/HariGame/proj.android/app/.cxx/cmake/debug/armeabi-v7a/engine
 -- CMAKE_GENERATOR: Ninja
 -- CMAKE_BUILD_TYPE: Debug
 -- Configuring done
 -- Generating done
--- Build files have been written to: D:/HedgehogProject/HedgehogProject/HariGame/proj.android/app/.cxx/cmake/debug/armeabi-v7a
+-- using toolchain file:D:\SDK\ndk\21.0.6011959\build\cmake\android.toolchain.cmake
+-- PROJECT_NAME:BrusselsGame
+-- PROJECT_SOURCE_DIR:D:/HedgehogProject/git/HariGame
+-- COCOS2DX_ROOT_PATH:D:/HedgehogProject/git/HariGame/cocos2d
+-- CMAKE_MODULE_PATH:D:/HedgehogProject/git/HariGame/cocos2d/cmake/Modules/
+-- PROJECT_BINARY_DIR:D:/HedgehogProject/git/HariGame/proj.android/app/.cxx/cmake/debug/armeabi-v7a
+-- ENGINE_BINARY_PATH:D:/HedgehogProject/git/HariGame/proj.android/app/.cxx/cmake/debug/armeabi-v7a/engine
+-- CMAKE_GENERATOR: Ninja
+-- CMAKE_BUILD_TYPE: Debug
+-- Configuring done
+-- Generating done
+-- Build files have been written to: D:/HedgehogProject/git/HariGame/proj.android/app/.cxx/cmake/debug/armeabi-v7a
+-- Build files have been written to: D:/HedgehogProject/git/HariGame/proj.android/app/.cxx/cmake/debug/armeabi-v7a

@@ -2,6 +2,12 @@
 #include "cocos2d.h"
 #include "BaseScene.h"
 
+//@cricket
+#include "ck/ck.h"
+#include "ck/config.h"
+#include "ck/bank.h"
+#include "ck/sound.h"
+
 
 class TitleScene : public BaseScene
 {
@@ -10,10 +16,16 @@ public:
 	TitleScene();
 	~TitleScene();
 	bool init();
+
+	void update(float delta);
+
 	void Resume();                          // �ްэĊJ
 
 private:
 	CREATE_FUNC(TitleScene);
+
+	//@cricket
+	//CkSound* _testSound;
 	
 	cocos2d::Point _touchPoint;
 

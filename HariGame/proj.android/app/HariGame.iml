@@ -42,11 +42,41 @@
     <content url="file://$MODULE_DIR$/../../Classes/Action">
       <sourceFolder url="file://$MODULE_DIR$/../../Classes/Action" isTestSource="false" />
     </content>
+    <content url="file://$MODULE_DIR$/../../Classes/Button">
+      <sourceFolder url="file://$MODULE_DIR$/../../Classes/Button" isTestSource="false" />
+    </content>
+    <content url="file://$MODULE_DIR$/../../Classes/Camera">
+      <sourceFolder url="file://$MODULE_DIR$/../../Classes/Camera" isTestSource="false" />
+    </content>
+    <content url="file://$MODULE_DIR$/../../Classes/ClearLayer">
+      <sourceFolder url="file://$MODULE_DIR$/../../Classes/ClearLayer" isTestSource="false" />
+    </content>
+    <content url="file://$MODULE_DIR$/../../Classes/HP">
+      <sourceFolder url="file://$MODULE_DIR$/../../Classes/HP" isTestSource="false" />
+    </content>
     <content url="file://$MODULE_DIR$/../../Classes/Obj">
       <sourceFolder url="file://$MODULE_DIR$/../../Classes/Obj" isTestSource="false" />
     </content>
+    <content url="file://$MODULE_DIR$/../../Classes/Obj/Obstacles">
+      <sourceFolder url="file://$MODULE_DIR$/../../Classes/Obj/Obstacles" isTestSource="false" />
+    </content>
+    <content url="file://$MODULE_DIR$/../../Classes/Obj/Obstacles/BlackLadybug">
+      <sourceFolder url="file://$MODULE_DIR$/../../Classes/Obj/Obstacles/BlackLadybug" isTestSource="false" />
+    </content>
+    <content url="file://$MODULE_DIR$/../../Classes/Obj/Obstacles/Buds">
+      <sourceFolder url="file://$MODULE_DIR$/../../Classes/Obj/Obstacles/Buds" isTestSource="false" />
+    </content>
     <content url="file://$MODULE_DIR$/../../Classes/Obj/Player">
       <sourceFolder url="file://$MODULE_DIR$/../../Classes/Obj/Player" isTestSource="false" />
+    </content>
+    <content url="file://$MODULE_DIR$/../../Classes/Scene">
+      <sourceFolder url="file://$MODULE_DIR$/../../Classes/Scene" isTestSource="false" />
+    </content>
+    <content url="file://$MODULE_DIR$/../../Classes/menu">
+      <sourceFolder url="file://$MODULE_DIR$/../../Classes/menu" isTestSource="false" />
+    </content>
+    <content url="file://$MODULE_DIR$/../../Classes/stage">
+      <sourceFolder url="file://$MODULE_DIR$/../../Classes/stage" isTestSource="false" />
     </content>
     <content url="file://$MODULE_DIR$/../../Resources">
       <sourceFolder url="file://$MODULE_DIR$/../../Resources" type="java-resource" />

@@ -25,9 +25,15 @@
 
 cmake_minimum_required(VERSION 3.6)
 
-set(APP_NAME HariGame)
+set(APP_NAME BrusselsGame)
 
 project(${APP_NAME})
+
+include(AndroidNdkModules)
+android_ndk_import_module_cpufeatures()
+include_directories(D:/cricket/inc)
+link_directories(D:/cricket/lib/android/ndk/${ANDROID_ABI}/debug)
+link_libraries(D:/cricket/lib/android/ndk/${ANDROID_ABI}/debug/libck.a)
 
 set(COCOS2DX_ROOT_PATH ${CMAKE_CURRENT_SOURCE_DIR}/cocos2d)
 set(CMAKE_MODULE_PATH ${COCOS2DX_ROOT_PATH}/cmake/Modules/)
@@ -40,8 +46,8 @@ set(GAME_SOURCE)
 set(GAME_HEADER)
 
 set(GAME_RES_FOLDER
-    "${CMAKE_CURRENT_SOURCE_DIR}/Resources"
-    )
+        "${CMAKE_CURRENT_SOURCE_DIR}/Resources"
+        )
 if(APPLE OR WINDOWS)
     cocos_mark_multi_resources(common_res_files RES_TO "Resources" FOLDERS ${GAME_RES_FOLDER})
 endif()

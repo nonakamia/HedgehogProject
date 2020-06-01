@@ -1,4 +1,4 @@
-# Install script for directory: D:/HedgehogProject/HedgehogProject/HariGame/cocos2d/external/tinyxml2
+# Install script for directory: D:/HedgehogProject/git/HariGame/cocos2d/external/tinyxml2
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)

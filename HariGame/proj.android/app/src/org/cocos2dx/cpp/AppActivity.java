@@ -24,6 +24,7 @@ THE SOFTWARE.
 ****************************************************************************/
 package org.cocos2dx.cpp;
 
+import android.content.Context;
 import android.os.Bundle;
 import org.cocos2dx.lib.Cocos2dxActivity;
 import android.os.Build;
@@ -32,10 +33,12 @@ import android.view.WindowManager.LayoutParams;
 
 public class AppActivity extends Cocos2dxActivity {
 
+    private static native void initCricket(Context context);
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.setEnableVirtualButton(false);
         super.onCreate(savedInstanceState);
+        AppActivity.initCricket(this.getApplicationContext());
         // Workaround in https://stackoverflow.com/questions/16283079/re-launch-of-activity-on-home-button-but-only-the-first-time/16447508
         if (!isTaskRoot()) {
             // Android launched another instance of the root activity into an existing task

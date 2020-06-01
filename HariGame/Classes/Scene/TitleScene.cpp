@@ -10,6 +10,8 @@ cocos2d::Scene* TitleScene::createTitleScene()
 
 TitleScene::TitleScene()
 {
+	//_testSound = nullptr;
+
 	_changeSceneFlag = false;
 	_endGameFlag = false;
 }
@@ -21,6 +23,11 @@ TitleScene::~TitleScene()
 	{
 		onExit();
 	}
+
+	//if (_testSound)
+	//{
+	//	_testSound->destroy();
+	//}
 }
 
 static void problemLoading(const char* filename)
@@ -144,7 +151,24 @@ bool TitleScene::init()
 	};
 	this->getEventDispatcher()->addEventListenerWithSceneGraphPriority(keyListener, this);
 
+	//@cricket
+#ifdef CK_PLATFORM_WIN
+	//_testSound = CkSound::newStreamSound("Resources/sound/moonAndWolf.cks");
+#else
+	//_testSound = CkSound::newStreamSound("sound/moonAndWolf.cks");
+#endif
+
+	//_testSound->setLoopCount(-1);
+	//_testSound->play();
+
+	this->scheduleUpdate();
+
 	return true;
+}
+
+void TitleScene::update(float delta)
+{
+	CkUpdate();
 }
 
 void TitleScene::changeScene(Ref* pSender)
@@ -161,6 +185,10 @@ void TitleScene::changeScene(Ref* pSender)
 		auto* fade = TransitionFadeUp::create(1.0f, stageSelectScene);
 		// TitleScene‚ð”jŠü‚µ‚ÄStageSelectScene‚É‘JˆÚ‚·‚é
 		Director::getInstance()->replaceScene(fade);
+
+		//@cricket
+		//_testSound->destroy();
+		//_testSound = nullptr;
 
 		_changeSceneFlag = true;
 	}

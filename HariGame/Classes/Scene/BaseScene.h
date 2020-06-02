@@ -1,6 +1,12 @@
 #pragma once
 #include "cocos2d.h"
 
+//@cricket
+#include "ck/ck.h"
+#include "ck/config.h"
+#include "ck/bank.h"
+#include "ck/sound.h"
+
 class BaseScene : public cocos2d::Scene
 {
 public:

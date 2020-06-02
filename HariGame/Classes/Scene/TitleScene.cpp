@@ -10,7 +10,7 @@ cocos2d::Scene* TitleScene::createTitleScene()
 
 TitleScene::TitleScene()
 {
-	//_testSound = nullptr;
+	_titleSound = nullptr;
 
 	_changeSceneFlag = false;
 	_endGameFlag = false;
@@ -24,10 +24,10 @@ TitleScene::~TitleScene()
 		onExit();
 	}
 
-	//if (_testSound)
-	//{
-	//	_testSound->destroy();
-	//}
+	if (_titleSound)
+	{
+		_titleSound->destroy();
+	}
 }
 
 static void problemLoading(const char* filename)
@@ -153,13 +153,13 @@ bool TitleScene::init()
 
 	//@cricket
 #ifdef CK_PLATFORM_WIN
-	//_testSound = CkSound::newStreamSound("Resources/sound/moonAndWolf.cks");
+	_titleSound = CkSound::newStreamSound("Resources/sound/SeaofTrees.cks");
 #else
-	//_testSound = CkSound::newStreamSound("sound/moonAndWolf.cks");
+	_titleSound = CkSound::newStreamSound("sound/SeaofTrees.cks");
 #endif
 
-	//_testSound->setLoopCount(-1);
-	//_testSound->play();
+	_titleSound->setLoopCount(-1);
+	_titleSound->play();
 
 	this->scheduleUpdate();
 
@@ -187,8 +187,8 @@ void TitleScene::changeScene(Ref* pSender)
 		Director::getInstance()->replaceScene(fade);
 
 		//@cricket
-		//_testSound->destroy();
-		//_testSound = nullptr;
+		_titleSound->destroy();
+		_titleSound = nullptr;
 
 		_changeSceneFlag = true;
 	}

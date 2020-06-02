@@ -103,6 +103,9 @@
       <Filter>scene\StageSelectScene</Filter>
     </ClCompile>
     <ClCompile Include="..\Classes\ClearLayer\ClearLayer.cpp" />
+    <ClCompile Include="..\Classes\Obj\Obstacles\AddObstacles.cpp">
+      <Filter>obj\Obstacles</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="main.h">
@@ -163,6 +166,9 @@
       <Filter>scene\StageSelectScene</Filter>
     </ClInclude>
     <ClInclude Include="..\Classes\ClearLayer\ClearLayer.h" />
+    <ClInclude Include="..\Classes\Obj\Obstacles\AddObstacles.h">
+      <Filter>obj\Obstacles</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="game.rc">

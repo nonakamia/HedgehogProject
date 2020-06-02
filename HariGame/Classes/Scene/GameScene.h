@@ -59,17 +59,6 @@ private:
     // implement the "static create()" method manually
     CREATE_FUNC(GameScene);
 
-    // áŠQ•¨
-    enum OBSTACLES
-    {
-        LADYBUG_R = 216,    // •‚¢‚Ä‚ñ‚Æ‚¤’(Ô)
-        LADYBUG_G = 217,    // •‚¢‚Ä‚ñ‚Æ‚¤’(—Î)
-        BUDS_R = 224,       // ÂÎŞĞ(Ô)
-        BUDS_G = 225,       // ÂÎŞĞ(—Î)
-        LAMP = 219,         // ×İÌß(ºŞ°Ù)
-        MAX
-    };
-
     cocos2d::Layer* _plauerLayer;
     cocos2d::Layer* _obstaclesLayer;
     Obj* _player_front;
@@ -90,7 +79,6 @@ private:
     cocos2d::TMXTiledMap* _mapData;          // Ï¯ÌßÃŞ°À
     static std::string _mapName;
 
-    void AddBlackLadybug();                 // •‚¢‚Ä‚ñ‚Æ‚¤’İ’u
     bool GameStart();
     void GameOverAction();
 

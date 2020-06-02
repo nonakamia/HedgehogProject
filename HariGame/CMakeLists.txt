@@ -69,6 +69,7 @@ list(APPEND GAME_SOURCE
      Classes/Obj/Obstacles/BlackLadybug/BlackLadybug.cpp
      Classes/Obj/Obstacles/Buds/Buds.cpp
      Classes/Obj/Obstacles/Obstacles.cpp
+     Classes/Obj/Obstacles/AddObstacles.cpp
      Classes/Obj/Player/Player.cpp
      Classes/Obj/Obj.cpp
      Classes/stage/StageLayer.cpp
@@ -85,6 +86,7 @@ list(APPEND GAME_HEADER
      Classes/Obj/Obstacles/BlackLadybug/BlackLadybug.h
      Classes/Obj/Obstacles/Buds/Buds.h
      Classes/Obj/Obstacles/Obstacles.h
+     Classes/Obj/Obstacles/AddObstacles.h
      Classes/Obj/Player/Player.h
      Classes/Camera/CameraOBJ.h
      Classes/ClearLayer/ClearLayer.h

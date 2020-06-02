@@ -28,8 +28,7 @@
 #include "ClearLayer/ClearLayer.h"
 #include "Obj/Player/Player.h"
 #include "Obj/Obstacles/Obstacles.h"
-#include "Obj/Obstacles/BlackLadybug/BlackLadybug.h"
-#include "Obj/Obstacles/Buds/Buds.h"
+#include "Obj/Obstacles/AddObstacles.h"
 #include "Button/ButtonLayer.h"
 #include "Camera/CameraOBJ.h"
 #include "menu/MenuLayer.h"
@@ -120,8 +119,9 @@ bool GameScene::init()
     _obstaclesLayer->setName("OBSTACLES_LAYER");
     this->addChild(_obstaclesLayer, static_cast<int>(zOlder::OBSTACLES));
 
-    // •‚¢‚Ä‚ñ‚Æ‚¤’Ž  
-    AddBlackLadybug();
+    // áŠQ•¨  
+    auto addObstacles = AddObstacles();
+    addObstacles(_obstaclesLayer, _mapData->getLayer("obstacles"));
 
     // PLAYER_LAYER
     _plauerLayer = Layer::create();
@@ -207,7 +207,7 @@ void GameScene::update(float delta)
                     }
                 }
 
-                if (((obj->getName() == "blackLadydug") || (obj->getName() == "buds")) && (!((BlackLadybug*)obj)->GetDamageFlag()))
+                if (((obj->getName() == "blackLadydug") || (obj->getName() == "buds")) && (!((Obstacles*)obj)->GetDamageFlag()))
                 {
                     ((Obstacles*)obj)->HitCheck(_plauerLayer, _hpMng);
                 }
@@ -249,83 +249,6 @@ void GameScene::menuCloseCallback(Ref* pSender)
     //_eventDispatcher->dispatchEvent(&customEndEvent);
 
 
-}
-
-void GameScene::AddBlackLadybug()
-{
-    const Size visibleSize = Director::getInstance()->getVisibleSize();
-
-    auto obstaclesLayer = _mapData->getLayer("obstacles");
-
-    if (obstaclesLayer == nullptr)
-    {
-        return;
-    }
-    int chipSize = 48;
-    auto mapSize = obstaclesLayer->getLayerSize();
-    for (int y = 0; y < mapSize.height; y++)
-    {
-        for (int x = 0; x < mapSize.width; x++)
-        {
-            auto obstaclesPoint = Vec2{ (float)x,(float)y };
-            auto obstaclesGid = obstaclesLayer->getTileGIDAt(obstaclesPoint);
-
-            auto putPos = Vec2(obstaclesPoint.x * chipSize + (chipSize / 2), (mapSize.height - obstaclesPoint.y) * chipSize - (chipSize / 2));
-
-            // •‚¢‚Ä‚ñ‚Æ‚¤’Ž
-            if (obstaclesGid == OBSTACLES::LADYBUG_R)
-            {
-                auto blackLadydug = BlackLadybug::createBlackLadybug(OBJ_COLOR::OBJ_RED);
-                blackLadydug->setName("blackLadydug");
-                _obstaclesLayer->addChild(blackLadydug);
-                blackLadydug->setPosition(putPos);
-                blackLadydug->setScale(0.2f);
-                blackLadydug->SetPoint(Vec2(20.0f, 20.0f));
-            }
-            if (obstaclesGid == OBSTACLES::LADYBUG_G)
-            {
-                auto blackLadydug = BlackLadybug::createBlackLadybug(OBJ_COLOR::OBJ_GREEN);
-                blackLadydug->setName("blackLadydug");
-                _obstaclesLayer->addChild(blackLadydug);
-                blackLadydug->setPosition(putPos);
-                blackLadydug->setScale(0.2f);
-                blackLadydug->SetPoint(Vec2(20.0f, 20.0f));
-            }
-
-            // ÂÎÞÐ
-            if (obstaclesGid == OBSTACLES::BUDS_R)
-            {
-                auto buds = Buds::createBuds(OBJ_COLOR::OBJ_RED);
-                buds->setName("buds");
-                _obstaclesLayer->addChild(buds);
-                buds->setPosition(putPos);
-                buds->setScale(0.5f);
-                buds->SetPoint(Vec2(50.0f, 20.0f));
-                buds->scheduleUpdate();
-            }
-            if (obstaclesGid == OBSTACLES::BUDS_G)
-            {
-                auto buds = Buds::createBuds(OBJ_COLOR::OBJ_GREEN);
-                buds->setName("buds");
-                _obstaclesLayer->addChild(buds);
-                buds->setPosition(putPos);
-                buds->setScale(0.5f);
-                buds->SetPoint(Vec2(50.0f, 20.0f));
-                buds->scheduleUpdate();
-            }
-
-            // ×ÝÌß
-            if (obstaclesGid == OBSTACLES::LAMP)
-            {
-                auto lamp = Sprite::create("Ornament/lamp.png");
-                lamp->setName("lamp");
-                _obstaclesLayer->addChild(lamp);
-                lamp->setScale(0.8f);
-                lamp->setAnchorPoint(Point(0.5f, 0.0f));
-                lamp->setPosition(Vec2(putPos.x, putPos.y - (_mapData->getTileSize().height / 2.0f)));
-            }
-        }
-    }
 }
 
 bool GameScene::GameStart()

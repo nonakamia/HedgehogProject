@@ -20,7 +20,6 @@ StageSelectScene::StageSelectScene()
 {
 	_changeSceneFlag = false;
 	_menuFlag = false;
-	
 }
 
 StageSelectScene::~StageSelectScene()
@@ -54,11 +53,13 @@ bool StageSelectScene::init()
 		Vec2(origin.x + visibleSize.width / 2.0f,
 		origin.y + visibleSize.height / 4.0f));
 	addChild(stage, static_cast<int>(zOlder::OBSTACLES));
+	stage->scheduleUpdate();
 
 	auto stage2 = StageLayer::createStageLayer("stage/stage_1.tmx",
 		Vec2(origin.x + visibleSize.width / 1.5f,
 			origin.y + visibleSize.height / 4.0f));
 	addChild(stage2, static_cast<int>(zOlder::OBSTACLES));
+	stage2->scheduleUpdate();
 
 	// ÒÆ­°ÎÞÀÝ
 	auto button= MenuItemImage::create(
@@ -71,7 +72,14 @@ bool StageSelectScene::init()
 	menu->setPosition(Vec2::ZERO);
 	addChild(menu,static_cast<int>(zOlder::BUTTON));
 
+	this->scheduleUpdate();
 	return true;
+}
+
+void StageSelectScene::update(float delta)
+{
+	//@cricket
+	CkUpdate();
 }
 
 void StageSelectScene::Resume()

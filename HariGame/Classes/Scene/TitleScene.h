@@ -17,11 +17,6 @@ public:
 
 private:
 	CREATE_FUNC(TitleScene);
-
-	//@cricket
-	CkBank* _buttonBank;							// SE
-	CkSound* _buttonSE;								// ÎŞÀİ‰¹
-	CkSound* _titleSound;
 	
 	cocos2d::Point _touchPoint;
 
@@ -29,6 +24,11 @@ private:
 	bool _endGameFlag;								// ƒQ[ƒ€I—¹‰æ–Ê
 	cocos2d::MenuItemImage* _yesButton;
 	cocos2d::MenuItemImage* _noButton;
+
+	//@cricket
+	CkBank* _buttonBank;							// ÎŞÀİBank
+	CkSound* _buttonSE;								// ÎŞÀİ‰¹
+	CkSound* _titleSound;
 
 	void SetChangeScene(Ref* pSender);
 	void ChangeScene();					// ½Ã°¼Ş¾Ú¸Ä‰æ–Ê‚Ö‚ÌØ‘Ö—pŠÖ”

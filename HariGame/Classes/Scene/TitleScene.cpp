@@ -10,12 +10,13 @@ cocos2d::Scene* TitleScene::createTitleScene()
 
 TitleScene::TitleScene()
 {
+	_changeSceneFlag = false;
+	_endGameFlag = false;
+
+	//@cricket
 	_titleSound = nullptr;
 	_buttonBank = nullptr;
 	_buttonSE = nullptr;
-
-	_changeSceneFlag = false;
-	_endGameFlag = false;
 }
 
 TitleScene::~TitleScene()
@@ -174,17 +175,18 @@ bool TitleScene::init()
 	_titleSound->play();
 
 	this->scheduleUpdate();
-
 	return true;
 }
 
 void TitleScene::update(float delta)
-{
-	CkUpdate();
+{	
 	if ((_buttonSE)&&(!_buttonSE->isPlaying()))
 	{
 		ChangeScene();
 	}
+
+	//@cricket
+	CkUpdate();
 }
 
 void TitleScene::SetChangeScene(Ref* pSender)
@@ -223,6 +225,7 @@ void TitleScene::ChangeScene()
 
 void TitleScene::SetEndGame(Ref* pSender)
 {
+	_buttonSE->play();
 	if (!_endGameFlag)
 	{
 		_endGameImage->runAction(ScaleTo::create(0.2f, 1.0f));

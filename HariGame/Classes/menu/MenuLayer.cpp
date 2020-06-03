@@ -25,10 +25,23 @@ Layer* MenuLayer::createMenuLayer()
 MenuLayer::MenuLayer()
 {
 	_menuFlag = true;
+
+	//@cricket
+	_buttonBank = nullptr;
+	_buttonSE = nullptr;
 }
 
 MenuLayer::~MenuLayer()
 {
+	//@cricket
+	if (_buttonBank)
+	{
+		_buttonBank->destroy();
+	}
+	if (_buttonSE)
+	{
+		_buttonSE->destroy();
+	}
 }
 
 bool MenuLayer::init()
@@ -126,7 +139,21 @@ bool MenuLayer::init()
 		));
 	}
 
+	//@cricket
+#ifdef CK_PLATFORM_WIN
+	_buttonBank = CkBank::newBank("Resources/se/button/button.ckb");
+#else
+	_buttonBank = CkBank::newBank("se/button/button.ckb");
+#endif
+	_buttonSE = CkSound::newBankSound(_buttonBank, "decision");
+
+	_buttonSE->play();
+
 	return true;
+}
+
+void MenuLayer::update(float delta)
+{
 }
 
 void MenuLayer::MenuCancel(Ref* pSender)
@@ -135,6 +162,12 @@ void MenuLayer::MenuCancel(Ref* pSender)
 	{
 		return;
 	}
+
+	//@cricket
+	_buttonBank->destroy();
+	_buttonSE->destroy();
+	_buttonBank = nullptr;
+	_buttonSE = nullptr;
 
 	auto scene = (BaseScene*)Director::getInstance()->getRunningScene();
 	//scene->SetMenuFlag(false);

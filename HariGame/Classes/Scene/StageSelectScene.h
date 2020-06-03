@@ -10,12 +10,16 @@ public:
 	~StageSelectScene();
 	bool init();
 
+	void update(float delta);
+
 	void Resume();
 
 	void changeScene(Ref* pSender, std::string map);				// ½Ã°¼Þ¾Ú¸Ä‰æ–Ê‚ÉˆÚ“®
 
 private:
 	CREATE_FUNC(StageSelectScene);
+
+
 	
 	void SetMenu(Ref* pSender);										// ÒÆ­°‰æ–Ê‚ð•\Ž¦‚·‚é
 };

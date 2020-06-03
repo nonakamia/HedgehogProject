@@ -235,6 +235,9 @@ void GameScene::update(float delta)
             getDefaultCamera()->setPositionX(_player_front->getPositionX());
         }
     }
+
+    //@cricket
+    CkUpdate();
 }
 
 

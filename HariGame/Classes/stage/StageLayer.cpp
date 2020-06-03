@@ -24,10 +24,24 @@ StageLayer::StageLayer(std::string map,cocos2d::Vec2 pos)
 	_map = map;
 	_position = pos;
 	_calloutFlag = false;
+	_selectFlag = false;
+
+	//@cricket
+	_buttonBank = nullptr;
+	_buttonSE = nullptr;
 }
 
 StageLayer::~StageLayer()
 {
+	//@cricket
+	if (_buttonBank)
+	{
+		_buttonBank->destroy();
+	}
+	if (_buttonSE)
+	{
+		_buttonSE->destroy();
+	}
 }
 
 bool StageLayer::init()
@@ -51,7 +65,6 @@ bool StageLayer::init()
 		Rect rectButton = stage->getBoundingBox();
 		if (rectButton.containsPoint(point))
 		{
-
 			return true;
 		}
 		else
@@ -64,6 +77,9 @@ bool StageLayer::init()
 	// —£‚³‚ê‚½Žž‚Ìˆ—
 	changeListener->onTouchEnded = [this](Touch* touch, Event* event)
 	{
+		//@cricket
+		_buttonSE->play();
+
 		if (!_calloutFlag)
 		{
 			_callout->runAction(ScaleTo::create(0.1f, 1.0f));
@@ -71,8 +87,7 @@ bool StageLayer::init()
 		}
 		else
 		{
-			auto scene = Director::getInstance()->getRunningScene();
-			((StageSelectScene*)scene)->changeScene(this, _map);
+			_selectFlag = true;
 		}
 		return true;
 	};
@@ -89,5 +104,22 @@ bool StageLayer::init()
 	));
 	_callout->setScale(0.0f);
 
+	//@cricket
+#ifdef CK_PLATFORM_WIN
+	_buttonBank = CkBank::newBank("Resources/se/button/button.ckb");
+#else
+	_buttonBank = CkBank::newBank("se/button/button.ckb");
+#endif
+	_buttonSE = CkSound::newBankSound(_buttonBank, "decision");
+
 	return true;
+}
+
+void StageLayer::update(float delta)
+{
+	if ((_buttonSE) && (!_buttonSE->isPlaying()) && (_selectFlag))
+	{
+		auto scene = Director::getInstance()->getRunningScene();
+		((StageSelectScene*)scene)->changeScene(this, _map);
+	}
 }

@@ -11,6 +11,8 @@ cocos2d::Scene* TitleScene::createTitleScene()
 TitleScene::TitleScene()
 {
 	_titleSound = nullptr;
+	_buttonBank = nullptr;
+	_buttonSE = nullptr;
 
 	_changeSceneFlag = false;
 	_endGameFlag = false;
@@ -27,6 +29,14 @@ TitleScene::~TitleScene()
 	if (_titleSound)
 	{
 		_titleSound->destroy();
+	}
+	if (_buttonBank)
+	{
+		_buttonBank->destroy();
+	}
+	if (_buttonSE)
+	{
+		_buttonSE->destroy();
 	}
 }
 
@@ -120,7 +130,7 @@ bool TitleScene::init()
 	{
 		if ((abs(_touchPoint.x- touch->getLocation().x)<50.0f)&&(!_endGameFlag))
 		{
-			changeScene(this);
+			SetChangeScene(this);
 		}
 		if (_endGameFlag)
 		{
@@ -154,10 +164,12 @@ bool TitleScene::init()
 	//@cricket
 #ifdef CK_PLATFORM_WIN
 	_titleSound = CkSound::newStreamSound("Resources/sound/SeaofTrees.cks");
+	_buttonBank = CkBank::newBank("Resources/se/button/button.ckb");
 #else
 	_titleSound = CkSound::newStreamSound("sound/SeaofTrees.cks");
+	_buttonBank = CkBank::newBank("se/button/button.ckb");
 #endif
-
+	_buttonSE = CkSound::newBankSound(_buttonBank, "decision");
 	_titleSound->setLoopCount(-1);
 	_titleSound->play();
 
@@ -169,29 +181,44 @@ bool TitleScene::init()
 void TitleScene::update(float delta)
 {
 	CkUpdate();
+	if ((_buttonSE)&&(!_buttonSE->isPlaying()))
+	{
+		ChangeScene();
+	}
 }
 
-void TitleScene::changeScene(Ref* pSender)
+void TitleScene::SetChangeScene(Ref* pSender)
 {
 	if (_changeSceneFlag)
 	{
 		return;
 	}
 
+	_buttonSE->play();
+
+	_changeSceneFlag = true;
+}
+
+void TitleScene::ChangeScene()
+{
 	if (!_changeSceneFlag)
 	{
-		// ƒZƒŒƒNƒgƒV[ƒ“‚É‰æ–Ê‘JˆÚ‚·‚éB
-		auto stageSelectScene = StageSelectScene::createStageSelectScene();
-		auto* fade = TransitionFadeUp::create(1.0f, stageSelectScene);
-		// TitleScene‚ð”jŠü‚µ‚ÄStageSelectScene‚É‘JˆÚ‚·‚é
-		Director::getInstance()->replaceScene(fade);
-
-		//@cricket
-		_titleSound->destroy();
-		_titleSound = nullptr;
-
-		_changeSceneFlag = true;
+		return;
 	}
+
+	// ƒZƒŒƒNƒgƒV[ƒ“‚É‰æ–Ê‘JˆÚ‚·‚éB
+	auto stageSelectScene = StageSelectScene::createStageSelectScene();
+	auto* fade = TransitionFadeUp::create(1.0f, stageSelectScene);
+	// TitleScene‚ð”jŠü‚µ‚ÄStageSelectScene‚É‘JˆÚ‚·‚é
+	Director::getInstance()->replaceScene(fade);
+
+	//@cricket
+	_titleSound->destroy();
+	_buttonBank->destroy();
+	_buttonSE->destroy();
+	_titleSound = nullptr;
+	_buttonBank = nullptr;
+	_buttonSE = nullptr;	
 }
 
 void TitleScene::SetEndGame(Ref* pSender)

@@ -5,7 +5,7 @@
       "sdkFolder": "D:\\SDK",
       "isNativeCompilerSettingsCacheEnabled": false,
       "isBuildOnlyTargetAbiEnabled": true,
-      "ideBuildTargetAbi": "x86",
+      "ideBuildTargetAbi": "x86,armeabi-v7a,armeabi",
       "splitsAbiFilterSet": [],
       "intermediatesFolder": "D:\\HedgehogProject\\git\\HariGame\\proj.android\\app\\build\\intermediates",
       "gradleModulePathName": ":HariGame",
@@ -47,7 +47,8 @@
     "gradleBuildOutputFolder": "D:\\HedgehogProject\\git\\HariGame\\proj.android\\app\\.cxx\\cxx\\debug",
     "isDebuggableEnabled": true,
     "validAbiList": [
-      "X86"
+      "X86",
+      "ARMEABI_V7A"
     ],
     "buildTargetSet": [
       "MyGame"

@@ -53,49 +53,52 @@ if(APPLE OR WINDOWS)
 endif()
 
 # add cross-platforms source files and header files 
-list(APPEND GAME_SOURCE
-     Classes/AppDelegate.cpp
-     Classes/Scene/BaseScene.cpp
-     Classes/Scene/GameScene.cpp
-     Classes/Scene/StageSelectScene.cpp
-     Classes/Scene/TitleScene.cpp
-     Classes/Action/ACTION.cpp
-     Classes/Action/ActionConvey.cpp
-     Classes/Button/ButtonLayer.cpp
-     Classes/Camera/CameraOBJ.cpp
-     Classes/ClearLayer/ClearLayer.cpp
-     Classes/HP/HPMng.cpp
-     Classes/menu/MenuLayer.cpp
-     Classes/Obj/Obstacles/BlackLadybug/BlackLadybug.cpp
-     Classes/Obj/Obstacles/Buds/Buds.cpp
-     Classes/Obj/Obstacles/Obstacles.cpp
-     Classes/Obj/Obstacles/AddObstacles.cpp
-     Classes/Obj/Player/Player.cpp
-     Classes/Obj/Obj.cpp
-     Classes/stage/StageLayer.cpp
-     )
-list(APPEND GAME_HEADER
-     Classes/AppDelegate.h
-     Classes/Scene/BaseScene.h
-     Classes/Scene/GameScene.h
-     Classes/Scene/StageSelectScene.h
-     Classes/Scene/TitleScene.h
-     Classes/Action/ACTION.h
-     Classes/Action/ActionConvey.h
-     Classes/Button/ButtonLayer.h
-     Classes/Obj/Obstacles/BlackLadybug/BlackLadybug.h
-     Classes/Obj/Obstacles/Buds/Buds.h
-     Classes/Obj/Obstacles/Obstacles.h
-     Classes/Obj/Obstacles/AddObstacles.h
-     Classes/Obj/Player/Player.h
-     Classes/Camera/CameraOBJ.h
-     Classes/ClearLayer/ClearLayer.h
-     Classes/HP/HPMng.h
-     Classes/menu/MenuLayer.h
-     Classes/Obj/Obj.h
-     Classes/Obj/OBJ_COLLAR.h
-     Classes/stage/StageLayer.h
-     )
+#list(APPEND GAME_SOURCE
+#     Classes/AppDelegate.cpp
+#     Classes/Scene/BaseScene.cpp
+#     Classes/Scene/GameScene.cpp
+#     Classes/Scene/StageSelectScene.cpp
+#     Classes/Scene/TitleScene.cpp
+#     Classes/Action/ACTION.cpp
+#     Classes/Action/ActionConvey.cpp
+#     Classes/Button/ButtonLayer.cpp
+#     Classes/Camera/CameraOBJ.cpp
+#     Classes/ClearLayer/ClearLayer.cpp
+#     Classes/HP/HPMng.cpp
+#     Classes/menu/MenuLayer.cpp
+#     Classes/Obj/Obstacles/BlackLadybug/BlackLadybug.cpp
+#     Classes/Obj/Obstacles/Buds/Buds.cpp
+#     Classes/Obj/Obstacles/Obstacles.cpp
+#     Classes/Obj/Obstacles/AddObstacles.cpp
+#     Classes/Obj/Player/Player.cpp
+#     Classes/Obj/Obj.cpp
+#     Classes/stage/StageLayer.cpp
+#     )
+file(GLOB_RECURSE GAME_SOURCE RELATIVE ${CMAKE_SOURCE_DIR} CONFIGURE_DEPENDS "Classes/*.cpp")
+
+#list(APPEND GAME_HEADER
+#     Classes/AppDelegate.h
+#     Classes/Scene/BaseScene.h
+#     Classes/Scene/GameScene.h
+#     Classes/Scene/StageSelectScene.h
+#     Classes/Scene/TitleScene.h
+#     Classes/Action/ACTION.h
+#     Classes/Action/ActionConvey.h
+#     Classes/Button/ButtonLayer.h
+#     Classes/Obj/Obstacles/BlackLadybug/BlackLadybug.h
+#     Classes/Obj/Obstacles/Buds/Buds.h
+#     Classes/Obj/Obstacles/Obstacles.h
+#     Classes/Obj/Obstacles/AddObstacles.h
+#     Classes/Obj/Player/Player.h
+#     Classes/Camera/CameraOBJ.h
+#     Classes/ClearLayer/ClearLayer.h
+#     Classes/HP/HPMng.h
+#     Classes/menu/MenuLayer.h
+#     Classes/Obj/Obj.h
+#     Classes/Obj/OBJ_COLLAR.h
+#     Classes/stage/StageLayer.h
+#     )
+file(GLOB_RECURSE GAME_HEADER RELATIVE ${CMAKE_SOURCE_DIR} CONFIGURE_DEPENDS "Classes/*.h")
 
 if(ANDROID)
     # change APP_NAME to the share library name for Android, it's value depend on AndroidManifest.xml

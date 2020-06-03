@@ -3,8 +3,6 @@
 #include "BaseScene.h"
 
 
-
-
 class TitleScene : public BaseScene
 {
 public:
@@ -15,12 +13,14 @@ public:
 
 	void update(float delta);
 
-	void Resume();                          // ｹﾞｰﾑ再開
+	void Resume();								   // ｹﾞｰﾑ再開
 
 private:
 	CREATE_FUNC(TitleScene);
 
 	//@cricket
+	CkBank* _buttonBank;							// SE
+	CkSound* _buttonSE;								// ﾎﾞﾀﾝ音
 	CkSound* _titleSound;
 	
 	cocos2d::Point _touchPoint;
@@ -30,7 +30,8 @@ private:
 	cocos2d::MenuItemImage* _yesButton;
 	cocos2d::MenuItemImage* _noButton;
 
-	void changeScene(Ref* pSender);					// ｽﾃｰｼﾞｾﾚｸﾄ画面への切替用関数
+	void SetChangeScene(Ref* pSender);
+	void ChangeScene();					// ｽﾃｰｼﾞｾﾚｸﾄ画面への切替用関数
 
 	void SetEndGame(Ref* pSender);
 	void EndGame(Ref* pSender);

@@ -8,25 +8,26 @@ Obj* Buds::createBuds(OBJ_COLOR color)
 	Obj* pRet = new(std::nothrow) Buds();
 	if (pRet && pRet->init())
 	{
-		//SpriteFrameCache::getInstance()->addSpriteFrame(Sprite::create("obstacles/Buds/buds_r.png")->getSpriteFrame(), "buds_r");
-		//SpriteFrameCache::getInstance()->addSpriteFrame(Sprite::create("obstacles/Buds/buds_r_open.png")->getSpriteFrame(), "open_r");
-		//SpriteFrameCache::getInstance()->addSpriteFrame(Sprite::create("obstacles/Buds/buds_g.png")->getSpriteFrame(), "buds_g");
-		//SpriteFrameCache::getInstance()->addSpriteFrame(Sprite::create("obstacles/Buds/buds_g_open.png")->getSpriteFrame(), "open_g");
-
+		SpriteFrameCache::getInstance()->addSpriteFrame(Sprite::create("obstacles/Buds/buds_r.png")->getSpriteFrame(), "buds_r");
+		SpriteFrameCache::getInstance()->addSpriteFrame(Sprite::create("obstacles/Buds/buds_r_open.png")->getSpriteFrame(), "open_r");
+		SpriteFrameCache::getInstance()->addSpriteFrame(Sprite::create("obstacles/Buds/buds_g.png")->getSpriteFrame(), "buds_g");
+		SpriteFrameCache::getInstance()->addSpriteFrame(Sprite::create("obstacles/Buds/buds_g_open.png")->getSpriteFrame(), "open_g");
 		if (color == OBJ_COLOR::OBJ_RED)
 		{
-			pRet->setSpriteFrame(Sprite::create("obstacles/Buds/buds_r.png")->getSpriteFrame());
+			pRet->setSpriteFrame(SpriteFrameCache::getInstance()->getSpriteFrameByName("buds_r"));
 		}
 
 		if (color == OBJ_COLOR::OBJ_GREEN)
 		{
-			pRet->setSpriteFrame(Sprite::create("obstacles/Buds/buds_g.png")->getSpriteFrame());
+			pRet->setSpriteFrame(SpriteFrameCache::getInstance()->getSpriteFrameByName("buds_g"));
 		}
 		pRet->setVisible(true);
 		pRet->setFlipY(false);
 
 		pRet->setTag(static_cast<int>(color));
 		pRet->setAnchorPoint(Point(0.5f, 0.8f));
+
+		pRet->autorelease();
 		return pRet;
 	}
 	else
@@ -45,11 +46,6 @@ Buds::Buds()
 
 Buds::~Buds()
 {
-}
-
-bool Buds::init()
-{
-	return true;
 }
 
 void Buds::update(float delta)
@@ -94,15 +90,18 @@ void Buds::update(float delta)
 void Buds::DamageAction()
 {
 	// ‰Ô‚ªŠJ‚­
-	if (this->getTag() == static_cast<int>(OBJ_COLOR::OBJ_RED))
+	if (!_damageFlag)
 	{
-		this->setSpriteFrame(Sprite::create("obstacles/Buds/buds_r_open.png")->getSpriteFrame());
+		if (this->getTag() == static_cast<int>(OBJ_COLOR::OBJ_RED))
+		{
+			this->setSpriteFrame(SpriteFrameCache::getInstance()->getSpriteFrameByName("open_r"));
+		}
+		else if (this->getTag() == static_cast<int>(OBJ_COLOR::OBJ_GREEN))
+		{
+			this->setSpriteFrame(SpriteFrameCache::getInstance()->getSpriteFrameByName("open_g"));
+		}
+		_damageFlag = true;
 	}
-	else if (this->getTag() == static_cast<int>(OBJ_COLOR::OBJ_GREEN))
-	{
-		this->setSpriteFrame(Sprite::create("obstacles/Buds/buds_g_open.png")->getSpriteFrame());
-	}
-	_damageFlag = true;
 }
 
 void Buds::GameOverAction()

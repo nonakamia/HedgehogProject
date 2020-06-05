@@ -12,8 +12,6 @@ public:
 	Buds();
 	~Buds();
 
-	bool init();
-
 	void update(float delta);
 
 	void DamageAction();						// ÀÞÒ°¼Þ±¸¼®Ý

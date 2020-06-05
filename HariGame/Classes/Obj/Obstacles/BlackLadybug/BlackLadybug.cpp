@@ -18,6 +18,8 @@ Obj* BlackLadybug::createBlackLadybug(OBJ_COLOR color)
 
 		pRet->setTag(static_cast<int>(color));
 		pRet->setAnchorPoint(Point(0.5f, 0.5f));
+
+		pRet->autorelease();
 		return pRet;
 	}
 	else

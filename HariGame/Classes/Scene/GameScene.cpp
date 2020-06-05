@@ -118,7 +118,6 @@ bool GameScene::init()
     _obstaclesLayer = Layer::create();
     _obstaclesLayer->setName("OBSTACLES_LAYER");
     this->addChild(_obstaclesLayer, static_cast<int>(zOlder::OBSTACLES));
-
     // áŠQ•¨  
     auto addObstacles = AddObstacles();
     addObstacles(_obstaclesLayer, _mapData->getLayer("obstacles"));

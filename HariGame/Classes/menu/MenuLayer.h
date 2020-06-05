@@ -19,6 +19,14 @@ public:
 
 private:
 	CREATE_FUNC(MenuLayer);
+	enum MENU_SELECT
+	{
+		MENU_CANCEL,
+		SROM_SCRATCH,
+		BACK_TITLE,
+		BACK_SELECT,
+		MAX
+	};
 
 	bool _menuFlag;
 

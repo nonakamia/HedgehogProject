@@ -37,10 +37,12 @@ MenuLayer::~MenuLayer()
 	if (_buttonBank)
 	{
 		_buttonBank->destroy();
+		_buttonBank = nullptr;
 	}
 	if (_buttonSE)
 	{
 		_buttonSE->destroy();
+		_buttonSE = nullptr;
 	}
 }
 
@@ -163,12 +165,6 @@ void MenuLayer::MenuCancel(Ref* pSender)
 		return;
 	}
 
-	//@cricket
-	_buttonBank->destroy();
-	_buttonSE->destroy();
-	_buttonBank = nullptr;
-	_buttonSE = nullptr;
-
 	auto scene = (BaseScene*)Director::getInstance()->getRunningScene();
 	//scene->SetMenuFlag(false);
 	scene->Resume();
@@ -184,11 +180,11 @@ void MenuLayer::SromScratch(Ref* pSender)
 	{
 		return;
 	}
+	_buttonSE->play();
 
 	// ¹Þ°Ñ¼°Ý‚É‰æ–Ê‘JˆÚ‚·‚éB
 	auto gameScene = GameScene::createGameScene(((GameScene*)Director::getInstance()->getRunningScene())->GetMapName());
 	auto* fade = TransitionFade::create(1.0f, gameScene, Color3B::BLACK);
-	// TitleScene‚ð”jŠü‚µ‚ÄGameScene‚É‘JˆÚ‚·‚é
 	Director::getInstance()->replaceScene(fade);
 
 	_menuFlag = false;
@@ -200,12 +196,11 @@ void MenuLayer::BackTitleScene(Ref* pSender)
 	{
 		return;
 	}
+	_buttonSE->play();
 
 	// À²ÄÙ¼°Ý‚É‰æ–Ê‘JˆÚ‚·‚éB
 	auto titleScene = TitleScene::createTitleScene();
-	// 0.5•b‚©‚¯‚ÄƒzƒƒCƒgƒAƒEƒg‚µ‚Äƒ^ƒCƒgƒ‹‚ÉˆÚ“®‚·‚é
 	auto* fade = TransitionFadeUp::create(1.0f, titleScene);
-	// PauseLayer‚ð”jŠü‚µ‚ÄtitleScene‚É‘JˆÚ‚·‚é
 	Director::getInstance()->replaceScene(fade);
 
 	_menuFlag = false;
@@ -217,12 +212,11 @@ void MenuLayer::BackStageSelectScene(Ref* pSender)
 	{
 		return;
 	}
+	_buttonSE->play();
 
 	// ½Ã°¼Þ¾Ú¸ÄScene‚É‰æ–Ê‘JˆÚ‚·‚éB
 	auto stageSelectScene = StageSelectScene::createStageSelectScene();
-	// 0.5•b‚©‚¯‚ÄƒzƒƒCƒgƒAƒEƒg‚µ‚Äƒ^ƒCƒgƒ‹‚ÉˆÚ“®‚·‚é
 	auto* fade = TransitionFadeUp::create(1.0f, stageSelectScene);
-	// PauseLayer‚ð”jŠü‚µ‚ÄtitleScene‚É‘JˆÚ‚·‚é
 	Director::getInstance()->replaceScene(fade);
 
 	_menuFlag = false;

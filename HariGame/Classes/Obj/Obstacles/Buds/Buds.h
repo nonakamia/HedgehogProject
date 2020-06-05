@@ -12,6 +12,8 @@ public:
 	Buds();
 	~Buds();
 
+	bool init();
+
 	void update(float delta);
 
 	void DamageAction();						// ÀÞÒ°¼Þ±¸¼®Ý
@@ -20,5 +22,6 @@ public:
 
 	void HitCheck(cocos2d::Node* players, HPMng* playerHP);
 private:
+	bool _passingFlag;							// ’Ê‰ß‚µ‚½‚©
 };
 

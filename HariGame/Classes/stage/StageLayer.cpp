@@ -121,5 +121,9 @@ void StageLayer::update(float delta)
 	{
 		auto scene = Director::getInstance()->getRunningScene();
 		((StageSelectScene*)scene)->changeScene(this, _map);
+		_buttonBank->destroy();
+		_buttonSE->destroy();
+		_buttonBank = nullptr;
+		_buttonSE = nullptr;
 	}
 }

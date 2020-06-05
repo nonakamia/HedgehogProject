@@ -7,10 +7,10 @@ bool Obstacles::Check(Obj* player)
 		return false;
 	}
 
-	if ((player->getPosition().x - player->GetPoint().x <= this->getPosition().x + this->GetPoint().x) &&
+	if ((player->getPosition().x + player->GetPoint().x <= this->getPosition().x + this->GetPoint().x) &&
 		(player->getPosition().x + player->GetPoint().x >= this->getPosition().x - this->GetPoint().x) &&
 		(player->getPosition().y - player->GetPoint().y <= this->getPosition().y + this->GetPoint().y) &&
-		(player->getPosition().y + player->GetPoint().y >= this->getPosition().y - this->GetPoint().y))
+		(player->getPosition().y - player->GetPoint().y >= this->getPosition().y - this->GetPoint().y))
 	{
 		return true;
 	}

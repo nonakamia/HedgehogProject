@@ -366,11 +366,13 @@ ACTION Player::GetAction()
 void Player::FlowerRolling(bool flag)
 {
 	_flowerFlag = flag;
-	_action = ACTION::ROLLING;
-
-	_jumpFlag = false;
-	_vector = 0.0f;
-	_time = 0.0f;
+	if (flag)
+	{
+		_action = ACTION::ROLLING;
+		_jumpFlag = false;
+		_vector = 0.0f;
+		_time = 0.0f;
+	}
 }
 
 bool Player::GetFlowerFlag()

@@ -8,17 +8,22 @@ Obj* Buds::createBuds(OBJ_COLOR color)
 	Obj* pRet = new(std::nothrow) Buds();
 	if (pRet && pRet->init())
 	{
+		//SpriteFrameCache::getInstance()->addSpriteFrame(Sprite::create("obstacles/Buds/buds_r.png")->getSpriteFrame(), "buds_r");
+		//SpriteFrameCache::getInstance()->addSpriteFrame(Sprite::create("obstacles/Buds/buds_r_open.png")->getSpriteFrame(), "open_r");
+		//SpriteFrameCache::getInstance()->addSpriteFrame(Sprite::create("obstacles/Buds/buds_g.png")->getSpriteFrame(), "buds_g");
+		//SpriteFrameCache::getInstance()->addSpriteFrame(Sprite::create("obstacles/Buds/buds_g_open.png")->getSpriteFrame(), "open_g");
+
 		if (color == OBJ_COLOR::OBJ_RED)
 		{
-			SpriteFrameCache::getInstance()->addSpriteFrame(Sprite::create("obstacles/Buds/buds_r.png")->getSpriteFrame(), "buds");
-			SpriteFrameCache::getInstance()->addSpriteFrame(Sprite::create("obstacles/Buds/buds_r_open.png")->getSpriteFrame(), "open");
+			pRet->setSpriteFrame(Sprite::create("obstacles/Buds/buds_r.png")->getSpriteFrame());
 		}
-		else if (color == OBJ_COLOR::OBJ_GREEN)
+
+		if (color == OBJ_COLOR::OBJ_GREEN)
 		{
-			SpriteFrameCache::getInstance()->addSpriteFrame(Sprite::create("obstacles/Buds/buds_g.png")->getSpriteFrame(), "buds");
-			SpriteFrameCache::getInstance()->addSpriteFrame(Sprite::create("obstacles/Buds/buds_g_open.png")->getSpriteFrame(), "open");
+			pRet->setSpriteFrame(Sprite::create("obstacles/Buds/buds_g.png")->getSpriteFrame());
 		}
-		pRet->setSpriteFrame(SpriteFrameCache::getInstance()->getSpriteFrameByName("buds"));
+		pRet->setFlipY(false);
+
 		pRet->setTag(static_cast<int>(color));
 		pRet->setAnchorPoint(Point(0.5f, 0.8f));
 		return pRet;
@@ -34,10 +39,16 @@ Obj* Buds::createBuds(OBJ_COLOR color)
 Buds::Buds()
 {
 	_damageFlag = false;
+	_passingFlag = false;
 }
 
 Buds::~Buds()
 {
+}
+
+bool Buds::init()
+{
+	return true;
 }
 
 void Buds::update(float delta)
@@ -47,15 +58,32 @@ void Buds::update(float delta)
 		return;
 	}
 
+	if (_passingFlag)
+	{
+		return;
+	}
+
 	if (_damageFlag)
 	{
 		// player‚ð‰Ô‚Ìã‚ð•à‚Ü‚¹‚é
 		for (auto player : Director::getInstance()->getRunningScene()->getChildByName("PLAYER_LAYER")->getChildren())
 		{
-			if (player->getPositionY() <= this->getPositionY())
+			if ((player->getPositionX() >= this->getPositionX() - 120) && (player->getPositionX() <= this->getPositionX() + 120))
 			{
-				((Player*)player)->FlowerRolling(true);
-				player->setPositionY(getPositionY() + ((Obj*)player)->GetPoint().y);
+				if ((player->getPositionY() <= this->getPositionY()))
+				{
+					((Player*)player)->FlowerRolling(true);
+					player->setPositionY(getPositionY() + ((Obj*)player)->GetPoint().y);
+				}
+			}
+			else
+			{
+				((Player*)player)->FlowerRolling(false);
+			}
+
+			if ((player->getName()=="player_behind")&&(player->getPositionX() > this->getPositionX() + 120))
+			{
+				_passingFlag = true;
 			}
 		}
 
@@ -65,7 +93,14 @@ void Buds::update(float delta)
 void Buds::DamageAction()
 {
 	// ‰Ô‚ªŠJ‚­
-	setSpriteFrame(SpriteFrameCache::getInstance()->getSpriteFrameByName("open"));
+	if (this->getTag() == static_cast<int>(OBJ_COLOR::OBJ_RED))
+	{
+		this->setSpriteFrame(Sprite::create("obstacles/Buds/buds_r_open.png")->getSpriteFrame());
+	}
+	else if (this->getTag() == static_cast<int>(OBJ_COLOR::OBJ_GREEN))
+	{
+		this->setSpriteFrame(Sprite::create("obstacles/Buds/buds_g_open.png")->getSpriteFrame());
+	}
 	_damageFlag = true;
 }
 

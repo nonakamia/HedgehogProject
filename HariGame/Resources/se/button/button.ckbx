@@ -1,4 +1,4 @@
 <?xml vertion="1.0" encoding="utf-8" ?>
-<bank name="soundEffect">
+<bank name="button">
     <sound name="decision" source="decision.wav"/>
 </bank>

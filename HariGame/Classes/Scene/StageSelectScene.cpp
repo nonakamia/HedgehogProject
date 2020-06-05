@@ -20,6 +20,9 @@ StageSelectScene::StageSelectScene()
 {
 	_changeSceneFlag = false;
 	_menuFlag = false;
+
+	//@cricket
+	_selectSound = nullptr;
 }
 
 StageSelectScene::~StageSelectScene()
@@ -28,6 +31,13 @@ StageSelectScene::~StageSelectScene()
 	if (_running)
 	{
 		onExit();
+	}
+
+	//@cricket
+	if (_selectSound)
+	{
+		_selectSound->destroy();
+		_selectSound = nullptr;
 	}
 }
 
@@ -72,6 +82,15 @@ bool StageSelectScene::init()
 	menu->setPosition(Vec2::ZERO);
 	addChild(menu,static_cast<int>(zOlder::BUTTON));
 
+	//@cricket
+#ifdef CK_PLATFORM_WIN
+	_selectSound = CkSound::newStreamSound("Resources/sound/stageSelect.cks");
+#else
+	_selectSound = CkSound::newStreamSound("sound/stageSelect.cks");
+#endif
+	_selectSound->setLoopCount(-1);
+	_selectSound->play();
+
 	this->scheduleUpdate();
 	return true;
 }
@@ -101,6 +120,10 @@ void StageSelectScene::changeScene(Ref* pSender, std::string map)
 		auto* fade = TransitionFade::create(1.0f, gameScene,Color3B::BLACK);
 		// TitleScene‚ð”jŠü‚µ‚ÄGameScene‚É‘JˆÚ‚·‚é
 		Director::getInstance()->replaceScene(fade);
+
+		//@cricket
+		_selectSound->destroy();
+		_selectSound = nullptr;
 
 		_changeSceneFlag = true;
 	}

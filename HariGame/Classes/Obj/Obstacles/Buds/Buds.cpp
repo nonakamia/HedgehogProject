@@ -22,6 +22,7 @@ Obj* Buds::createBuds(OBJ_COLOR color)
 		{
 			pRet->setSpriteFrame(Sprite::create("obstacles/Buds/buds_g.png")->getSpriteFrame());
 		}
+		pRet->setVisible(true);
 		pRet->setFlipY(false);
 
 		pRet->setTag(static_cast<int>(color));

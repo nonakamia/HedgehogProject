@@ -19,7 +19,8 @@ public:
 private:
 	CREATE_FUNC(StageSelectScene);
 
-
+	//@cricket
+	CkSound* _selectSound;
 	
 	void SetMenu(Ref* pSender);										// ÒÆ­°‰æ–Ê‚ð•\Ž¦‚·‚é
 };

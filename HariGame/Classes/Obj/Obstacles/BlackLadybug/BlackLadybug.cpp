@@ -39,7 +39,7 @@ BlackLadybug::~BlackLadybug()
 {
 }
 
-void BlackLadybug::DamageAction()
+void BlackLadybug::DamageAction(cocos2d::Sprite* spite)
 {
 	if (!_damageFlag)
 	{
@@ -60,17 +60,23 @@ void BlackLadybug::HitCheck(cocos2d::Node* players, HPMng* playerHP)
 {
 	auto _player_front = (Obj*)players->getChildByName("player_front");
 
+	// ÀÞÒ°¼ÞŽó‚¯‚Ä‚¢‚½‚È‚ç–³Ž‹‚·‚é
+	if (_player_front->GetDamageFlag())
+	{
+		return;
+	}
+
 	if(Check(_player_front))
 	{
 		if (_player_front->getTag() == this->getTag())
 		{
-			DamageAction();
+			DamageAction(this);
 		}
 		else if (!_player_front->GetDamageFlag())
 		{
 			for (auto player : players->getChildren())
 			{
-				((Obj*)player)->DamageAction();
+				((Obj*)player)->DamageAction(this);
 			}
 
 			playerHP->DamageHP(1);

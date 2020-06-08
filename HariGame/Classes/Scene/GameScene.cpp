@@ -223,7 +223,6 @@ void GameScene::update(float delta)
                 {
                     ((Obj*)player)->GameClearAction();
                 }
-               // changeScene(this);
             }
         }
 

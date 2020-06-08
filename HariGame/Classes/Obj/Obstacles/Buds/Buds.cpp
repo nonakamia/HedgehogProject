@@ -87,7 +87,7 @@ void Buds::update(float delta)
 	}
 }
 
-void Buds::DamageAction()
+void Buds::DamageAction(cocos2d::Sprite* spite)
 {
 	// ‰Ô‚ªŠJ‚­
 	if (!_damageFlag)
@@ -121,7 +121,7 @@ void Buds::HitCheck(cocos2d::Node* players, HPMng* playerHP)
 	{
 		if (_player_front->getTag() == this->getTag())
 		{
-			DamageAction();
+			DamageAction(this);
 		}
 	}
 }

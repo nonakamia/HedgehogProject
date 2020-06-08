@@ -2,10 +2,6 @@
 
 bool Obstacles::Check(Obj* player)
 {
-	if (player->GetDamageFlag())
-	{
-		return false;
-	}
 
 	if ((player->getPosition().x + player->GetPoint().x <= this->getPosition().x + this->GetPoint().x) &&
 		(player->getPosition().x + player->GetPoint().x >= this->getPosition().x - this->GetPoint().x) &&

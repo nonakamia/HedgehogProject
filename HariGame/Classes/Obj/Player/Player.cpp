@@ -62,10 +62,37 @@ Player::Player()
 	_rollingAction = nullptr;
 	_damageAction = nullptr;
 	_gemeOverAction = nullptr;
+
+	//@cricket
+	_actionBank = nullptr;
+	_jumpSE = nullptr;
 }
 
 Player::~Player()
 {
+	//@cricket
+	if (_actionBank)
+	{
+		_actionBank->destroy();
+		_actionBank = nullptr;
+	}
+	if (_jumpSE)
+	{
+		_jumpSE->destroy();
+		_jumpSE = nullptr;
+	}
+}
+
+bool Player::init()
+{
+	//@cricket
+#ifdef CK_PLATFORM_WIN
+	_actionBank = CkBank::newBank("Resources/se/action/action.ckb");
+#else
+	_actionBank = CkBank::newBank("se/action/action.ckb");
+#endif
+	_jumpSE = CkSound::newBankSound(_actionBank, "jump");
+	return true;
 }
 
 void Player::update(float delta)
@@ -103,7 +130,7 @@ void Player::update(float delta)
 		// ÀÞÒ°¼Þ
 		if ((_damageFlag))
 		{
-			DamageAction();
+			DamageAction(this);
 		}
 	}
 	else
@@ -139,6 +166,8 @@ void Player::Jump()
 		_airTime = 0.8f;
 		_action = ACTION::JUMPING;
 
+		//@cricket
+		_jumpSE->play();
 	}
 	else
 	{
@@ -243,33 +272,43 @@ bool Player::CollsionCheck(cocos2d::Vec2 vec)
 	return true;
 }
 
-void Player::DamageAction()
+void Player::DamageAction(cocos2d::Sprite* spite)
 {
 	if ((_action != ACTION::DAMAGE)&&(!_damageFlag)&&(_damageAction == nullptr))
 	{
-		stopAllActions();
-		CC_SAFE_RELEASE_NULL(_rollingAction);
 
-		float time = 0.3f;
-		if (getName() == "player_front")
+
+		if (spite->getName() == "blackLadydug")
 		{
-			auto behindPosX = Director::getInstance()->getRunningScene()->getChildByName("PLAYER_LAYER")->getChildByName("player_behind")->getPositionX();
 			_damageAction = runAction(Sequence::create(
-				MoveTo::create(time - 0.1f, Vec2(behindPosX, 0.0f)),
-				DelayTime::create(time - 0.2f),
+				Blink::create(1.5f, 10),
 				nullptr
 			));
 		}
-		else if (getName() == "player_behind")
+		else
 		{
-			_damageAction = runAction(DelayTime::create(time));
+			stopAllActions();
+			CC_SAFE_RELEASE_NULL(_rollingAction);
+			float time = 0.3f;
+			if (getName() == "player_front")
+			{
+				auto behindPosX = Director::getInstance()->getRunningScene()->getChildByName("PLAYER_LAYER")->getChildByName("player_behind")->getPositionX();
+				_damageAction = runAction(Sequence::create(
+					MoveTo::create(time - 0.1f, Vec2(behindPosX, 0.0f)),
+					DelayTime::create(time - 0.2f),
+					nullptr
+				));
+			}
+			else if (getName() == "player_behind")
+			{
+				_damageAction = runAction(DelayTime::create(time));
+			}
+			// ±¸¼®Ý“`’B‚ÌØ¾¯Ä
+			((ActionConvey*)Director::getInstance()->getRunningScene()->getChildByName("actionConvey"))->ConveyClear();
 		}
-
-		((ActionConvey*)Director::getInstance()->getRunningScene()->getChildByName("actionConvey"))->ConveyClear();
 
 		CC_SAFE_RETAIN(_damageAction);
 		_action = ACTION::DAMAGE;
-		//_jumpFlag = false;
 
 		_damageFlag = true;
 		return;
@@ -287,8 +326,8 @@ void Player::DamageAction()
 	{
 		CC_SAFE_RELEASE_NULL(_damageAction);
 		_damageFlag = false;
-		//_jumpFlag = false;
-		if (getName() == "player_front")
+		
+		if ((_rollingAction == nullptr)&&(getName() == "player_front"))
 		{
 			_action = ACTION::ROTATE;
 			((ActionConvey*)Director::getInstance()->getRunningScene()->getChildByName("actionConvey"))->SetActionConvey(ACTION::ROTATE);
@@ -417,7 +456,7 @@ void Player::Rolling(float delta)
 		auto gameScne = Director::getInstance()->getRunningScene();
 		for (auto player : gameScne->getChildByName("PLAYER_LAYER")->getChildren())
 		{
-			((Obj*)player)->DamageAction();
+			((Obj*)player)->DamageAction(this);
 		}
 		((HPMng*)gameScne->getChildByName("HP"))->DamageHP(1);
 	}

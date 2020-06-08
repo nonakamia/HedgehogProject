@@ -14,7 +14,7 @@ public:
 
 	void update(float delta);
 
-	void DamageAction();						// ÀÞÒ°¼Þ±¸¼®Ý
+	void DamageAction(cocos2d::Sprite* spite);						// ÀÞÒ°¼Þ±¸¼®Ý
 	void GameOverAction();
 	void GameClearAction();
 

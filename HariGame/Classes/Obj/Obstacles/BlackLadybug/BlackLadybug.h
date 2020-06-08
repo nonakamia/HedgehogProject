@@ -10,7 +10,7 @@ public:
 	static Obj* createBlackLadybug(OBJ_COLOR color);
 	BlackLadybug();
 	~BlackLadybug();
-	void DamageAction();						// ÀÞÒ°¼Þ±¸¼®Ý
+	void DamageAction(cocos2d::Sprite* spite);						// ÀÞÒ°¼Þ±¸¼®Ý
 	void GameOverAction();
 	void GameClearAction();
 

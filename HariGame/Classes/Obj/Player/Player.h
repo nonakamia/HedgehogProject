@@ -3,12 +3,19 @@
 
 #include "Obj/Obj.h"
 
+//@cricket
+#include "ck/ck.h"
+#include "ck/config.h"
+#include "ck/bank.h"
+#include "ck/sound.h"
+
 class Player : public Obj
 {
 public:
 	static Obj* createPlayer(OBJ_COLOR color);
 	Player();
 	~Player();
+	bool init();
 
 	void update(float delta);
 
@@ -18,7 +25,7 @@ public:
 	void Change(int color);
 	bool CollsionCheck(cocos2d::Vec2 vec);		// 足場との当たり判定
 
-	void DamageAction();						// ﾀﾞﾒｰｼﾞｱｸｼｮﾝ
+	void DamageAction(cocos2d::Sprite* spite);						// ﾀﾞﾒｰｼﾞｱｸｼｮﾝ
 
 	void GameOverAction();
 
@@ -51,6 +58,10 @@ private:
 	cocos2d::Action* _damageAction;				// ﾀﾞﾒｰｼﾞｱｸｼｮﾝ
 
 	cocos2d::Action* _gemeOverAction;			// ｹﾞｰﾑｵｰﾊﾞｰｱｸｼｮﾝ
+
+	//@cricket
+	CkBank* _actionBank;							// ﾎﾞﾀﾝBank
+	CkSound* _jumpSE;								// ｼﾞｬﾝﾌﾟ音
 
 	void Jumping();
 	void Rolling(float delta);

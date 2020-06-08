@@ -8,7 +8,7 @@
 class Obj : public cocos2d::Sprite
 {
 public:
-	virtual void DamageAction() = 0;						// ÀÞÒ°¼Þ±¸¼®Ý
+	virtual void DamageAction(cocos2d::Sprite* spite) = 0;						// ÀÞÒ°¼Þ±¸¼®Ý
 	virtual void GameOverAction() = 0;
 	virtual void GameClearAction() = 0;
 

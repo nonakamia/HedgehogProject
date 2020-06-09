@@ -167,6 +167,10 @@ void Player::Jump()
 		_action = ACTION::JUMPING;
 
 		//@cricket
+		if (getName() == "player_behind")
+		{
+			_jumpSE->setVolume(0.8f);
+		}
 		_jumpSE->play();
 	}
 	else

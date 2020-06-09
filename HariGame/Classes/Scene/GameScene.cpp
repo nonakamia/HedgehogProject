@@ -74,6 +74,9 @@ GameScene::GameScene()
 {
     _changeSceneFlag = false;
     _menuFlag = false;
+
+    //@cricket
+    _gameSound = nullptr;
 }
 
 GameScene::~GameScene()
@@ -82,6 +85,13 @@ GameScene::~GameScene()
     if (_running)
     {
         onExit();
+    }
+
+    //@cricket
+    if (_gameSound)
+    {
+        _gameSound->destroy();
+        _gameSound = nullptr;
     }
 }
 
@@ -175,6 +185,15 @@ bool GameScene::init()
     _goalFlag = false;
     _gameOverFlag = false;
     _playerAction = ACTION::NON;
+
+    //@cricket
+#ifdef CK_PLATFORM_WIN
+    _gameSound = CkSound::newStreamSound("Resources/sound/CabalHill.cks");
+#else
+    _gameSound = CkSound::newStreamSound("sound/CabalHill.cks");
+#endif
+    _gameSound->setLoopCount(-1);
+    _gameSound->setVolume(0.8f);
 
     this->scheduleUpdate();
 
@@ -281,6 +300,8 @@ bool GameScene::GameStart()
         buttonLayer->setCameraMask(static_cast<int>(CameraFlag::USER1));
         this->addChild(buttonLayer, static_cast<int>(zOlder::BUTTON));
 
+        //@cricket
+        _gameSound->play();
         return true;
     }
 
@@ -332,6 +353,8 @@ void GameScene::changeScene(Ref* pSender)
 
     if (!_changeSceneFlag)
     {
+        _gameSound->stop();
+
         unscheduleUpdate();
 
         // ƒZƒŒƒNƒgƒV[ƒ“‚É‰æ–Ê‘JˆÚ‚·‚éB
@@ -339,6 +362,10 @@ void GameScene::changeScene(Ref* pSender)
         auto* fade = TransitionFade::create(1.0f, stageSelectScene, Color3B::BLACK);
         // GameScene‚ð”jŠü‚µ‚ÄStageSelectScene‚É‘JˆÚ‚·‚é
         Director::getInstance()->replaceScene(fade);
+
+        //@cricket
+        _gameSound->destroy();
+        _gameSound = nullptr;
 
         _changeSceneFlag = true;
     }

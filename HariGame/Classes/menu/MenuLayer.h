@@ -17,6 +17,8 @@ public:
 
 	void update(float delta);
 
+	void Resume();
+
 private:
 	CREATE_FUNC(MenuLayer);
 	enum MENU_SELECT
@@ -36,6 +38,7 @@ private:
 
 	void MenuCancel(Ref* pSender);
 	void SromScratch(Ref* pSender);
-	void BackTitleScene(Ref* pSender);	// ю╡ды┴Ф√й┌и√ъ┌И
+	void BackTitleScene(Ref* pSender);			// ю╡ды┴Ф√й┌и√ъ┌И
 	void BackStageSelectScene(Ref* pSender);	// ╫ц╟╪ч╬з╦д┴Ф√й┌и√ъ┌И
+	void AddSettingLayer(Ref* pSender);			// ░щ▓Х┴Ф√й┌П∙\▌╕
 };

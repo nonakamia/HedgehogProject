@@ -66,6 +66,7 @@ Player::Player()
 	//@cricket
 	_actionBank = nullptr;
 	_jumpSE = nullptr;
+	_damageSE = nullptr;
 }
 
 Player::~Player()
@@ -81,6 +82,11 @@ Player::~Player()
 		_jumpSE->destroy();
 		_jumpSE = nullptr;
 	}
+	if (_damageSE)
+	{
+		_damageSE->destroy();
+		_damageSE = nullptr;
+	}
 }
 
 bool Player::init()
@@ -92,6 +98,7 @@ bool Player::init()
 	_actionBank = CkBank::newBank("se/action/action.ckb");
 #endif
 	_jumpSE = CkSound::newBankSound(_actionBank, "jump");
+	_damageSE = CkSound::newBankSound(_actionBank, "damage");
 	return true;
 }
 
@@ -280,7 +287,8 @@ void Player::DamageAction(cocos2d::Sprite* spite)
 {
 	if ((_action != ACTION::DAMAGE)&&(!_damageFlag)&&(_damageAction == nullptr))
 	{
-
+		//@cricket
+		_damageSE->play();
 
 		if (spite->getName() == "blackLadydug")
 		{
@@ -313,7 +321,6 @@ void Player::DamageAction(cocos2d::Sprite* spite)
 
 		CC_SAFE_RETAIN(_damageAction);
 		_action = ACTION::DAMAGE;
-
 		_damageFlag = true;
 		return;
 	}

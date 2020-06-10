@@ -77,6 +77,9 @@ GameScene::GameScene()
 
     //@cricket
     _gameSound = nullptr;
+    _effectBank = nullptr;
+    _clearSE = nullptr;
+    _failSE = nullptr;
 }
 
 GameScene::~GameScene()
@@ -92,6 +95,21 @@ GameScene::~GameScene()
     {
         _gameSound->destroy();
         _gameSound = nullptr;
+    }
+    if (_effectBank)
+    {
+        _effectBank->destroy();
+        _effectBank = nullptr;
+    }
+    if (_clearSE)
+    {
+        _clearSE->destroy();
+        _clearSE = nullptr;
+    }
+    if (_failSE)
+    {
+        _failSE->destroy();
+        _failSE = nullptr;
     }
 }
 
@@ -166,13 +184,13 @@ bool GameScene::init()
     this->addChild(_hpMng, static_cast<int>(zOlder::HP));
 
     // ÒÆ­°ÎÞÀÝ
-    auto button = MenuItemImage::create(
+    _button = MenuItemImage::create(
         "menu/menuButton.png",
         "menu/menuButton.png",
         CC_CALLBACK_1(GameScene::SetMenu, this));
-    button->setPosition(Vec2(origin.x + 50.0f,
+    _button->setPosition(Vec2(origin.x + 50.0f,
         origin.y + visibleSize.height - 50.0f));
-    auto menu = Menu::create(button, nullptr);
+    auto menu = Menu::create(_button, nullptr);
     menu->setPosition(Vec2::ZERO);
     menu->setCameraMask(static_cast<int>(CameraFlag::USER1));
     addChild(menu, static_cast<int>(zOlder::BUTTON));
@@ -189,11 +207,15 @@ bool GameScene::init()
     //@cricket
 #ifdef CK_PLATFORM_WIN
     _gameSound = CkSound::newStreamSound("Resources/sound/CabalHill.cks");
+    _effectBank = CkBank::newBank("Resources/se/effect/effect.ckb");
 #else
     _gameSound = CkSound::newStreamSound("sound/CabalHill.cks");
+    _effectBank = CkBank::newBank("se/effect/effect.ckb");
 #endif
     _gameSound->setLoopCount(-1);
     _gameSound->setVolume(0.8f);
+    _clearSE = CkSound::newBankSound(_effectBank, "clear");
+    _failSE = CkSound::newBankSound(_effectBank, "fail");
 
     this->scheduleUpdate();
 
@@ -237,7 +259,6 @@ void GameScene::update(float delta)
             auto winSize = Director::getInstance()->getWinSize();
             if (_player_behind->getPositionX() - _player_behind->GetPoint().x > getDefaultCamera()->getPositionX() + winSize.width / 2.0f)
             {
-                // player‚ÌGameOverAction
                 for (auto player : _plauerLayer->getChildren())
                 {
                     ((Obj*)player)->GameClearAction();
@@ -314,6 +335,7 @@ void GameScene::GameOverAction()
     {
         _gameOverFlag = true;
 
+        _failSE->play();
         // player‚ÌGameOverAction
         for (auto player : _plauerLayer->getChildren())
         {
@@ -339,6 +361,9 @@ void GameScene::GameOverAction()
 
 void GameScene::AddClearLayer()
 {
+    //@cricket
+    _clearSE->play();
+
     auto clearLayer = ClearLayer::createClearLayer();
     clearLayer->setCameraMask(static_cast<int>(CameraFlag::USER1));
     this->addChild(clearLayer, static_cast<int>(zOlder::MENU));
@@ -365,7 +390,13 @@ void GameScene::changeScene(Ref* pSender)
 
         //@cricket
         _gameSound->destroy();
+        _effectBank->destroy();
+        _clearSE->destroy();
+        _failSE->destroy();
         _gameSound = nullptr;
+        _effectBank = nullptr;
+        _clearSE = nullptr;
+        _failSE = nullptr;
 
         _changeSceneFlag = true;
     }
@@ -390,6 +421,8 @@ void GameScene::SetMenu(Ref* pSender)
         auto menuLayer = MenuLayer::createMenuLayer();
         this->addChild(menuLayer, static_cast<int>(zOlder::MENU));
         menuLayer->setCameraMask(static_cast<int>(CameraFlag::USER1));
+
+        _button->setVisible(false);
         _menuFlag = true;
     }
 }
@@ -408,6 +441,7 @@ void GameScene::Resume()
         player->scheduleUpdate();
         ((Player*)player)->Rotate();;
     }
+    _button->setVisible(true);
 }
 
 bool GameScene::GetGoalFlag()

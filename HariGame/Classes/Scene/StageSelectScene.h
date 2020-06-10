@@ -19,6 +19,8 @@ public:
 private:
 	CREATE_FUNC(StageSelectScene);
 
+	cocos2d::MenuItemImage* _button;								// ÒÆ­°ÎÞÀÝ
+
 	//@cricket
 	CkSound* _selectSound;
 	

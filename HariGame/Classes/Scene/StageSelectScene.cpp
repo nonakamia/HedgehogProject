@@ -72,13 +72,13 @@ bool StageSelectScene::init()
 	stage2->scheduleUpdate();
 
 	// ÒÆ­°ÎÞÀÝ
-	auto button= MenuItemImage::create(
+	_button = MenuItemImage::create(
 		"menu/menuButton.png",
 		"menu/menuButton.png",
 		CC_CALLBACK_1(StageSelectScene::SetMenu, this));
-	button->setPosition(Vec2(origin.x + 50.0f,
+	_button->setPosition(Vec2(origin.x + 50.0f,
 		origin.y + visibleSize.height - 50.0f));
-	auto menu = Menu::create(button,nullptr);
+	auto menu = Menu::create(_button,nullptr);
 	menu->setPosition(Vec2::ZERO);
 	addChild(menu,static_cast<int>(zOlder::BUTTON));
 
@@ -104,6 +104,7 @@ void StageSelectScene::update(float delta)
 void StageSelectScene::Resume()
 {
 	_menuFlag = false;
+	_button->setVisible(true);
 }
 
 void StageSelectScene::changeScene(Ref* pSender, std::string map)
@@ -135,6 +136,7 @@ void StageSelectScene::SetMenu(Ref* pSender)
 	{
 		auto menuLayer = MenuLayer::createMenuLayer();
 		this->addChild(menuLayer, static_cast<int>(zOlder::MENU));
+		_button->setVisible(false);
 		_menuFlag = true;
 	}
 }

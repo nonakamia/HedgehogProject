@@ -3,6 +3,7 @@
 #include "Scene/TitleScene.h"
 #include "Scene/StageSelectScene.h"
 #include "Scene/GameScene.h"
+#include "menu/setting/SettingLayer.h"
 
 USING_NS_CC;
 
@@ -92,12 +93,17 @@ bool MenuLayer::init()
 	addChild(backTitleMenu);
 
 	// Ý’è
-	auto setting = Sprite::create("menu/setting.png");
-	addChild(setting);
+	auto setting = MenuItemImage::create(
+		"menu/setting.png",
+		"menu/setting.png",
+		CC_CALLBACK_1(MenuLayer::AddSettingLayer, this));
 	setting->setPosition(Vec2(
 		menuImag->getPosition().x,
 		menuImag->getPosition().y * 0.8f
 	));
+	auto settingMenu = Menu::create(setting, nullptr);
+	settingMenu->setPosition(Vec2::ZERO);
+	addChild(settingMenu);
 
 	// GameScene‚Ì‚Ý‚Å‚Ì•\Ž¦
 	if (Director::getInstance()->getRunningScene()->getName() == "GameScene")
@@ -158,6 +164,16 @@ void MenuLayer::update(float delta)
 {
 }
 
+void MenuLayer::Resume()
+{
+	if (!_menuFlag)
+	{
+		_buttonSE->play();
+		this->runAction(MoveTo::create(0.5f, Vec2::ZERO));
+		_menuFlag = true;
+	}
+}
+
 void MenuLayer::MenuCancel(Ref* pSender)
 {
 	if (!_menuFlag)
@@ -166,7 +182,6 @@ void MenuLayer::MenuCancel(Ref* pSender)
 	}
 
 	auto scene = (BaseScene*)Director::getInstance()->getRunningScene();
-	//scene->SetMenuFlag(false);
 	scene->Resume();
 	
 	this->removeFromParentAndCleanup(true);
@@ -219,5 +234,25 @@ void MenuLayer::BackStageSelectScene(Ref* pSender)
 	auto* fade = TransitionFadeUp::create(1.0f, stageSelectScene);
 	Director::getInstance()->replaceScene(fade);
 
+	_menuFlag = false;
+}
+
+void MenuLayer::AddSettingLayer(Ref* pSender)
+{
+	if (!_menuFlag)
+	{
+		return;
+	}
+	_buttonSE->play();
+
+	Size visibleSize = Director::getInstance()->getVisibleSize();
+	auto settingLayer = SettingLayer::createSettingLayer();
+	Director::getInstance()->getRunningScene()->addChild(settingLayer, static_cast<int>(zOlder::MENU));
+	if (Director::getInstance()->getRunningScene()->getName() == "GameScene")
+	{
+		settingLayer->setCameraMask(static_cast<int>(CameraFlag::USER1));
+	}
+
+	this->runAction(MoveTo::create(1.0f, Vec2(-visibleSize.width, 0)));
 	_menuFlag = false;
 }

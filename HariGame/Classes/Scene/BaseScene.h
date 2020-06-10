@@ -7,20 +7,20 @@
 #include "ck/bank.h"
 #include "ck/sound.h"
 
+	// zOlder(‰œs‚«)
+enum class zOlder {
+	BG,			// ”wŒi
+	OBSTACLES,	// áŠQ•¨
+	PLAYER,		// ÌßÚ²Ô°
+	BUTTON,		// ÎŞÀİ
+	HP,
+	MENU,
+	MAX
+};
+
 class BaseScene : public cocos2d::Scene
 {
 public:
-	// zOlder(‰œs‚«)
-	enum class zOlder {
-		BG,			// ”wŒi
-		OBSTACLES,	// áŠQ•¨
-		PLAYER,		// ÌßÚ²Ô°
-		BUTTON,		// ÎŞÀİ
-		HP,
-		MENU,
-		MAX
-	};
-
 	BaseScene();
 	~BaseScene();
 

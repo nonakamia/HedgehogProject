@@ -159,6 +159,7 @@ xcopy "$(ProjectDir)..\Resources" "$(OutDir)\Resources\" /D /E /I /F /Y
     <ClCompile Include="..\Classes\ClearLayer\ClearLayer.cpp" />
     <ClCompile Include="..\Classes\HP\HPMng.cpp" />
     <ClCompile Include="..\Classes\menu\MenuLayer.cpp" />
+    <ClCompile Include="..\Classes\menu\setting\SettingLayer.cpp" />
     <ClCompile Include="..\Classes\Obj\Obj.cpp" />
     <ClCompile Include="..\Classes\Obj\Obstacles\AddObstacles.cpp" />
     <ClCompile Include="..\Classes\Obj\Obstacles\BlackLadybug\BlackLadybug.cpp" />
@@ -181,6 +182,7 @@ xcopy "$(ProjectDir)..\Resources" "$(OutDir)\Resources\" /D /E /I /F /Y
     <ClInclude Include="..\Classes\ClearLayer\ClearLayer.h" />
     <ClInclude Include="..\Classes\HP\HPMng.h" />
     <ClInclude Include="..\Classes\menu\MenuLayer.h" />
+    <ClInclude Include="..\Classes\menu\setting\SettingLayer.h" />
     <ClInclude Include="..\Classes\Obj\Obj.h" />
     <ClInclude Include="..\Classes\Obj\OBJ_COLLAR.h" />
     <ClInclude Include="..\Classes\Obj\Obstacles\AddObstacles.h" />

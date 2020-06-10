@@ -46,6 +46,9 @@
     <Filter Include="scene\StageSelectScene\stage">
       <UniqueIdentifier>{fd0466da-b633-4afd-96c2-1c9553bfcbfb}</UniqueIdentifier>
     </Filter>
+    <Filter Include="menu\setting">
+      <UniqueIdentifier>{879c9813-1531-4271-a5d6-0c9b982f6d8f}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -105,6 +108,9 @@
     <ClCompile Include="..\Classes\ClearLayer\ClearLayer.cpp" />
     <ClCompile Include="..\Classes\Obj\Obstacles\AddObstacles.cpp">
       <Filter>obj\Obstacles</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\menu\setting\SettingLayer.cpp">
+      <Filter>menu\setting</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -168,6 +174,9 @@
     <ClInclude Include="..\Classes\ClearLayer\ClearLayer.h" />
     <ClInclude Include="..\Classes\Obj\Obstacles\AddObstacles.h">
       <Filter>obj\Obstacles</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\menu\setting\SettingLayer.h">
+      <Filter>menu\setting</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

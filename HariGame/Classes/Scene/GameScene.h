@@ -79,8 +79,13 @@ private:
     cocos2d::TMXTiledMap* _mapData;          // Ï¯ÌßÃÞ°À
     static std::string _mapName;
 
+    cocos2d::MenuItemImage* _button;		// ÒÆ­°ÎÞÀÝ
+
     //@cricket
     CkSound* _gameSound;
+    CkBank* _effectBank;
+    CkSound* _clearSE;                      // ¸Ø±‰¹
+    CkSound* _failSE;                       // Ž¸”s‰¹
 
     bool GameStart();
     void GameOverAction();

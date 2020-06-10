@@ -1,0 +1,5 @@
+<?xml vertion="1.0" encoding="utf-8" ?>
+<bank name="effect">
+    <sound name="clear" source="kirakiran.wav"/>
+    <sound name="fail" source="fail.wav"/>
+</bank>

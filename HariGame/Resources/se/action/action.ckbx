@@ -2,4 +2,5 @@
 <bank name="action">
     <sound name="jump" source="jump.wav"/>
     <sound name="damage" source="damage.wav"/>
+    <sound name="change" source="change.wav"/>
 </bank>

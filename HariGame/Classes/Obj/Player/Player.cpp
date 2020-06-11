@@ -25,6 +25,12 @@ Obj* Player::createPlayer(OBJ_COLOR color)
 		{
 			pRet->setSpriteFrame(SpriteFrameCache::getInstance()->getSpriteFrameByName("rotate_g"));
 		}
+		else
+		{
+			delete pRet;
+			pRet = nullptr;
+			return nullptr;
+		}
 
 		pRet->setTag(static_cast<int>(color));
 		pRet->setAnchorPoint(cocos2d::Vec2(0.5f, 0.5f));
@@ -43,13 +49,14 @@ Player::Player()
 {
 	_damageFlag = false;
 	_gameOverFlag = false;
+	_jumpFlag = false;
+	_flowerFlag = false;
 
 	_moveVec = 192.0f;
 	_vector = 0.0f;
 	_time = 0.0f;
 	_maxVec = 24.0f;
-	_jumpFlag = false;
-	_flowerFlag = false;
+
 	_action = ACTION::NON;
 
 	_blackList[ACTION::JUMP].push_back(ACTION::JUMP);
@@ -67,6 +74,7 @@ Player::Player()
 	_actionBank = nullptr;
 	_jumpSE = nullptr;
 	_damageSE = nullptr;
+	_changeSE = nullptr;
 }
 
 Player::~Player()
@@ -87,6 +95,11 @@ Player::~Player()
 		_damageSE->destroy();
 		_damageSE = nullptr;
 	}
+	if (_changeSE)
+	{
+		_changeSE->destroy();
+		_changeSE = nullptr;
+	}
 }
 
 bool Player::init()
@@ -99,6 +112,7 @@ bool Player::init()
 #endif
 	_jumpSE = CkSound::newBankSound(_actionBank, "jump");
 	_damageSE = CkSound::newBankSound(_actionBank, "damage");
+	_changeSE = CkSound::newBankSound(_actionBank, "change");
 	return true;
 }
 
@@ -109,12 +123,21 @@ void Player::update(float delta)
 		return;
 	}
 
+	if (_gameOverFlag)
+	{
+		if (_gemeOverAction->isDone())
+		{
+			CC_SAFE_RELEASE_NULL(_gemeOverAction);
+			unscheduleUpdate();
+		}
+		return;
+	}
+
 	if (!_gameOverFlag)
 	{
 		if (_action == ACTION::ROTATE)
 		{
 			Rotate();
-			_action = ACTION::ROLLING;
 		}
 
 		if (_rollingAction != nullptr)
@@ -132,36 +155,29 @@ void Player::update(float delta)
 		}
 
 		Falling();
-
-
 		// ﾀﾞﾒｰｼﾞ
 		if ((_damageFlag))
 		{
 			DamageAction(this);
 		}
 	}
-	else
-	{
-		if (_gemeOverAction->isDone())
-		{
-			CC_SAFE_RELEASE_NULL(_gemeOverAction);
-			unscheduleUpdate();
-		}
-	}
-
 }
 
 void Player::Rotate()
 {
-	_rollingAction = runAction(
-		RepeatForever::create(
-			Spawn::create(
-				RotateBy::create(1.0f, 360.0f),
-				MoveBy::create(1.0f, Vec2(_moveVec, 0.0f)),
-				nullptr)
-		)
-	);
-	CC_SAFE_RETAIN(_rollingAction);
+	if (_rollingAction == nullptr)
+	{
+		_rollingAction = runAction(
+			RepeatForever::create(
+				Spawn::create(
+					RotateBy::create(1.0f, 360.0f),
+					MoveBy::create(1.0f, Vec2(_moveVec, 0.0f)),
+					nullptr)
+			)
+		);
+		CC_SAFE_RETAIN(_rollingAction);
+		_action = ACTION::ROLLING;
+	}
 }
 
 void Player::Jump()
@@ -198,6 +214,9 @@ void Player::Falling()
 
 	if (_flowerFlag)
 	{
+		_jumpFlag = false;
+		_time = 0.0f;
+		_vector = 0.0f;
 		return;
 	}
 
@@ -218,6 +237,8 @@ void Player::Falling()
 
 void Player::Change(int color)
 {
+	//@_cricket
+	_changeSE->play();
 	if (color == static_cast<int>(OBJ_COLOR::OBJ_RED))
 	{
 		setSpriteFrame(Sprite::create("player/player_r_rotate.png")->getSpriteFrame());
@@ -285,7 +306,7 @@ bool Player::CollsionCheck(cocos2d::Vec2 vec)
 
 void Player::DamageAction(cocos2d::Sprite* spite)
 {
-	if ((_action != ACTION::DAMAGE)&&(!_damageFlag)&&(_damageAction == nullptr))
+	if (!_damageFlag)
 	{
 		//@cricket
 		_damageSE->play();
@@ -324,28 +345,31 @@ void Player::DamageAction(cocos2d::Sprite* spite)
 		_damageFlag = true;
 		return;
 	}
-
-	// ｱｸｼｮﾝが終わっている
-	if (_damageAction == nullptr)
+	else if (_damageFlag)
 	{
-		_damageFlag = false;
-		return;
-	}
-
-	// ｱｸｼｮﾝが終わった
-	if ((_damageFlag)&&(_damageAction->isDone()))
-	{
-		CC_SAFE_RELEASE_NULL(_damageAction);
-		_damageFlag = false;
-		
-		if ((_rollingAction == nullptr)&&(getName() == "player_front"))
+		// ｱｸｼｮﾝが終わっている
+		if (_damageAction == nullptr)
 		{
-			_action = ACTION::ROTATE;
-			((ActionConvey*)Director::getInstance()->getRunningScene()->getChildByName("actionConvey"))->SetActionConvey(ACTION::ROTATE);
+			_damageFlag = false;
+			return;
 		}
-		//Rotate();
-		return;
+
+		// ｱｸｼｮﾝが終わった
+		if (_damageAction->isDone())
+		{
+			CC_SAFE_RELEASE_NULL(_damageAction);
+			_damageFlag = false;
+
+			if ((_rollingAction == nullptr) && (getName() == "player_front"))
+			{
+				_action = ACTION::ROTATE;
+				((ActionConvey*)Director::getInstance()->getRunningScene()->getChildByName("actionConvey"))->SetActionConvey(ACTION::ROTATE);
+			}
+			return;
+		}
 	}
+
+	
 }
 
 void Player::GameOverAction()

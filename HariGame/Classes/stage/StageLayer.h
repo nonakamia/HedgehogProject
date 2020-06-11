@@ -10,8 +10,8 @@
 class StageLayer : public cocos2d::Layer
 {
 public:
-	static Layer* createStageLayer(std::string map, cocos2d::Vec2 pos);
-	StageLayer(std::string map, cocos2d::Vec2 pos);
+	static Layer* createStageLayer(std::string name, std::string map, cocos2d::Vec2 pos);
+	StageLayer(std::string name, std::string map, cocos2d::Vec2 pos);
 	~StageLayer();
 	bool init();
 
@@ -21,11 +21,14 @@ private:
 
 	bool _selectFlag;
 
+	std::string _name;
 	std::string _map;
 	cocos2d::Vec2 _position;
 
 	cocos2d::Sprite* _callout;
 	bool _calloutFlag;
+
+	cocos2d::Label* _stageLabel;
 
 	//@cricket
 	CkBank* _buttonBank;							// ÎÞÀÝBank

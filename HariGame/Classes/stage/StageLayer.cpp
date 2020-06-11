@@ -3,9 +3,9 @@
 
 USING_NS_CC;
 
-Layer* StageLayer::createStageLayer(std::string map,cocos2d::Vec2 pos)
+Layer* StageLayer::createStageLayer(std::string name, std::string map,cocos2d::Vec2 pos)
 {
-	StageLayer* pRet = new(std::nothrow) StageLayer(map,pos);
+	StageLayer* pRet = new(std::nothrow) StageLayer(name, map,pos);
 	if (pRet && pRet->init())
 	{
 		pRet->autorelease();
@@ -19,8 +19,9 @@ Layer* StageLayer::createStageLayer(std::string map,cocos2d::Vec2 pos)
 	}
 }
 
-StageLayer::StageLayer(std::string map,cocos2d::Vec2 pos)
+StageLayer::StageLayer(std::string name, std::string map,cocos2d::Vec2 pos)
 {
+	_name = name;
 	_map = map;
 	_position = pos;
 	_calloutFlag = false;
@@ -70,6 +71,7 @@ bool StageLayer::init()
 		else
 		{
 			_callout->runAction(ScaleTo::create(0.1f, 0.0f));
+			_stageLabel->runAction(ScaleTo::create(0.1f, 0.0f));
 			_calloutFlag = false;
 		}
 		return false;
@@ -83,6 +85,7 @@ bool StageLayer::init()
 		if (!_calloutFlag)
 		{
 			_callout->runAction(ScaleTo::create(0.1f, 1.0f));
+			_stageLabel->runAction(ScaleTo::create(0.1f, 1.0f));
 			_calloutFlag = true;
 		}
 		else
@@ -103,6 +106,21 @@ bool StageLayer::init()
 		origin.y + visibleSize.height / 2.0f
 	));
 	_callout->setScale(0.0f);
+
+	_stageLabel =Label::createWithTTF(_name,
+		"fonts/arial.ttf",
+		50.0f,
+		Size(_callout->getContentSize().width, _callout->getContentSize().height + 50.0f),
+		TextHAlignment::CENTER,
+		TextVAlignment::CENTER
+	);
+	addChild(_stageLabel);
+	_stageLabel->setAnchorPoint(Point(0.5f, 0.0f));
+	_stageLabel->setPosition(_callout->getPosition());
+	_stageLabel->setColor(cocos2d::Color3B(0.0f, 0.0f, 0.0f));
+	_stageLabel->setScale(0.0f);
+
+		// add the label as a child to this layer
 
 	//@cricket
 #ifdef CK_PLATFORM_WIN

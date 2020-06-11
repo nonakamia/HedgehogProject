@@ -63,6 +63,7 @@ private:
 	CkBank* _actionBank;							// ﾎﾞﾀﾝBank
 	CkSound* _jumpSE;								// ｼﾞｬﾝﾌﾟ音
 	CkSound* _damageSE;								// ﾀﾞﾒｰｼﾞ音
+	CkSound* _changeSE;								// 入れ替え音
 
 	void Jumping();
 	void Rolling(float delta);

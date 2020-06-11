@@ -59,13 +59,13 @@ bool StageSelectScene::init()
 
 	// ½Ã°¼Ş
 	// •¡”ì¬—\’è‚¾‚©‚çƒNƒ‰ƒX‰»‚·‚é—\’è
-	auto stage = StageLayer::createStageLayer("stage/stage_0.tmx",
+	auto stage = StageLayer::createStageLayer("STAGE0","stage/stage_0.tmx",
 		Vec2(origin.x + visibleSize.width / 2.0f,
 		origin.y + visibleSize.height / 4.0f));
 	addChild(stage, static_cast<int>(zOlder::OBSTACLES));
 	stage->scheduleUpdate();
 
-	auto stage2 = StageLayer::createStageLayer("stage/stage_1.tmx",
+	auto stage2 = StageLayer::createStageLayer("STAGE1","stage/stage_1.tmx",
 		Vec2(origin.x + visibleSize.width / 1.5f,
 			origin.y + visibleSize.height / 4.0f));
 	addChild(stage2, static_cast<int>(zOlder::OBSTACLES));

@@ -11,9 +11,16 @@ public:
 	void update(float delta);
 private:
 	CREATE_FUNC(SettingLayer);
+	std::string _ifs;
 
 	cocos2d::Action* _backAction;
 
+	cocos2d::Label* _hpLabel;
+	int _maxHP;
+	int _defaultHP;
+
 	void BackMenu(Ref* pSender);
+	void HP(Ref* pSender, int addHP);
+	void Reset(Ref* pSender);
 };
 

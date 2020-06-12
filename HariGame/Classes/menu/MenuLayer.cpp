@@ -71,7 +71,7 @@ bool MenuLayer::init()
 		"menu/cancelButton.png",
 		"menu/cancelButton.png",
 		CC_CALLBACK_1(MenuLayer::MenuCancel, this));
-	_cancelButton->setAnchorPoint(Point(0.0f, 0.0f));
+	_cancelButton->setAnchorPoint(Point(0.8f, 0.8f));
 	_cancelButton->setPosition(Vec2(
 		menuImag->getPosition().x + menuImag->getContentSize().width / 2.0f,
 		menuImag->getPosition().y + menuImag->getContentSize().height / 2.0f));

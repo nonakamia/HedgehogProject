@@ -32,7 +32,6 @@
 #include "Button/ButtonLayer.h"
 #include "Camera/CameraOBJ.h"
 #include "menu/MenuLayer.h"
-
 #include "Split/Split.h"
 
 USING_NS_CC;
@@ -129,18 +128,9 @@ bool GameScene::init()
     }
     setName("GameScene");
 
-    // ŠO•”ÃÞ°À“Ç‚Ýž‚Ý
-    std::string ifs = FileUtils::getInstance()->getStringFromFile("csv/setting.csv");
-    if (ifs == "")
-    {
-        return false;
-    }
-    ValueVector csvSplit = Split::split(ifs, "\n");
-    for (int i = 1; i < (int)csvSplit.size(); i++) 
-    {
-        ValueVector csvData = Split::split(csvSplit.at(i).asString(), ",");
-        _maxHP= csvData.at(0).asInt();
-	}
+    //
+    UserDefault* _userDef = UserDefault::getInstance();
+    _maxHP = _userDef->getIntegerForKey("MAX_HP");
 
     const Size visibleSize = Director::getInstance()->getVisibleSize();
     const Vec2 origin = Director::getInstance()->getVisibleOrigin();

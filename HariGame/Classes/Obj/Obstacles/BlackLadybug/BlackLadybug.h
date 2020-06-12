@@ -10,11 +10,14 @@ public:
 	static Obj* createBlackLadybug(OBJ_COLOR color);
 	BlackLadybug();
 	~BlackLadybug();
+	bool init();
+
 	void DamageAction(cocos2d::Sprite* spite);						// ÀÞÒ°¼Þ±¸¼®Ý
 	void GameOverAction();
 	void GameClearAction();
 
 	void HitCheck(cocos2d::Node* players,HPMng* playerHP);
 private:
+	CkSound* _hitSE;												// “–‚½‚Á‚½Žž‚ÌSE
 };
 

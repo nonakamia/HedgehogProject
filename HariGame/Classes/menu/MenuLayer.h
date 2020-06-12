@@ -30,6 +30,8 @@ private:
 		MAX
 	};
 
+	cocos2d::MenuItemImage* _cancelButton;
+
 	bool _menuFlag;
 
 	//@cricket

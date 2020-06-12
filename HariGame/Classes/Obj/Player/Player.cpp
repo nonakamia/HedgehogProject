@@ -25,15 +25,12 @@ Obj* Player::createPlayer(OBJ_COLOR color)
 		{
 			pRet->setSpriteFrame(SpriteFrameCache::getInstance()->getSpriteFrameByName("rotate_g"));
 		}
-		else
-		{
-			delete pRet;
-			pRet = nullptr;
-			return nullptr;
-		}
 
 		pRet->setTag(static_cast<int>(color));
 		pRet->setAnchorPoint(cocos2d::Vec2(0.5f, 0.5f));
+		pRet->setVisible(true);
+
+		pRet->autorelease();
 
 		return pRet;
 	}
@@ -104,6 +101,10 @@ Player::~Player()
 
 bool Player::init()
 {
+	if (!Sprite::init())
+	{
+		return false;
+	}
 	//@cricket
 #ifdef CK_PLATFORM_WIN
 	_actionBank = CkBank::newBank("Resources/se/action/action.ckb");
@@ -113,6 +114,7 @@ bool Player::init()
 	_jumpSE = CkSound::newBankSound(_actionBank, "jump");
 	_damageSE = CkSound::newBankSound(_actionBank, "damage");
 	_changeSE = CkSound::newBankSound(_actionBank, "change");
+	_changeSE->setVolume(0.4f);
 	return true;
 }
 
@@ -158,7 +160,25 @@ void Player::update(float delta)
 		// ﾀﾞﾒｰｼﾞ
 		if ((_damageFlag))
 		{
-			DamageAction(this);
+			// ｱｸｼｮﾝが終わっている
+			if (_damageAction == nullptr)
+			{
+				_damageFlag = false;
+				return;
+			}
+			// ｱｸｼｮﾝが終わった
+			if (_damageAction->isDone())
+			{
+				setVisible(true);
+				CC_SAFE_RELEASE_NULL(_damageAction);
+				_damageFlag = false;
+
+				if ((_rollingAction == nullptr) && (getName() == "player_front"))
+				{
+					_action = ACTION::ROTATE;
+					((ActionConvey*)Director::getInstance()->getRunningScene()->getChildByName("actionConvey"))->SetActionConvey(ACTION::ROTATE);
+				}
+			}
 		}
 	}
 }
@@ -182,6 +202,11 @@ void Player::Rotate()
 
 void Player::Jump()
 {
+	if (_gameOverFlag)
+	{
+		return;
+	}
+
 	if ((!_jumpFlag) && (_vector == 0.0f))
 	{
 		_jumpFlag = true;
@@ -237,6 +262,11 @@ void Player::Falling()
 
 void Player::Change(int color)
 {
+	if (_gameOverFlag)
+	{
+		return;
+	}
+
 	//@_cricket
 	_changeSE->play();
 	if (color == static_cast<int>(OBJ_COLOR::OBJ_RED))
@@ -306,7 +336,7 @@ bool Player::CollsionCheck(cocos2d::Vec2 vec)
 
 void Player::DamageAction(cocos2d::Sprite* spite)
 {
-	if (!_damageFlag)
+	if ((!_damageFlag)||(spite == this))
 	{
 		//@cricket
 		_damageSE->play();
@@ -341,48 +371,26 @@ void Player::DamageAction(cocos2d::Sprite* spite)
 		}
 
 		CC_SAFE_RETAIN(_damageAction);
-		_action = ACTION::DAMAGE;
+		//_action = ACTION::DAMAGE;
 		_damageFlag = true;
 		return;
-	}
-	else if (_damageFlag)
-	{
-		// ｱｸｼｮﾝが終わっている
-		if (_damageAction == nullptr)
-		{
-			_damageFlag = false;
-			return;
-		}
-
-		// ｱｸｼｮﾝが終わった
-		if (_damageAction->isDone())
-		{
-			CC_SAFE_RELEASE_NULL(_damageAction);
-			_damageFlag = false;
-
-			if ((_rollingAction == nullptr) && (getName() == "player_front"))
-			{
-				_action = ACTION::ROTATE;
-				((ActionConvey*)Director::getInstance()->getRunningScene()->getChildByName("actionConvey"))->SetActionConvey(ACTION::ROTATE);
-			}
-			return;
-		}
-	}
-
-	
+	}	
 }
 
 void Player::GameOverAction()
 {
-	// 今のｱｸｼｮﾝを止める
-	stopAllActions();
-	CC_SAFE_RELEASE_NULL(_damageAction);
-	CC_SAFE_RELEASE_NULL(_rollingAction);
+	if (!_gameOverFlag)
+	{
+		// 今のｱｸｼｮﾝを止める
+		stopAllActions();
+		CC_SAFE_RELEASE_NULL(_damageAction);
+		CC_SAFE_RELEASE_NULL(_rollingAction);
 
-	// ｹﾞｰﾑｵｰﾊﾞｰ時のｱｸｼｮﾝを行う
-	_gemeOverAction = runAction(FadeOut::create(1.0f));
-	CC_SAFE_RETAIN(_gemeOverAction);
-	_gameOverFlag = true;
+		// ｹﾞｰﾑｵｰﾊﾞｰ時のｱｸｼｮﾝを行う
+		_gemeOverAction = runAction(FadeOut::create(1.0f));
+		CC_SAFE_RETAIN(_gemeOverAction);
+		_gameOverFlag = true;
+	}
 }
 
 void Player::GameClearAction()
@@ -395,6 +403,18 @@ void Player::GameClearAction()
 	unscheduleUpdate();
 
 	setVisible(false);
+}
+
+void Player::Resume()
+{
+	if (_damageAction)
+	{
+		runAction(_damageAction);
+	}
+	if (_rollingAction)
+	{
+		runAction(_rollingAction);
+	}
 }
 
 bool Player::SetStartPosition(cocos2d::TMXLayer* startPosLayer, cocos2d::Vec2 tileSize)
@@ -439,6 +459,11 @@ ACTION Player::GetAction()
 
 void Player::FlowerRolling(bool flag)
 {
+	if (_gameOverFlag)
+	{
+		return;
+	}
+
 	_flowerFlag = flag;
 	if (flag)
 	{
@@ -481,10 +506,11 @@ void Player::Jumping()
 
 void Player::Rolling(float delta)
 {
-	if ((_damageFlag)||(getName() != "player_front"))
+	if (getName() != "player_front")
 	{
 		return;
 	}
+
 	auto test = (1.0f / _moveVec) * delta;
 	if (!CollsionCheck(Vec2(test + _point.x, _point.y)))
 	{

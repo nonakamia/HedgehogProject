@@ -1,0 +1,5 @@
+<?xml vertion="1.0" encoding="utf-8" ?>
+<bank name="obstacles">
+    <sound name="hit" source="hit.wav"/>
+    <sound name="budsOpen" source="budsOpen.wav"/>
+</bank>

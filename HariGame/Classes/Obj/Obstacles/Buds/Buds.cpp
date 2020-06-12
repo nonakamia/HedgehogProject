@@ -42,10 +42,32 @@ Buds::Buds()
 {
 	_damageFlag = false;
 	_passingFlag = false;
+
+	//@cricket
+	_openSE = nullptr;
 }
 
 Buds::~Buds()
 {
+	//@cricket
+	if (_openSE)
+	{
+		_openSE->destroy();
+		_openSE = nullptr;
+	}
+}
+
+bool Buds::init()
+{
+	if (!Obstacles::init())
+	{
+		return false;
+	}
+
+	//@cricket
+	_openSE = CkSound::newBankSound(_obstaclesBank, "budsOpen");
+	
+	return true;
 }
 
 void Buds::update(float delta)
@@ -92,6 +114,7 @@ void Buds::DamageAction(cocos2d::Sprite* spite)
 	// ‰Ô‚ªŠJ‚­
 	if (!_damageFlag)
 	{
+		_openSE->play();
 		if (this->getTag() == static_cast<int>(OBJ_COLOR::OBJ_RED))
 		{
 			this->setSpriteFrame(SpriteFrameCache::getInstance()->getSpriteFrameByName("open_r"));

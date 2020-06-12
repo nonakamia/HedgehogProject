@@ -72,6 +72,7 @@ list(APPEND GAME_SOURCE
      Classes/Scene/GameScene.cpp
      Classes/Scene/StageSelectScene.cpp
      Classes/Scene/TitleScene.cpp
+     Classes/Split/Split.cpp
      Classes/stage/StageLayer.cpp
      Classes/AppDelegate.cpp
      )
@@ -98,6 +99,7 @@ list(APPEND GAME_HEADER
         Classes/Scene/GameScene.h
         Classes/Scene/StageSelectScene.h
         Classes/Scene/TitleScene.h
+        Classes/Split/Split.h
         Classes/stage/StageLayer.h
         Classes/AppDelegate.h
      )

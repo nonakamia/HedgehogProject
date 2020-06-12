@@ -53,6 +53,21 @@ bool ClearLayer::init()
 		nullptr
 	));
 
+	// ¸Ø±
+	auto clear = Sprite::create("Clear/clear.png");
+	addChild(clear);
+	clear->setPosition(Vec2(
+		clearWaku->getPositionX(),
+		clearWaku->getPositionY() * 1.3f
+	));
+	clear->setScale(0.0f);
+	clear->runAction(Sequence::create(
+		DelayTime::create(1.0f),
+		ScaleTo::create(0.2f, 1.0f),
+		nullptr
+	));
+
+
 	// ½Ã°¼Þ¾Ú¸Ä‚É–ß‚é
 	auto backStageSlect = MenuItemImage::create(
 		"menu/backStageSelect.png",

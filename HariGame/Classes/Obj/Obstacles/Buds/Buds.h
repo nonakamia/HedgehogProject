@@ -11,6 +11,7 @@ public:
 	static Obj* createBuds(OBJ_COLOR color);
 	Buds();
 	~Buds();
+	bool init();
 
 	void update(float delta);
 
@@ -20,6 +21,9 @@ public:
 
 	void HitCheck(cocos2d::Node* players, HPMng* playerHP);
 private:
-	bool _passingFlag;							// ’Ê‰ß‚µ‚½‚©
+	bool _passingFlag;												// ’Ê‰ß‚µ‚½‚©
+
+	//@cricket
+	CkSound* _openSE;												// ŠJ‰ÔŽž‚ÌSE
 };
 

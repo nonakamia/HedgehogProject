@@ -33,16 +33,35 @@ Obj* BlackLadybug::createBlackLadybug(OBJ_COLOR color)
 BlackLadybug::BlackLadybug()
 {
 	_damageFlag = false;
+
+	//@cricket
+	_hitSE = nullptr;
 }
 
 BlackLadybug::~BlackLadybug()
 {
+	if (_hitSE)
+	{
+		_hitSE->destroy();
+		_hitSE = nullptr;
+	}
+}
+
+bool BlackLadybug::init()
+{
+	if (!Obstacles::init())
+	{
+		return false;
+	}
+	_hitSE = CkSound::newBankSound(_obstaclesBank, "hit");
+	return true;
 }
 
 void BlackLadybug::DamageAction(cocos2d::Sprite* spite)
 {
 	if (!_damageFlag)
 	{
+		_hitSE->play();
 		setVisible(false);
 		_damageFlag = true;
 	}

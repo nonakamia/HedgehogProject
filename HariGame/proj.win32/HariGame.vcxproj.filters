@@ -49,6 +49,9 @@
     <Filter Include="menu\setting">
       <UniqueIdentifier>{879c9813-1531-4271-a5d6-0c9b982f6d8f}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Split">
+      <UniqueIdentifier>{e7913efb-9d51-4bec-adb0-9e70b0da026e}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -111,6 +114,9 @@
     </ClCompile>
     <ClCompile Include="..\Classes\menu\setting\SettingLayer.cpp">
       <Filter>menu\setting</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\Split\Split.cpp">
+      <Filter>Split</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -177,6 +183,9 @@
     </ClInclude>
     <ClInclude Include="..\Classes\menu\setting\SettingLayer.h">
       <Filter>menu\setting</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\Split\Split.h">
+      <Filter>Split</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

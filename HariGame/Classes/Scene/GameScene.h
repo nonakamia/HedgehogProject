@@ -59,6 +59,8 @@ private:
     // implement the "static create()" method manually
     CREATE_FUNC(GameScene);
 
+    int _maxHP;
+
     cocos2d::Layer* _plauerLayer;
     cocos2d::Layer* _obstaclesLayer;
     Obj* _player_front;

@@ -1,5 +1,35 @@
 #include "Obstacles.h"
 
+Obstacles::Obstacles()
+{
+	_obstaclesBank = nullptr;
+}
+
+Obstacles::~Obstacles()
+{
+	if (_obstaclesBank)
+	{
+		_obstaclesBank->destroy();
+		_obstaclesBank = nullptr;
+	}
+}
+
+bool Obstacles::init()
+{
+	if (!Sprite::init())
+	{
+		return false;
+	}
+
+	//@cricket
+#ifdef CK_PLATFORM_WIN
+	_obstaclesBank = CkBank::newBank("Resources/se/obstacles/obstacles.ckb");
+#else
+	_obstaclesBank = CkBank::newBank("se/obstacles/obstacles.ckb");
+#endif
+	return true;
+}
+
 bool Obstacles::Check(Obj* player)
 {
 

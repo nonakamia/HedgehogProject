@@ -67,15 +67,15 @@ bool MenuLayer::init()
 
 
 	// ·¬Ý¾ÙÎÞÀÝ
-	auto cancelButton = MenuItemImage::create(
+	_cancelButton = MenuItemImage::create(
 		"menu/cancelButton.png",
 		"menu/cancelButton.png",
 		CC_CALLBACK_1(MenuLayer::MenuCancel, this));
-	cancelButton->setAnchorPoint(Point(0.0f, 0.0f));
-	cancelButton->setPosition(Vec2(
+	_cancelButton->setAnchorPoint(Point(0.0f, 0.0f));
+	_cancelButton->setPosition(Vec2(
 		menuImag->getPosition().x + menuImag->getContentSize().width / 2.0f,
 		menuImag->getPosition().y + menuImag->getContentSize().height / 2.0f));
-	auto cancelMenu = Menu::create(cancelButton,nullptr);
+	auto cancelMenu = Menu::create(_cancelButton,nullptr);
 	cancelMenu->setPosition(Vec2::ZERO);
 	addChild(cancelMenu);
 
@@ -169,6 +169,7 @@ void MenuLayer::Resume()
 	if (!_menuFlag)
 	{
 		_buttonSE->play();
+		_cancelButton->setVisible(true);
 		this->runAction(MoveTo::create(0.5f, Vec2::ZERO));
 		_menuFlag = true;
 	}
@@ -252,7 +253,7 @@ void MenuLayer::AddSettingLayer(Ref* pSender)
 	{
 		settingLayer->setCameraMask(static_cast<int>(CameraFlag::USER1));
 	}
-
+	_cancelButton->setVisible(false);
 	this->runAction(MoveTo::create(1.0f, Vec2(-visibleSize.width, 0)));
 	_menuFlag = false;
 }

@@ -130,7 +130,29 @@ bool GameScene::init()
 
     //
     UserDefault* _userDef = UserDefault::getInstance();
-    _maxHP = _userDef->getIntegerForKey("MAX_HP");
+    // ÃÞÌ«ÙÄ‚Ì‚Ü‚Ü‚Å‚È‚¢‚©
+    if (_userDef->getIntegerForKey("MAX_HP") != 0)
+    {
+        _maxHP = _userDef->getIntegerForKey("MAX_HP");
+    }
+    else
+    {
+        // ŠO•”ÃÞ°À“Ç‚Ýž‚Ý
+        std::string defaultIfs = FileUtils::getInstance()->getStringFromFile("csv/setting_default.csv");
+        if (defaultIfs == "")
+        {
+            return false;
+        }
+        ValueVector defaultCsvSplit = Split::split(defaultIfs, "\n");
+        for (int i = 1; i < (int)defaultCsvSplit.size(); i++)
+        {
+            ValueVector defaultCsvData = Split::split(defaultCsvSplit.at(i).asString(), ",");
+            _maxHP = defaultCsvData.at(0).asInt();
+        }
+        // ‘‚«ž‚Ý
+        _userDef->setIntegerForKey("MAX_HP", _maxHP);
+    }
+   
 
     const Size visibleSize = Director::getInstance()->getVisibleSize();
     const Vec2 origin = Director::getInstance()->getVisibleOrigin();

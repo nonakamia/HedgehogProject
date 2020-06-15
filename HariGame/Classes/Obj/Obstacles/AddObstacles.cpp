@@ -1,8 +1,9 @@
 #include "AddObstacles.h"
 
 #include "Obj/OBJ_COLLAR.h"
-#include"BlackLadybug/BlackLadybug.h"
-#include"Buds/Buds.h"
+#include "BlackLadybug/BlackLadybug.h"
+#include "Buds/Buds.h"
+#include "CheckPoint/CheckPoint.h"
 
 
 USING_NS_CC;
@@ -80,6 +81,16 @@ void AddObstacles::operator()(cocos2d::Layer* layer, cocos2d::TMXLayer* mapLayer
                 lamp->setScale(0.8f);
                 lamp->setAnchorPoint(Point(0.5f, 0.0f));
                 lamp->setPosition(Vec2(putPos.x, putPos.y - (chipSize / 2.0f)));
+            }
+
+            // Áª¯¸Îß²ÝÄ
+            if (obstaclesGid == OBSTACLES::C_POINT)
+            {
+                auto c_point = CheckPoint::createCheckPoint();
+                c_point->setName("checkPoint");
+                layer->addChild(c_point);
+                c_point->setAnchorPoint(Point(0.5f, 0.0f));
+                c_point->setPosition(Vec2(putPos.x, putPos.y - (chipSize / 2.0f)));
             }
 
             // –{“–‚Í‚±‚¤‚µ‚½‚¢

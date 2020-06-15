@@ -9,6 +9,7 @@ enum OBSTACLES
     BUDS_R = 320,       // бнчп(░т)
     BUDS_G = 321,       // бнчп(≈н)
     LAMP = 311,         // вщлъ(╨ч╟ы)
+    C_POINT = 312,      // а╙╞╦нъ╡щд
     MAX
 };
 

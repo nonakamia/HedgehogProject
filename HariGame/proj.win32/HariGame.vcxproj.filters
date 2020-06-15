@@ -52,6 +52,9 @@
     <Filter Include="Split">
       <UniqueIdentifier>{e7913efb-9d51-4bec-adb0-9e70b0da026e}</UniqueIdentifier>
     </Filter>
+    <Filter Include="obj\Obstacles\checkPoint">
+      <UniqueIdentifier>{ce926191-a1d7-4c4b-8a91-aff17b024b79}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -117,6 +120,9 @@
     </ClCompile>
     <ClCompile Include="..\Classes\Split\Split.cpp">
       <Filter>Split</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\Obj\Obstacles\CheckPoint\CheckPoint.cpp">
+      <Filter>obj\Obstacles\checkPoint</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -186,6 +192,9 @@
     </ClInclude>
     <ClInclude Include="..\Classes\Split\Split.h">
       <Filter>Split</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\Obj\Obstacles\CheckPoint\CheckPoint.h">
+      <Filter>obj\Obstacles\checkPoint</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

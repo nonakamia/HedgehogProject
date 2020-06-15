@@ -164,6 +164,7 @@ xcopy "$(ProjectDir)..\Resources" "$(OutDir)\Resources\" /D /E /I /F /Y
     <ClCompile Include="..\Classes\Obj\Obstacles\AddObstacles.cpp" />
     <ClCompile Include="..\Classes\Obj\Obstacles\BlackLadybug\BlackLadybug.cpp" />
     <ClCompile Include="..\Classes\Obj\Obstacles\Buds\Buds.cpp" />
+    <ClCompile Include="..\Classes\Obj\Obstacles\CheckPoint\CheckPoint.cpp" />
     <ClCompile Include="..\Classes\Obj\Obstacles\Obstacles.cpp" />
     <ClCompile Include="..\Classes\Obj\player\Player.cpp" />
     <ClCompile Include="..\Classes\Scene\BaseScene.cpp" />
@@ -189,6 +190,7 @@ xcopy "$(ProjectDir)..\Resources" "$(OutDir)\Resources\" /D /E /I /F /Y
     <ClInclude Include="..\Classes\Obj\Obstacles\AddObstacles.h" />
     <ClInclude Include="..\Classes\Obj\Obstacles\BlackLadybug\BlackLadybug.h" />
     <ClInclude Include="..\Classes\Obj\Obstacles\Buds\Buds.h" />
+    <ClInclude Include="..\Classes\Obj\Obstacles\CheckPoint\CheckPoint.h" />
     <ClInclude Include="..\Classes\Obj\Obstacles\Obstacles.h" />
     <ClInclude Include="..\Classes\Obj\player\Player.h" />
     <ClInclude Include="..\Classes\Scene\BaseScene.h" />

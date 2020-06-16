@@ -2,4 +2,5 @@
 <bank name="obstacles">
     <sound name="hit" source="hit.wav"/>
     <sound name="budsOpen" source="budsOpen.wav"/>
+    <sound name="checkPoint" source="crystal.wav"/>
 </bank>

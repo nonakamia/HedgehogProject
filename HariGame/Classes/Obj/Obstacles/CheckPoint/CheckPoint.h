@@ -16,5 +16,6 @@ public:
 
 	void HitCheck(cocos2d::Node* players, HPMng* playerHP);
 private:
+	CkSound* _checkPointSE;		// ’Ê‰ß‚µ‚½Žž‚ÌSE
 };
 

@@ -128,7 +128,7 @@ bool GameScene::init()
     }
     setName("GameScene");
 
-    //
+    // UserDefault呼び出し
     UserDefault* _userDef = UserDefault::getInstance();
     // ﾃﾞﾌｫﾙﾄのままでないか
     if (_userDef->getIntegerForKey("MAX_HP") != 0)
@@ -183,14 +183,25 @@ bool GameScene::init()
     // player
     _player_front = Player::createPlayer(OBJ_COLOR::OBJ_RED);
     _player_front->setName("player_front");
-    ((Player*)_player_front)->SetStartPosition(_mapData->getLayer("startPosition"), _mapData->getTileSize());
-    //_player_front->setScale(0.2f);
+    // 座標指定
+    auto startPos = Vec2(_userDef->getFloatForKey("C_POINT_X"), _userDef->getFloatForKey("C_POINT_Y"));
+    if (startPos != Vec2::ZERO)
+    {
+        getDefaultCamera()->setPositionX(startPos.x);
+        // ﾁｪｯｸﾎﾟｲﾝﾄから
+        _player_front->setPosition(startPos);
+    }
+    else
+    {
+        // Tiledで指定した座標に設置する        
+        ((Player*)_player_front)->SetStartPosition(_mapData->getLayer("startPosition"), _mapData->getTileSize());
+    }
+
     _player_front->SetPoint(cocos2d::Vec2(20.0f, 20.0f));
 
     _player_behind = Player::createPlayer(OBJ_COLOR::OBJ_GREEN);
     _player_behind->setName("player_behind");
     _player_behind->setPosition(_player_front->getPosition());
-    //_player_behind->setScale(0.2f);
     _player_behind->SetPoint(cocos2d::Vec2(20.0f, 20.0f));
 
     _plauerLayer->addChild(_player_behind);
@@ -271,8 +282,7 @@ void GameScene::update(float delta)
                         _goalFlag = true;
                     }
                 }
-
-                if (((obj->getName() == "blackLadydug") || (obj->getName() == "buds")) && (!((Obstacles*)obj)->GetDamageFlag()))
+                else if ((!((Obstacles*)obj)->GetDamageFlag()))
                 {
                     ((Obstacles*)obj)->HitCheck(_plauerLayer, _hpMng);
                 }
@@ -407,9 +417,15 @@ void GameScene::changeScene(Ref* pSender)
 
         unscheduleUpdate();
 
+        //// セレクトシーンに画面遷移する。
+        //auto stageSelectScene = StageSelectScene::createStageSelectScene();
+        //auto* fade = TransitionFade::create(1.0f, stageSelectScene, Color3B::BLACK);
+        //// GameSceneを破棄してStageSelectSceneに遷移する
+        //Director::getInstance()->replaceScene(fade);
+
         // セレクトシーンに画面遷移する。
-        auto stageSelectScene = StageSelectScene::createStageSelectScene();
-        auto* fade = TransitionFade::create(1.0f, stageSelectScene, Color3B::BLACK);
+        auto gameScene = GameScene::createGameScene(_mapName);
+        auto* fade = TransitionFade::create(1.0f, gameScene, Color3B::BLACK);
         // GameSceneを破棄してStageSelectSceneに遷移する
         Director::getInstance()->replaceScene(fade);
 
@@ -429,14 +445,16 @@ void GameScene::changeScene(Ref* pSender)
 
 void GameScene::SetMenu(Ref* pSender)
 {
-    if ((!GameStart())||(_goalFlag))
+    if ((_gameOverFlag)||(_goalFlag))
     {
         return;
     }
 
     if (!_menuFlag)
     {
+        this->stopAllActions();
         this->unscheduleUpdate();
+
         for (auto player : _plauerLayer->getChildren())
         {
             player->stopAllActions();
@@ -461,10 +479,17 @@ void GameScene::Resume()
 {
     _menuFlag = false;
     this->scheduleUpdate();
-    for (auto player : _plauerLayer->getChildren())
+    if (_startAction)
     {
-        player->scheduleUpdate();
-        ((Player*)player)->Resume();
+       this->runAction(_startAction);
+    }
+    else
+    {
+        for (auto player : _plauerLayer->getChildren())
+        {
+            player->scheduleUpdate();
+            ((Player*)player)->Resume();
+        }
     }
     _button->setVisible(true);
 }

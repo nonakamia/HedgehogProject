@@ -52,6 +52,11 @@ bool StageSelectScene::init()
 	Size visibleSize = Director::getInstance()->getVisibleSize();
 	Vec2 origin = Director::getInstance()->getVisibleOrigin();
 
+	// Áª¯¸Îß²ÝÄ‚Ì‰Šú‰»
+	UserDefault* _userDef = UserDefault::getInstance();
+	_userDef->setFloatForKey("C_POINT_X", 0.0f);
+	_userDef->setFloatForKey("C_POINT_Y", 0.0f);
+
 	auto image = Sprite::create("image2.png");
 	addChild(image, static_cast<int>(zOlder::BG));
 	image->setPosition(Vec2(origin.x + visibleSize.width / 2.0f,

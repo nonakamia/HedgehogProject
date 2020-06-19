@@ -19,11 +19,16 @@ public:
 private:
 	CREATE_FUNC(StageSelectScene);
 
+	std::vector<std::pair<std::string, std::string>> _stage;		// ½Ã°¼ÞÃÞ°À
+
 	cocos2d::MenuItemImage* _button;								// ÒÆ­°ÎÞÀÝ
+
+	cocos2d::Vec2 touchPos;
 
 	//@cricket
 	CkSound* _selectSound;
 	
+	void AddScrollAction();											// ½Ã°¼Þ‚Ì½¸Û°Ù
 	void SetMenu(Ref* pSender);										// ÒÆ­°‰æ–Ê‚ð•\Ž¦‚·‚é
 };
 

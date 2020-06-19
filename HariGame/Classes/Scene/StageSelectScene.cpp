@@ -1,4 +1,5 @@
 #include "StageSelectScene.h"
+#include "Split/Split.h"
 #include "GameScene.h"
 #include "stage/StageLayer.h"
 #include "menu/MenuLayer.h"
@@ -20,6 +21,8 @@ StageSelectScene::StageSelectScene()
 {
 	_changeSceneFlag = false;
 	_menuFlag = false;
+
+	touchPos = Vec2::ZERO;
 
 	//@cricket
 	_selectSound = nullptr;
@@ -49,32 +52,46 @@ bool StageSelectScene::init()
 	}
 	setName("StageSelectScene");
 
-	Size visibleSize = Director::getInstance()->getVisibleSize();
-	Vec2 origin = Director::getInstance()->getVisibleOrigin();
+	// äOïî√ﬁ∞¿ì«Ç›çûÇ›
+	std::string defaultIfs = FileUtils::getInstance()->getStringFromFile("csv/stage.csv");
+	if (defaultIfs == "")
+	{
+		return false;
+	}
+	ValueVector defaultCsvSplit = Split::split(defaultIfs, "\n");
+	for (int i = 1; i < (int)defaultCsvSplit.size(); i++)
+	{
+		ValueVector defaultCsvData = Split::split(defaultCsvSplit.at(i).asString(), ",");
+		_stage.emplace_back(defaultCsvData.at(0).asString(), defaultCsvData.at(1).asString());
+	}
 
 	// ¡™Ø∏Œﬂ≤›ƒÇÃèâä˙âª
 	UserDefault* _userDef = UserDefault::getInstance();
 	_userDef->setFloatForKey("C_POINT_X", 0.0f);
 	_userDef->setFloatForKey("C_POINT_Y", 0.0f);
 
+	Size visibleSize = Director::getInstance()->getVisibleSize();
+	Vec2 origin = Director::getInstance()->getVisibleOrigin();
+
+	// îwåi
 	auto image = Sprite::create("image2.png");
 	addChild(image, static_cast<int>(zOlder::BG));
 	image->setPosition(Vec2(origin.x + visibleSize.width / 2.0f,
 		origin.y + visibleSize.height / 2.0f));
 
 	// Ω√∞ºﬁ
-	// ï°êîçÏê¨ó\íËÇæÇ©ÇÁÉNÉâÉXâªÇ∑ÇÈó\íË
-	auto stage = StageLayer::createStageLayer("STAGE0","stage/stage_0.tmx",
-		Vec2(origin.x + visibleSize.width / 2.0f,
-		origin.y + visibleSize.height / 4.0f));
-	addChild(stage, static_cast<int>(zOlder::OBSTACLES));
-	stage->scheduleUpdate();
-
-	auto stage2 = StageLayer::createStageLayer("STAGE1","stage/stage_1.tmx",
-		Vec2(origin.x + visibleSize.width / 1.5f,
-			origin.y + visibleSize.height / 4.0f));
-	addChild(stage2, static_cast<int>(zOlder::OBSTACLES));
-	stage2->scheduleUpdate();
+	// stage.csvÇ…ãLç⁄
+	float posX = 0;
+	for (auto data : _stage)
+	{
+		auto stage = StageLayer::createStageLayer(data.first, data.second);
+		stage->setPositionX(posX);
+		stage->setName("stage");
+		addChild(stage, static_cast<int>(zOlder::OBSTACLES));
+		((StageLayer*)stage)->SetMinimumLayerPosX(posX);
+		stage->scheduleUpdate();
+		posX += 200.0f;
+	}
 
 	// “∆≠∞Œﬁ¿›
 	_button = MenuItemImage::create(
@@ -86,6 +103,9 @@ bool StageSelectScene::init()
 	auto menu = Menu::create(_button,nullptr);
 	menu->setPosition(Vec2::ZERO);
 	addChild(menu,static_cast<int>(zOlder::BUTTON));
+
+	// Ω√∞ºﬁΩ∏€∞Ÿ
+	AddScrollAction();
 
 	//@cricket
 #ifdef CK_PLATFORM_WIN
@@ -114,7 +134,7 @@ void StageSelectScene::Resume()
 
 void StageSelectScene::changeScene(Ref* pSender, std::string map)
 {
-	if ((_changeSceneFlag)||(_menuFlag))
+	if ((_changeSceneFlag)||(_menuFlag)||(map == ""))
 	{
 		return;
 	}
@@ -133,6 +153,85 @@ void StageSelectScene::changeScene(Ref* pSender, std::string map)
 
 		_changeSceneFlag = true;
 	}
+}
+
+void StageSelectScene::AddScrollAction()
+{
+	// ëSÇƒÇÃΩ√∞ºﬁÇ™âÊñ ì‡Ç…Ç†ÇÈÇ©
+	auto checkStage = [](Vector<Node*> children)->bool
+	{
+		Size visibleSize = Director::getInstance()->getVisibleSize();
+		for (auto stage : children)
+		{
+			if (stage->getName() == "stage")
+			{
+				if ((stage->getPosition().x >= 0.0f) && (stage->getPosition().x  <= ((StageLayer*)stage)->GetMinimumLayerPosX()))
+				{
+					return true;
+				}
+			}
+		}
+
+		for (auto stage : children)
+		{
+			if (stage->getName() == "stage")
+			{
+				if (stage->getPosition().x < 0.0f)
+				{
+					stage->setPositionX(stage->getPosition().x + 1.0f);
+				}
+				else
+				{
+					stage->setPositionX(stage->getPosition().x - 1.0f);
+				}
+			}
+		}
+		return false;
+	};
+
+	auto listener = EventListenerTouchOneByOne::create();
+	// âüÇµÇΩéû
+	listener->onTouchBegan = [&](Touch* touch, Event* event)->bool
+	{
+		touchPos = touch->getLocation();
+		return true;
+	};
+
+	// âüÇµÇƒÇ©ÇÁìÆÇ©ÇµÇΩéû
+	listener->onTouchMoved = [&](Touch* touch, Event* event)->bool
+	{
+		if (checkStage(this->getChildren()))
+		{
+			auto distance = touch->getLocation().x - touchPos.x;
+			if (abs(distance) > 10.0f)
+			{
+				for (auto stage : this->getChildren())
+				{
+					if (stage->getName() == "stage")
+					{
+						if (distance > 10.0f)
+						{
+							stage->setPositionX(stage->getPosition().x + 10.0f);
+						}
+						else if (distance < -10.0f)
+						{
+							stage->setPositionX(stage->getPosition().x - 10.0f);
+						}
+					}
+				}
+				touchPos = touch->getLocation();
+			}
+		}
+		return true;
+	};
+
+	// ó£ÇµÇΩéû
+	listener->onTouchEnded = [&](Touch* touch, Event* event)->bool
+	{
+		touchPos = Vec2::ZERO;
+		return true;
+	};
+	this->getEventDispatcher()->addEventListenerWithSceneGraphPriority(listener, this);
 }
 
 void StageSelectScene::SetMenu(Ref* pSender)

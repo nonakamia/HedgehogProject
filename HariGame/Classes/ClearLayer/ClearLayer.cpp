@@ -80,7 +80,7 @@ bool ClearLayer::init()
 	backStageSlect->setScale(0.0f);
 	backStageSlect->runAction(Sequence::create(
 		DelayTime::create(1.0f),
-		ScaleTo::create(0.2f, 0.8f),
+		ScaleTo::create(0.2f, 0.7f),
 		nullptr
 	));
 	auto backStageSlectMenu = Menu::create(backStageSlect, nullptr);

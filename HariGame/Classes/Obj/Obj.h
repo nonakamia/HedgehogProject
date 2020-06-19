@@ -8,8 +8,8 @@
 class Obj : public cocos2d::Sprite
 {
 public:
-	virtual void DamageAction(cocos2d::Sprite* spite) = 0;						// ÀÞÒ°¼Þ±¸¼®Ý
-	virtual void GameOverAction() = 0;
+	virtual void DamageAction(cocos2d::Sprite* spite) = 0;				// ÀÞÒ°¼Þ±¸¼®Ý
+	virtual void GameOverAction() = 0;									// ¹Þ°Ñµ°ÊÞ°±¸¼®Ý
 	virtual void GameClearAction() = 0;
 
 	void SetPoint(cocos2d::Vec2 point);

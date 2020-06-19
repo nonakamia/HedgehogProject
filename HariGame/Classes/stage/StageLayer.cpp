@@ -3,9 +3,9 @@
 
 USING_NS_CC;
 
-Layer* StageLayer::createStageLayer(std::string name, std::string map,cocos2d::Vec2 pos)
+Layer* StageLayer::createStageLayer(std::string name, std::string map)
 {
-	StageLayer* pRet = new(std::nothrow) StageLayer(name, map,pos);
+	StageLayer* pRet = new(std::nothrow) StageLayer(name, map);
 	if (pRet && pRet->init())
 	{
 		pRet->autorelease();
@@ -19,11 +19,11 @@ Layer* StageLayer::createStageLayer(std::string name, std::string map,cocos2d::V
 	}
 }
 
-StageLayer::StageLayer(std::string name, std::string map,cocos2d::Vec2 pos)
+StageLayer::StageLayer(std::string name, std::string map)
 {
 	_name = name;
 	_map = map;
-	_position = pos;
+	_minimumLayerPosX = 0.0f;
 	_calloutFlag = false;
 	_selectFlag = false;
 
@@ -57,12 +57,16 @@ bool StageLayer::init()
 
 	auto stage = Sprite::create("StageSelect/stage.png");
 	addChild(stage);
-	stage->setPosition(_position);
+	stage->setPosition(Vec2(
+		origin.x + visibleSize.width / 2.0f,
+		origin.y + visibleSize.height / 4.0f
+	));
 	auto changeListener = EventListenerTouchOneByOne::create();
 	// ‰Ÿ‚³‚ê‚½Žž‚Ìˆ—
 	changeListener->onTouchBegan = [this, visibleSize, stage](Touch* touch, Event* event)
 	{
-		Vec2 point = touch->getLocation();
+		// layerŽ©‘Ì‚ð‚¸‚ç‚µ‚Ä‚¢‚é‚½‚ßAthis->getPosition()‚ÅC³
+		Vec2 point = touch->getLocation() - this->getPosition();
 		Rect rectButton = stage->getBoundingBox();
 		if (rectButton.containsPoint(point))
 		{
@@ -144,4 +148,14 @@ void StageLayer::update(float delta)
 		_buttonBank = nullptr;
 		_buttonSE = nullptr;
 	}
+}
+
+void StageLayer::SetMinimumLayerPosX(float posX)
+{
+	_minimumLayerPosX = posX;
+}
+
+float StageLayer::GetMinimumLayerPosX()
+{
+	return _minimumLayerPosX;
 }

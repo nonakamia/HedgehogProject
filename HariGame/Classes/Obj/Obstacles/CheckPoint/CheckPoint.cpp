@@ -65,6 +65,7 @@ void CheckPoint::DamageAction(cocos2d::Sprite* spite)
 	_userDef->setFloatForKey("C_POINT_X", this->getPosition().x);
 	_userDef->setFloatForKey("C_POINT_Y", this->getPosition().y + this->getContentSize().height);
 	
+	// Šø‚ÌF‚ð•Ï‚¦‚é
 	if (spite->getTag() == static_cast<int>(OBJ_COLOR::OBJ_RED))
 	{
 		this->setColor(Color3B(255.0f, 99.0f, 110.0f));

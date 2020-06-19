@@ -10,14 +10,20 @@
 class StageLayer : public cocos2d::Layer
 {
 public:
-	static Layer* createStageLayer(std::string name, std::string map, cocos2d::Vec2 pos);
-	StageLayer(std::string name, std::string map, cocos2d::Vec2 pos);
+	static Layer* createStageLayer(std::string name, std::string map);
+	StageLayer(std::string name, std::string map);
 	~StageLayer();
 	bool init();
 
 	void update(float delta);
+
+	void SetMinimumLayerPosX(float posX);
+	float GetMinimumLayerPosX();
+
 private:
 	//CREATE_FUNC(StageLayer);
+
+	float _minimumLayerPosX;
 
 	bool _selectFlag;
 

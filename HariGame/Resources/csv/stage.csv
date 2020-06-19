@@ -1,0 +1,5 @@
+stageName,stageData
+STAGE0,stage/stage_0.tmx,
+STAGE1,stage/stage_1.tmx,
+STAGE2,stage/stage_2.tmx,
+NOT STAGE,,

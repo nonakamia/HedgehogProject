@@ -16,8 +16,8 @@ public:
 
 	void update(float delta);
 
-	void SetActionConvey(ACTION action);		// 前のﾌﾟﾚｲﾔｰが行ったｱｸｼｮﾝを0.6秒後に後ろのﾌﾟﾚｲﾔｰが行う
-	void ConveyClear();
+	void SetActionConvey(ACTION action);		// 前のﾌﾟﾚｲﾔｰが行ったｱｸｼｮﾝを一定の時間が経ったら後ろのﾌﾟﾚｲﾔｰが行う
+	void ConveyClear();							// 伝達情報の削除
 private:
 	CREATE_FUNC(ActionConvey);
 

@@ -45,7 +45,7 @@ void ActionConvey::SetActionConvey(ACTION action)
 {
 	_actionList.push_back(action);
 
-	_conveyAction.push_back(runAction(DelayTime::create(0.6f)));
+	_conveyAction.push_back(runAction(DelayTime::create(0.8f)));
 	CC_SAFE_RETAIN(_conveyAction.back());
 }
 

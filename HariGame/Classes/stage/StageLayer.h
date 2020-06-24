@@ -7,11 +7,18 @@
 #include "ck/bank.h"
 #include "ck/sound.h"
 
+struct StageData
+{
+	std::string stageName;		// ½Ã°¼Ş–¼
+	std::string imagePass;		// ½Ã°¼Ş–¼(‰æ‘œ)
+	std::string mapData;		// Ï¯ÌßÃŞ°À
+};
+
 class StageLayer : public cocos2d::Layer
 {
 public:
-	static Layer* createStageLayer(std::string name, std::string map);
-	StageLayer(std::string name, std::string map);
+	static Layer* createStageLayer(StageData data);
+	StageLayer(StageData data);
 	~StageLayer();
 	bool init();
 
@@ -27,16 +34,14 @@ private:
 
 	bool _selectFlag;
 
-	std::string _name;
-	std::string _map;
+	StageData _stageData;				// ½Ã°¼Şî•ñ
+	int _rnk;							// ‰ß‹‚ÌÅ‘å•]‰¿(0`3)
 	cocos2d::Vec2 _position;
 
 	cocos2d::Sprite* _callout;
 	bool _calloutFlag;
 
-	cocos2d::Label* _stageLabel;
-
 	//@cricket
-	CkBank* _buttonBank;							// ÎŞÀİBank
-	CkSound* _buttonSE;								// ÎŞÀİ‰¹
+	CkBank* _buttonBank;				// ÎŞÀİBank
+	CkSound* _buttonSE;					// ÎŞÀİ‰¹
 };

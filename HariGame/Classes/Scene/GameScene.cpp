@@ -36,24 +36,12 @@
 
 USING_NS_CC;
 
-std::string GameScene::_mapName;
+std::string GameScene::_mapPass;
+std::string GameScene::_stageName;
 
-Scene* GameScene::createGameScene(std::string map)
+Scene* GameScene::createGameScene(std::string name, std::string map)
 {
-    GameScene* pRet = new(std::nothrow) GameScene();
-
-    if (pRet)
-    {
-        // mapî•ñ‚ð•Û‘¶‚·‚é
-        pRet->SetMap(map);
-    }
-    else
-    {
-        delete pRet;
-        pRet = nullptr;
-        return nullptr;
-    }
-
+    GameScene* pRet = new(std::nothrow) GameScene(name, map);
     if (pRet->init())
     {
         pRet->autorelease();
@@ -69,8 +57,11 @@ Scene* GameScene::createGameScene(std::string map)
     return GameScene::create();
 }
 
-GameScene::GameScene()
+GameScene::GameScene(std::string name, std::string map)
 {
+    _stageName = name;
+    _mapPass = map;
+
     _changeSceneFlag = false;
     _menuFlag = false;
 
@@ -163,7 +154,7 @@ bool GameScene::init()
     this->addChild(bgLayer, static_cast<int>(zOlder::BG));
 
     // map“Ç‚Ýž‚Ý
-    _mapData = TMXTiledMap::create(_mapName);
+    _mapData = TMXTiledMap::create(_mapPass);
     _mapData->setName("MapData");
     bgLayer->addChild(_mapData);
 
@@ -187,7 +178,7 @@ bool GameScene::init()
     auto startPos = Vec2(_userDef->getFloatForKey("C_POINT_X"), _userDef->getFloatForKey("C_POINT_Y"));
     if (startPos != Vec2::ZERO)
     {
-        getDefaultCamera()->setPositionX(startPos.x);
+        getDefaultCamera()->setPosition(startPos.x, getDefaultCamera()->getPosition().y);
         // Áª¯¸Îß²ÝÄ‚©‚ç
         _player_front->setPosition(startPos);
     }
@@ -211,7 +202,7 @@ bool GameScene::init()
     auto uiCamera = CameraOBJ();
     uiCamera(CameraFlag::USER1, this);
     //getDefaultCamera()->setPosition(Vec2(visibleSize.width / 2.0f, (_mapData->getMapSize().height-6)*48));
-    getDefaultCamera()->setPositionY((_mapData->getMapSize().height - 6) * 48);
+    getDefaultCamera()->setPosition(getDefaultCamera()->getPosition().x, (_mapData->getMapSize().height - 6) * 48);
 
     // HP
    _hpMng = HPMng::createHPMng(_maxHP);
@@ -260,7 +251,7 @@ bool GameScene::init()
 
 void GameScene::update(float delta)
 {
-    getDefaultCamera()->setPositionY((_mapData->getMapSize().height - 6) * 48);
+    getDefaultCamera()->setPosition(getDefaultCamera()->getPosition().x, (_mapData->getMapSize().height - 6) * 48);
     if (GameStart())
     {
         if (_hpMng->GetHP() <= 0)
@@ -276,7 +267,7 @@ void GameScene::update(float delta)
             {
                 if (obj->getName() == "lamp")
                 {
-                    if (_player_front->getPositionX() >= obj->getPositionX())
+                    if (_player_front->getPosition().x >= obj->getPosition().x)
                     {
                         AddClearLayer();
                         _goalFlag = true;
@@ -292,7 +283,7 @@ void GameScene::update(float delta)
         {
           
             auto winSize = Director::getInstance()->getWinSize();
-            if (_player_behind->getPositionX() - _player_behind->GetPoint().x > getDefaultCamera()->getPositionX() + winSize.width / 2.0f)
+            if (_player_behind->getPosition().x - _player_behind->GetPoint().x > getDefaultCamera()->getPosition().x + winSize.width / 2.0f)
             {
                 for (auto player : _plauerLayer->getChildren())
                 {
@@ -303,9 +294,9 @@ void GameScene::update(float delta)
 
         // ¶Ò×
         auto winSize = Director::getInstance()->getWinSize();
-        if ((!_goalFlag) && (_player_front->getPositionX() >= winSize.width / 2.0f) && (getDefaultCamera()->getPositionX() < _player_front->getPositionX()))
+        if ((!_goalFlag) && (_player_front->getPosition().x >= winSize.width / 2.0f) && (getDefaultCamera()->getPosition().x < _player_front->getPosition().x))
         {
-            getDefaultCamera()->setPositionX(_player_front->getPositionX());
+            getDefaultCamera()->setPosition(_player_front->getPosition().x, getDefaultCamera()->getPosition().y);
         }
     }
 
@@ -424,7 +415,7 @@ void GameScene::changeScene(Ref* pSender)
         //Director::getInstance()->replaceScene(fade);
 
         // ƒZƒŒƒNƒgƒV[ƒ“‚É‰æ–Ê‘JˆÚ‚·‚éB
-        auto gameScene = GameScene::createGameScene(_mapName);
+        auto gameScene = GameScene::createGameScene(_stageName, _mapPass);
         auto* fade = TransitionFade::create(1.0f, gameScene, Color3B::BLACK);
         // GameScene‚ð”jŠü‚µ‚ÄStageSelectScene‚É‘JˆÚ‚·‚é
         Director::getInstance()->replaceScene(fade);
@@ -470,11 +461,6 @@ void GameScene::SetMenu(Ref* pSender)
     }
 }
 
-void GameScene::SetMap(std::string mapName)
-{
-    _mapName = mapName;
-}
-
 void GameScene::Resume()
 {
     _menuFlag = false;
@@ -499,7 +485,12 @@ bool GameScene::GetGoalFlag()
     return _goalFlag;
 }
 
-std::string GameScene::GetMapName()
+std::string GameScene::GetStageName()
 {
-    return _mapName;
+    return _stageName;
+}
+
+std::string GameScene::GetMapPass()
+{
+    return _mapPass;
 }

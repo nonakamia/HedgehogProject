@@ -1,5 +1,5 @@
-stageName,stageData
-STAGE0,stage/stage_0.tmx,
-STAGE1,stage/stage_1.tmx,
-STAGE2,stage/stage_2.tmx,
-NOT STAGE,,
+stageName,image,stageData
+stage0,StageSelect/stage_0.png,stage/stage_0.tmx,
+stage1,StageSelect/stage_1.png,stage/stage_1.tmx,
+stage2,StageSelect/stage_2.png,stage/stage_2.tmx,
+noStage,StageSelect/comingSoon.png,,

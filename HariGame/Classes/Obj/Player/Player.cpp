@@ -156,30 +156,10 @@ void Player::update(float delta)
 			Jumping();
 		}
 
+		// 落下
 		Falling();
 		// ﾀﾞﾒｰｼﾞ
-		if ((_damageFlag))
-		{
-			// ｱｸｼｮﾝが終わっている
-			if (_damageAction == nullptr)
-			{
-				_damageFlag = false;
-				return;
-			}
-			// ｱｸｼｮﾝが終わった
-			if (_damageAction->isDone())
-			{
-				setVisible(true);
-				CC_SAFE_RELEASE_NULL(_damageAction);
-				_damageFlag = false;
-
-				if ((_rollingAction == nullptr) && (getName() == "player_front"))
-				{
-					_action = ACTION::ROTATE;
-					((ActionConvey*)Director::getInstance()->getRunningScene()->getChildByName("actionConvey"))->SetActionConvey(ACTION::ROTATE);
-				}
-			}
-		}
+		Damage();
 	}
 }
 
@@ -313,7 +293,7 @@ bool Player::CollsionCheck(cocos2d::Vec2 vec)
 		{
 			stopAllActions();
 			CC_SAFE_RELEASE_NULL(_rollingAction);
-			setPositionX((checkPoint.x - 1) * TileSize.width + _point.x);
+			setPosition((checkPoint.x - 1) * TileSize.width + _point.x, this->getPosition().y);
 			return false;
 		}
 		
@@ -355,7 +335,7 @@ void Player::DamageAction(cocos2d::Sprite* spite)
 			float time = 0.3f;
 			if (getName() == "player_front")
 			{
-				auto behindPosX = Director::getInstance()->getRunningScene()->getChildByName("PLAYER_LAYER")->getChildByName("player_behind")->getPositionX();
+				auto behindPosX = Director::getInstance()->getRunningScene()->getChildByName("PLAYER_LAYER")->getChildByName("player_behind")->getPosition().x;
 				_damageAction = runAction(Sequence::create(
 					MoveTo::create(time - 0.1f, Vec2(behindPosX, 0.0f)),
 					DelayTime::create(time - 0.2f),
@@ -520,6 +500,32 @@ void Player::Rolling(float delta)
 			((Obj*)player)->DamageAction(this);
 		}
 		((HPMng*)gameScne->getChildByName("HP"))->DamageHP(1);
+	}
+}
+
+void Player::Damage()
+{
+	if ((_damageFlag))
+	{
+		// ｱｸｼｮﾝが終わっている
+		if (_damageAction == nullptr)
+		{
+			_damageFlag = false;
+			return;
+		}
+		// ｱｸｼｮﾝが終わった
+		if (_damageAction->isDone())
+		{
+			setVisible(true);
+			CC_SAFE_RELEASE_NULL(_damageAction);
+			_damageFlag = false;
+
+			if ((_rollingAction == nullptr) && (getName() == "player_front"))
+			{
+				_action = ACTION::ROTATE;
+				((ActionConvey*)Director::getInstance()->getRunningScene()->getChildByName("actionConvey"))->SetActionConvey(ACTION::ROTATE);
+			}
+		}
 	}
 }
 

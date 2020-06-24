@@ -57,8 +57,8 @@ bool ClearLayer::init()
 	auto clear = Sprite::create("Clear/clear.png");
 	addChild(clear);
 	clear->setPosition(Vec2(
-		clearWaku->getPositionX(),
-		clearWaku->getPositionY() * 1.3f
+		clearWaku->getPosition().x,
+		clearWaku->getPosition().y * 1.3f
 	));
 	clear->setScale(0.0f);
 	clear->runAction(Sequence::create(

@@ -69,6 +69,7 @@ private:
 
 	void Jumping();
 	void Rolling(float delta);
+	void Damage();									// ﾀﾞﾒｰｼﾞ状態
 
 	void SetImage(ACTION action);
 };

@@ -91,7 +91,7 @@ void CheckPoint::GameClearAction()
 void CheckPoint::HitCheck(cocos2d::Node* players, HPMng* playerHP)
 {
 	auto _player_front = (Obj*)players->getChildByName("player_front");
-	if (_player_front->getPositionX() >= this->getPositionX())
+	if (_player_front->getPosition().x >= this->getPosition().x)
 	{
 		DamageAction(_player_front);
 	}

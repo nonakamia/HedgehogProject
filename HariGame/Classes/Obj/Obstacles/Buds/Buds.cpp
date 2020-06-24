@@ -21,8 +21,6 @@ Obj* Buds::createBuds(OBJ_COLOR color)
 		{
 			pRet->setSpriteFrame(SpriteFrameCache::getInstance()->getSpriteFrameByName("buds_g"));
 		}
-		pRet->setVisible(true);
-		pRet->setFlipY(false);
 
 		pRet->setTag(static_cast<int>(color));
 		pRet->setAnchorPoint(Point(0.5f, 0.8f));
@@ -87,12 +85,13 @@ void Buds::update(float delta)
 		// player‚ð‰Ô‚Ìã‚ð•à‚Ü‚¹‚é
 		for (auto player : Director::getInstance()->getRunningScene()->getChildByName("PLAYER_LAYER")->getChildren())
 		{
-			if ((player->getPositionX() >= this->getPositionX() - 120) && (player->getPositionX() <= this->getPositionX() + 120))
+			if ((player->getPosition().x >= this->getPosition().x - 120) && (player->getPosition().x <= this->getPosition().x + 120))
 			{
-				if ((player->getPositionY() <= this->getPositionY()))
+				if ((player->getPosition().y <= this->getPosition().y))
 				{
 					((Player*)player)->FlowerRolling(true);
-					player->setPositionY(getPositionY() + ((Obj*)player)->GetPoint().y);
+					player->setPosition(player->getPosition().x, getPosition().y + ((Obj*)player)->GetPoint().y);
+
 				}
 			}
 			else
@@ -100,7 +99,7 @@ void Buds::update(float delta)
 				((Player*)player)->FlowerRolling(false);
 			}
 
-			if ((player->getName()=="player_behind")&&(player->getPositionX() > this->getPositionX() + 120))
+			if ((player->getName()=="player_behind")&&(player->getPosition().x > this->getPosition().x + 120))
 			{
 				_passingFlag = true;
 			}

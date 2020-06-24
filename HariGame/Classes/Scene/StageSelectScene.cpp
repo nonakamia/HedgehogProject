@@ -1,7 +1,6 @@
 #include "StageSelectScene.h"
 #include "Split/Split.h"
 #include "GameScene.h"
-#include "stage/StageLayer.h"
 #include "menu/MenuLayer.h"
 
 USING_NS_CC;
@@ -62,7 +61,11 @@ bool StageSelectScene::init()
 	for (int i = 1; i < (int)defaultCsvSplit.size(); i++)
 	{
 		ValueVector defaultCsvData = Split::split(defaultCsvSplit.at(i).asString(), ",");
-		_stage.emplace_back(defaultCsvData.at(0).asString(), defaultCsvData.at(1).asString());
+		StageData stageData = StageData();
+		stageData.stageName = defaultCsvData.at(0).asString();
+		stageData.imagePass = defaultCsvData.at(1).asString();
+		stageData.mapData = defaultCsvData.at(2).asString();
+		_stage.emplace_back(stageData);
 	}
 
 	// Áª¯¸Îß²ÝÄ‚Ì‰Šú‰»
@@ -84,8 +87,8 @@ bool StageSelectScene::init()
 	float posX = 0;
 	for (auto data : _stage)
 	{
-		auto stage = StageLayer::createStageLayer(data.first, data.second);
-		stage->setPositionX(posX);
+		auto stage = StageLayer::createStageLayer(data);
+		stage->setPosition(posX, 0.0f);
 		stage->setName("stage");
 		addChild(stage, static_cast<int>(zOlder::OBSTACLES));
 		((StageLayer*)stage)->SetMinimumLayerPosX(posX);
@@ -132,17 +135,17 @@ void StageSelectScene::Resume()
 	_button->setVisible(true);
 }
 
-void StageSelectScene::changeScene(Ref* pSender, std::string map)
+bool StageSelectScene::changeScene(Ref* pSender, std::string stageName, std::string map)
 {
 	if ((_changeSceneFlag)||(_menuFlag)||(map == ""))
 	{
-		return;
+		return false;
 	}
 
 	if (!_changeSceneFlag)
 	{
 		// ¹Þ°Ñ¼°Ý‚É‰æ–Ê‘JˆÚ‚·‚éB
-		auto gameScene = GameScene::createGameScene(map);
+		auto gameScene = GameScene::createGameScene(stageName, map);
 		auto* fade = TransitionFade::create(1.0f, gameScene,Color3B::BLACK);
 		// TitleScene‚ð”jŠü‚µ‚ÄGameScene‚É‘JˆÚ‚·‚é
 		Director::getInstance()->replaceScene(fade);
@@ -152,7 +155,11 @@ void StageSelectScene::changeScene(Ref* pSender, std::string map)
 		_selectSound = nullptr;
 
 		_changeSceneFlag = true;
+
+		return true;
 	}
+
+	return false;
 }
 
 void StageSelectScene::AddScrollAction()
@@ -176,14 +183,8 @@ void StageSelectScene::AddScrollAction()
 		{
 			if (stage->getName() == "stage")
 			{
-				if (stage->getPosition().x < 0.0f)
-				{
-					stage->setPositionX(stage->getPosition().x + 1.0f);
-				}
-				else
-				{
-					stage->setPositionX(stage->getPosition().x - 1.0f);
-				}
+				float x = (stage->getPosition().x < 0.0f ? 1.0f : -1.0f);
+				stage->setPosition(stage->getPosition().x + x, stage->getPosition().y);
 			}
 		}
 		return false;
@@ -193,6 +194,11 @@ void StageSelectScene::AddScrollAction()
 	// ‰Ÿ‚µ‚½Žž
 	listener->onTouchBegan = [&](Touch* touch, Event* event)->bool
 	{
+		if (_menuFlag)
+		{
+			return false;
+		}
+
 		touchPos = touch->getLocation();
 		return true;
 	};
@@ -200,6 +206,11 @@ void StageSelectScene::AddScrollAction()
 	// ‰Ÿ‚µ‚Ä‚©‚ç“®‚©‚µ‚½Žž
 	listener->onTouchMoved = [&](Touch* touch, Event* event)->bool
 	{
+		if (_menuFlag)
+		{
+			return false;
+		}
+
 		if (checkStage(this->getChildren()))
 		{
 			auto distance = touch->getLocation().x - touchPos.x;
@@ -211,11 +222,11 @@ void StageSelectScene::AddScrollAction()
 					{
 						if (distance > 10.0f)
 						{
-							stage->setPositionX(stage->getPosition().x + 10.0f);
+							stage->setPosition(stage->getPosition().x + 10.0f, stage->getPosition().y);
 						}
 						else if (distance < -10.0f)
 						{
-							stage->setPositionX(stage->getPosition().x - 10.0f);
+							stage->setPosition(stage->getPosition().x - 10.0f, stage->getPosition().y);
 						}
 					}
 				}

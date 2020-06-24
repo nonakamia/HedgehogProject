@@ -148,7 +148,7 @@ bool SettingLayer::init()
 	backMMenu->setPosition(Vec2::ZERO);
 	addChild(backMMenu);
 
-	this->setPositionX(origin.x + visibleSize.width);
+	this->setPosition(origin.x + visibleSize.width, this->getPosition().y);
 	this->runAction(MoveTo::create(1.0f, Vec2::ZERO));
 
 	this->scheduleUpdate();
@@ -183,7 +183,7 @@ void SettingLayer::BackMenu(Ref* pSender)
 	
 	Size visibleSize = Director::getInstance()->getVisibleSize();
 	_backAction = this->runAction(
-		MoveTo::create(0.5f, Vec2(visibleSize.width,this->getPositionY())));
+		MoveTo::create(0.5f, Vec2(visibleSize.width,this->getPosition().y)));
 	CC_SAFE_RETAIN(_backAction);
 
 	auto menuLayer = (MenuLayer*)Director::getInstance()->getRunningScene()->getChildByName("MenuLayer");

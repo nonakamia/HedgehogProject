@@ -1,6 +1,7 @@
 #pragma once
 #include "cocos2d.h"
 #include "BaseScene.h"
+#include "stage/StageLayer.h"
 
 class StageSelectScene : public BaseScene
 {
@@ -14,12 +15,11 @@ public:
 
 	void Resume();
 
-	void changeScene(Ref* pSender, std::string map);				// ½Ã°¼Þ¾Ú¸Ä‰æ–Ê‚ÉˆÚ“®
+	bool changeScene(Ref* pSender,std::string stageName, std::string map);				// ½Ã°¼Þ¾Ú¸Ä‰æ–Ê‚ÉˆÚ“®
 
 private:
 	CREATE_FUNC(StageSelectScene);
-
-	std::vector<std::pair<std::string, std::string>> _stage;		// ½Ã°¼ÞÃÞ°À
+	std::vector<StageData> _stage;		// ½Ã°¼ÞÃÞ°À
 
 	cocos2d::MenuItemImage* _button;								// ÒÆ­°ÎÞÀÝ
 

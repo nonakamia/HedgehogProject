@@ -32,13 +32,12 @@
 #include "HP/HPMng.h"
 #include "Action/ActionConvey.h"
 
-
 class GameScene : public BaseScene
 {
 public:
-    static cocos2d::Scene* createGameScene(std::string map);
+    static cocos2d::Scene* createGameScene(std::string name, std::string map);
 
-    GameScene();
+    GameScene(std::string name, std::string map);
     ~GameScene();
 
     virtual bool init();
@@ -52,12 +51,12 @@ public:
 
     bool GetGoalFlag();
 
-    static void SetMap(std::string mapName);
-    static std::string GetMapName();
+    static std::string GetStageName();
+    static std::string GetMapPass();
     
 private:
     // implement the "static create()" method manually
-    CREATE_FUNC(GameScene);
+    //CREATE_FUNC(GameScene);
 
     int _maxHP;
 
@@ -75,11 +74,13 @@ private:
     cocos2d::Action* _gameOverAction;       // πﬁ∞—µ∞ ﬁ∞éûÇÃ±∏ºÆ›
     bool _gameOverFlag;
 
-    ACTION _playerAction;
-    HPMng* _hpMng;
+    ACTION _playerAction;                   // ±∏ºÆ›
+    HPMng* _hpMng;                          // HP
 
-    cocos2d::TMXTiledMap* _mapData;          // œØÃﬂ√ﬁ∞¿
-    static std::string _mapName;
+    // Ω√∞ºﬁèÓïÒ
+    static std::string _stageName;          // Ω√∞ºﬁñº   
+    cocos2d::TMXTiledMap* _mapData;         // œØÃﬂ√ﬁ∞¿
+    static std::string _mapPass;            // œØÃﬂ√ﬁ∞¿ÇÃ ﬂΩ
 
     cocos2d::MenuItemImage* _button;		// “∆≠∞Œﬁ¿›
 

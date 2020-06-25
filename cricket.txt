@@ -1,1 +1,5 @@
-D:に載せた
+CRICKET_INC_PATH
+D:\cricket\inc
+
+CRICKET_LIB_DEBUG_ROOT
+D:\cricket\lib\win\vs15.0\x86\DebugDynamic

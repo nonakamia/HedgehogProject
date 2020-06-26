@@ -32,6 +32,7 @@
 #include "Button/ButtonLayer.h"
 #include "Camera/CameraOBJ.h"
 #include "menu/MenuLayer.h"
+#include "RankCheck/RankCheck.h"
 #include "Split/Split.h"
 
 USING_NS_CC;
@@ -269,6 +270,7 @@ void GameScene::update(float delta)
                 {
                     if (_player_front->getPosition().x >= obj->getPosition().x)
                     {
+                        RankCheck::rankCheck(_stageName, _hpMng->GetHP());
                         AddClearLayer();
                         _goalFlag = true;
                     }

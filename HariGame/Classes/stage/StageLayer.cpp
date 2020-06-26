@@ -25,7 +25,7 @@ StageLayer::StageLayer(StageData data)
 	_minimumLayerPosX = 0.0f;
 	_calloutFlag = false;
 	_selectFlag = false;
-	_rnk = 0;
+	_rank = 0;
 
 	//@cricket
 	_buttonBank = nullptr;
@@ -58,10 +58,11 @@ bool StageLayer::init()
 	// UserDefaultŒÄ‚Ño‚µ
 	UserDefault* _userDef = UserDefault::getInstance();
 	// ‚Ü‚¾‘¶Ý‚µ‚Ä‚¢‚È‚¢ê‡‚ÍÃÞÌ«ÙÄ’l(0)‚ª“ü‚é
-	_rnk = _userDef->getIntegerForKey(_stageData.stageName.c_str());
+	_rank = _userDef->getIntegerForKey(_stageData.stageName.c_str());
 
 	auto stage = Sprite::create("StageSelect/stage.png");
 	addChild(stage);
+	stage->setName("stage");
 	stage->setPosition(Vec2(
 		origin.x + visibleSize.width / 2.0f,
 		origin.y + visibleSize.height / 4.0f
@@ -79,7 +80,13 @@ bool StageLayer::init()
 		}
 		else
 		{
-			_callout->runAction(ScaleTo::create(0.1f, 0.0f));
+			for (auto child : this->getChildren())
+			{
+				if (child->getName() != "stage")
+				{
+					child->runAction(ScaleTo::create(0.1f, 0.0f));
+				}
+			}
 			_calloutFlag = false;
 		}
 		return false;
@@ -92,7 +99,13 @@ bool StageLayer::init()
 
 		if (!_calloutFlag)
 		{
-			_callout->runAction(ScaleTo::create(0.1f, 1.0f));
+			for (auto child : this->getChildren())
+			{
+				if (child->getName() != "stage")
+				{
+					child->runAction(ScaleTo::create(0.1f, 1.0f));
+				}
+			}
 			_calloutFlag = true;
 		}
 		else
@@ -113,6 +126,28 @@ bool StageLayer::init()
 		origin.y + visibleSize.height / 2.0f
 	));
 	_callout->setScale(0.0f);
+
+	// ×Ý¸
+	if (_stageData.stageName != "NoStage")
+	{
+		for (int i = 1; i <= 3; i++)
+		{
+			auto rankSprite = Sprite::create("rank/star_hidden.png");
+			addChild(rankSprite);
+			if (_rank >= i)
+			{
+				// ×Ý¸‚ª1ˆÈã‚È‚ç•\Ž¦‚·‚é
+				rankSprite->setSpriteFrame(Sprite::create("rank/star.png")->getSpriteFrame());
+			}
+
+			rankSprite->setPosition(
+				Vec2(_callout->getPosition().x + (rankSprite->getContentSize().width * (i - 2)),
+					_callout->getPosition().y + (_callout->getContentSize().height / 2)
+				)
+			);
+			rankSprite->setScale(0.0f);
+		}
+	}
 
 	//@cricket
 #ifdef CK_PLATFORM_WIN

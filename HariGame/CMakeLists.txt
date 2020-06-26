@@ -69,6 +69,7 @@ list(APPEND GAME_SOURCE
      Classes/Obj/Obstacles/Obstacles.cpp
      Classes/Obj/Player/Player.cpp
      Classes/Obj/Obj.cpp
+     Classes/RankCheck/RankCheck.cpp
      Classes/Scene/BaseScene.cpp
      Classes/Scene/GameScene.cpp
      Classes/Scene/StageSelectScene.cpp
@@ -97,6 +98,7 @@ list(APPEND GAME_HEADER
         Classes/Obj/Player/Player.h
         Classes/Obj/Obj.h
         Classes/Obj/OBJ_COLLAR.h
+        Classes/RankCheck/RankCheck.h
         Classes/Scene/BaseScene.h
         Classes/Scene/GameScene.h
         Classes/Scene/StageSelectScene.h

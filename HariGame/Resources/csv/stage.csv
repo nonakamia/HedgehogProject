@@ -2,4 +2,4 @@ stageName,image,stageData
 stage0,StageSelect/stage_0.png,stage/stage_0.tmx,
 stage1,StageSelect/stage_1.png,stage/stage_1.tmx,
 stage2,StageSelect/stage_2.png,stage/stage_2.tmx,
-noStage,StageSelect/comingSoon.png,,
+NoStage,StageSelect/comingSoon.png,,

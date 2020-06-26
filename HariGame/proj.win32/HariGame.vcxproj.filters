@@ -55,6 +55,9 @@
     <Filter Include="obj\Obstacles\checkPoint">
       <UniqueIdentifier>{ce926191-a1d7-4c4b-8a91-aff17b024b79}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ClearLayer">
+      <UniqueIdentifier>{c4da241a-682f-4f00-9ea2-7190968bf6f3}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -111,7 +114,6 @@
     <ClCompile Include="..\Classes\Scene\StageSelectScene.cpp">
       <Filter>scene\StageSelectScene</Filter>
     </ClCompile>
-    <ClCompile Include="..\Classes\ClearLayer\ClearLayer.cpp" />
     <ClCompile Include="..\Classes\Obj\Obstacles\AddObstacles.cpp">
       <Filter>obj\Obstacles</Filter>
     </ClCompile>
@@ -124,6 +126,10 @@
     <ClCompile Include="..\Classes\Obj\Obstacles\CheckPoint\CheckPoint.cpp">
       <Filter>obj\Obstacles\checkPoint</Filter>
     </ClCompile>
+    <ClCompile Include="..\Classes\ClearLayer\ClearLayer.cpp">
+      <Filter>ClearLayer</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\RankCheck\RankCheck.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="main.h">
@@ -183,7 +189,6 @@
     <ClInclude Include="..\Classes\Scene\StageSelectScene.h">
       <Filter>scene\StageSelectScene</Filter>
     </ClInclude>
-    <ClInclude Include="..\Classes\ClearLayer\ClearLayer.h" />
     <ClInclude Include="..\Classes\Obj\Obstacles\AddObstacles.h">
       <Filter>obj\Obstacles</Filter>
     </ClInclude>
@@ -196,6 +201,10 @@
     <ClInclude Include="..\Classes\Obj\Obstacles\CheckPoint\CheckPoint.h">
       <Filter>obj\Obstacles\checkPoint</Filter>
     </ClInclude>
+    <ClInclude Include="..\Classes\ClearLayer\ClearLayer.h">
+      <Filter>ClearLayer</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\RankCheck\RankCheck.h" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="game.rc">

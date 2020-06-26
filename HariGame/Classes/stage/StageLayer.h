@@ -35,7 +35,7 @@ private:
 	bool _selectFlag;
 
 	StageData _stageData;				// ½Ã°¼Şî•ñ
-	int _rnk;							// ‰ß‹‚ÌÅ‘å•]‰¿(0`3)
+	int _rank;							// ‰ß‹‚ÌÅ‘å•]‰¿(0`3)
 	cocos2d::Vec2 _position;
 
 	cocos2d::Sprite* _callout;

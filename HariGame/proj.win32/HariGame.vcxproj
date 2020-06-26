@@ -167,6 +167,7 @@ xcopy "$(ProjectDir)..\Resources" "$(OutDir)\Resources\" /D /E /I /F /Y
     <ClCompile Include="..\Classes\Obj\Obstacles\CheckPoint\CheckPoint.cpp" />
     <ClCompile Include="..\Classes\Obj\Obstacles\Obstacles.cpp" />
     <ClCompile Include="..\Classes\Obj\player\Player.cpp" />
+    <ClCompile Include="..\Classes\RankCheck\RankCheck.cpp" />
     <ClCompile Include="..\Classes\Scene\BaseScene.cpp" />
     <ClCompile Include="..\Classes\Scene\GameScene.cpp" />
     <ClCompile Include="..\Classes\Scene\StageSelectScene.cpp" />
@@ -193,6 +194,7 @@ xcopy "$(ProjectDir)..\Resources" "$(OutDir)\Resources\" /D /E /I /F /Y
     <ClInclude Include="..\Classes\Obj\Obstacles\CheckPoint\CheckPoint.h" />
     <ClInclude Include="..\Classes\Obj\Obstacles\Obstacles.h" />
     <ClInclude Include="..\Classes\Obj\player\Player.h" />
+    <ClInclude Include="..\Classes\RankCheck\RankCheck.h" />
     <ClInclude Include="..\Classes\Scene\BaseScene.h" />
     <ClInclude Include="..\Classes\Scene\GameScene.h" />
     <ClInclude Include="..\Classes\Scene\StageSelectScene.h" />

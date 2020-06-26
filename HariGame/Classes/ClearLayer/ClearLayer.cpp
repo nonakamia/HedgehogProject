@@ -36,6 +36,8 @@ bool ClearLayer::init()
 	}
 	setName("ClearLayer");
 
+	// UserDefaultŒÄ‚Ño‚µ
+	UserDefault* _userDef = UserDefault::getInstance();
 
 	Size visibleSize = Director::getInstance()->getVisibleSize();
 	Vec2 origin = Director::getInstance()->getVisibleOrigin();
@@ -66,6 +68,31 @@ bool ClearLayer::init()
 		ScaleTo::create(0.2f, 1.0f),
 		nullptr
 	));
+
+	// ×Ý¸
+	int rank = _userDef->getIntegerForKey("nowRank");
+	for (int i = 1; i <= 3; i++)
+	{
+		auto rankSprite = Sprite::create("rank/star_hidden.png");
+		addChild(rankSprite);
+		if (rank >= i)
+		{
+			// ×Ý¸‚ª1ˆÈã‚È‚ç•\Ž¦‚·‚é
+			rankSprite->setSpriteFrame(Sprite::create("rank/star.png")->getSpriteFrame());
+		}
+
+		rankSprite->setPosition(
+			Vec2(clearWaku->getPosition().x + ((rankSprite->getContentSize().width + 20.0f) * (i - 2)),
+				clearWaku->getPosition().y + (rankSprite->getContentSize().height / 4.0f)
+			)
+		);
+		rankSprite->setScale(0.0f);
+		rankSprite->runAction(Sequence::create(
+			DelayTime::create(1.0f),
+			ScaleTo::create(0.2f, 1.0f),
+			nullptr
+		));
+	}
 
 
 	// ½Ã°¼Þ¾Ú¸Ä‚É–ß‚é

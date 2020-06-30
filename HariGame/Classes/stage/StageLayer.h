@@ -24,8 +24,12 @@ public:
 
 	void update(float delta);
 
+	// ‰Šú‚ÌÚ²Ô°‚ÌˆÊ’u
 	void SetMinimumLayerPosX(float posX);
 	float GetMinimumLayerPosX();
+
+	// •\¦Ì×¸Ş
+	bool GetCalloutFlag();
 
 private:
 	//CREATE_FUNC(StageLayer);

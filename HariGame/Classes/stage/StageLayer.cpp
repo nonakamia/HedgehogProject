@@ -94,6 +94,7 @@ bool StageLayer::init()
 	// —£‚³‚ê‚½Žž‚Ìˆ—
 	changeListener->onTouchEnded = [this](Touch* touch, Event* event)
 	{
+
 		//@cricket
 		_buttonSE->play();
 
@@ -162,6 +163,24 @@ bool StageLayer::init()
 
 void StageLayer::update(float delta)
 {
+	// ½Ã°¼Þ‚ð“ñ‚ÂˆÈã“¯Žž‰Ÿ‚µ‚³‚ê‚½ê‡
+	// ‰E‚Ì½Ã°¼Þ‚ð—Dæ‚É‚·‚é
+	for (auto obj : Director::getInstance()->getRunningScene()->getChildren())
+	{
+		if ((obj->getName() == "stage") && (((StageLayer*)obj)->GetCalloutFlag()) && (((StageLayer*)obj)->GetMinimumLayerPosX() > _minimumLayerPosX))
+		{
+			for (auto child : this->getChildren())
+			{
+				if (child->getName() != "stage")
+				{
+					child->setScale(0.0f);
+				}
+			}
+			_calloutFlag = false;
+			break;
+		}
+	}
+
 	if ((_buttonSE) && (!_buttonSE->isPlaying()) && (_selectFlag))
 	{
 		auto scene = Director::getInstance()->getRunningScene();
@@ -183,4 +202,9 @@ void StageLayer::SetMinimumLayerPosX(float posX)
 float StageLayer::GetMinimumLayerPosX()
 {
 	return _minimumLayerPosX;
+}
+
+bool StageLayer::GetCalloutFlag()
+{
+	return _calloutFlag;
 }

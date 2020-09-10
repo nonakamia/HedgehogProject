@@ -92,18 +92,21 @@ bool MenuLayer::init()
 	backTitleMenu->setPosition(Vec2::ZERO);
 	addChild(backTitleMenu);
 
-	// Ý’è
-	auto setting = MenuItemImage::create(
-		"menu/setting.png",
-		"menu/setting.png",
-		CC_CALLBACK_1(MenuLayer::AddSettingLayer, this));
-	setting->setPosition(Vec2(
-		menuImag->getPosition().x,
-		menuImag->getPosition().y * 0.8f
-	));
-	auto settingMenu = Menu::create(setting, nullptr);
-	settingMenu->setPosition(Vec2::ZERO);
-	addChild(settingMenu);
+	if (Director::getInstance()->getRunningScene()->getName() != "GameScene")
+	{
+		// Ý’è
+		auto setting = MenuItemImage::create(
+			"menu/setting.png",
+			"menu/setting.png",
+			CC_CALLBACK_1(MenuLayer::AddSettingLayer, this));
+		setting->setPosition(Vec2(
+			menuImag->getPosition().x,
+			menuImag->getPosition().y * 0.8f
+		));
+		auto settingMenu = Menu::create(setting, nullptr);
+		settingMenu->setPosition(Vec2::ZERO);
+		addChild(settingMenu);
+	}
 
 	// GameScene‚Ì‚Ý‚Å‚Ì•\Ž¦
 	if (Director::getInstance()->getRunningScene()->getName() == "GameScene")
@@ -128,7 +131,7 @@ bool MenuLayer::init()
 			CC_CALLBACK_1(MenuLayer::BackStageSelectScene, this));
 		backStageSlect->setPosition(Vec2(
 			menuImag->getPosition().x,
-			menuImag->getPosition().y * 1.1f
+			menuImag->getPosition().y 
 		));
 		auto backStageSlectMenu = Menu::create(backStageSlect, nullptr);
 		backStageSlectMenu->setPosition(Vec2::ZERO);
@@ -137,14 +140,14 @@ bool MenuLayer::init()
 		// À²ÄÙ‰æ–Ê‚É–ß‚é
 		backTitle->setPosition(Vec2(
 			menuImag->getPosition().x,
-			menuImag->getPosition().y * 0.9f
-		));
-
-		// Ý’è
-		setting->setPosition(Vec2(
-			menuImag->getPosition().x,
 			menuImag->getPosition().y * 0.7f
 		));
+
+		//// Ý’è
+		//setting->setPosition(Vec2(
+		//	menuImag->getPosition().x,
+		//	menuImag->getPosition().y * 0.7f
+		//));
 	}
 
 	//@cricket

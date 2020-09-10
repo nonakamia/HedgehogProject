@@ -42,6 +42,7 @@ public:
 	bool GetFlowerFlag();
 
 private:
+	OBJ_COLOR _color;
 	ACTION _action;									// ｱｸｼｮﾝ
 
 	float _moveVec;									// 1秒当たりの移動距離
@@ -61,6 +62,8 @@ private:
 
 	cocos2d::Action* _gemeOverAction;				// ｹﾞｰﾑｵｰﾊﾞｰｱｸｼｮﾝ
 
+	std::map<ACTION, std::pair<std::string, std::string>> _image;
+
 	//@cricket
 	CkBank* _actionBank;							// ﾎﾞﾀﾝBank
 	CkSound* _jumpSE;								// ｼﾞｬﾝﾌﾟ音
@@ -71,6 +74,6 @@ private:
 	void Rolling(float delta);
 	void Damage();									// ﾀﾞﾒｰｼﾞ状態
 
-	void SetImage(ACTION action);
+	bool SetImage(ACTION action);
 };
 

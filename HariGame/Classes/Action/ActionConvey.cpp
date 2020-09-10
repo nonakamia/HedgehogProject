@@ -1,4 +1,5 @@
 #include "ActionConvey.h"
+#include "Split/Split.h"
 
 USING_NS_CC;
 
@@ -18,6 +19,7 @@ ActionConvey::~ActionConvey()
 
 bool ActionConvey::init()
 {
+
 	_player_behind = (Player*)Director::getInstance()->getRunningScene()->getChildByName("PLAYER_LAYER")->getChildByName("player_behind");
 
 	return true;

@@ -3,6 +3,7 @@
 #include "Obj/OBJ_COLLAR.h"
 #include "BlackLadybug/BlackLadybug.h"
 #include "Buds/Buds.h"
+#include "Bomb/Bomb.h"
 #include "CheckPoint/CheckPoint.h"
 
 
@@ -31,23 +32,24 @@ void AddObstacles::operator()(cocos2d::Layer* layer, cocos2d::TMXLayer* mapLayer
             auto putPos = Vec2(obstaclesPoint.x * chipSize + (chipSize / 2), (mapSize.height - obstaclesPoint.y) * chipSize - (chipSize / 2));
 
             // •‚¢‚Ä‚ñ‚Æ‚¤’Ž
-            if (obstaclesGid == OBSTACLES::LADYBUG_R)
+            if ((obstaclesGid == OBSTACLES::LADYBUG_R) || (obstaclesGid == OBSTACLES::LADYBUG_G))
             {
-                auto blackLadydug = BlackLadybug::createBlackLadybug(OBJ_COLOR::OBJ_RED);
+                OBJ_COLOR color = OBJ_COLOR::OBJ_MAX;
+                if (obstaclesGid == OBSTACLES::LADYBUG_R)
+                {
+                    color = OBJ_COLOR::OBJ_RED;
+                }
+                if (obstaclesGid == OBSTACLES::LADYBUG_G)
+                {
+                    color = OBJ_COLOR::OBJ_GREEN;
+                }
+
+                auto blackLadydug = BlackLadybug::createBlackLadybug(color);
                 blackLadydug->setName("blackLadydug");
                 layer->addChild(blackLadydug);
-                blackLadydug->setPosition(putPos);
-                blackLadydug->setScale(0.2f);
-                blackLadydug->SetPoint(Vec2(20.0f, 20.0f));
-            }
-            if (obstaclesGid == OBSTACLES::LADYBUG_G)
-            {
-                auto blackLadydug = BlackLadybug::createBlackLadybug(OBJ_COLOR::OBJ_GREEN);
-                blackLadydug->setName("blackLadydug");
-                layer->addChild(blackLadydug);
-                blackLadydug->setPosition(putPos);
-                blackLadydug->setScale(0.2f);
-                blackLadydug->SetPoint(Vec2(20.0f, 20.0f));
+                blackLadydug->setPosition(Vec2(putPos.x, putPos.y - 80.0f));
+               
+                blackLadydug->SetPoint(Vec2(20.0f, 100.0f));
             }
 
             // ÂÎÞÐ
@@ -70,6 +72,27 @@ void AddObstacles::operator()(cocos2d::Layer* layer, cocos2d::TMXLayer* mapLayer
                 buds->setScale(0.5f);
                 buds->SetPoint(Vec2(50.0f, 20.0f));
                 buds->scheduleUpdate();
+            }
+
+            // ”š’e
+            if ((obstaclesGid == OBSTACLES::BOM_R) || (obstaclesGid == OBSTACLES::BOM_G))
+            {
+                OBJ_COLOR color = OBJ_COLOR::OBJ_MAX;
+                if (obstaclesGid == OBSTACLES::BOM_R)
+                {
+                    color = OBJ_COLOR::OBJ_RED;
+                }
+                if (obstaclesGid == OBSTACLES::BOM_G)
+                {
+                    color = OBJ_COLOR::OBJ_GREEN;
+                }
+
+                auto bomb = Bomb::createBomb(color);
+                bomb->setName("bomb");
+                layer->addChild(bomb);
+                bomb->setAnchorPoint(Point(0.5f, 0.0f));
+                bomb->setPosition(Vec2(putPos.x, putPos.y - (chipSize / 2.0f)));
+                bomb->SetPoint(Vec2(50.0f, 50.0f));
             }
 
             // ×ÝÌß

@@ -15,6 +15,7 @@ private:
 
 	cocos2d::Action* _backAction;
 
+	// ç≈ëÂHP
 	cocos2d::Label* _hpLabel;
 	int _maxHP;
 	int _defaultHP;

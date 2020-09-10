@@ -1,4 +1,7 @@
 #include <stdlib.h>
+#include <iostream>
+#include <iomanip>
+#include <limits>
 #include "SettingLayer.h"
 #include "menu/MenuLayer.h"
 #include "Split/Split.h"
@@ -24,6 +27,7 @@ Layer* SettingLayer::createSettingLayer()
 SettingLayer::SettingLayer()
 {
 	_maxHP = 0;
+	//_speedMap.try_emplace(0, 0.5f);
 	_backAction = nullptr;
 }
 
@@ -38,6 +42,11 @@ bool SettingLayer::init()
 		return false;
 	}
 	setName("SettingLayer");
+
+	if (Director::getInstance()->getRunningScene()->getName() == "GameScene")
+	{
+		return false;
+	}
 
 	// ŠO•”ÃÞ°À“Ç‚Ýž‚Ý
 	std::string defaultIfs = FileUtils::getInstance()->getStringFromFile("csv/setting_default.csv");
@@ -80,48 +89,47 @@ bool SettingLayer::init()
 		menuImag->getPosition().y * 1.5f
 	));
 
-	if (Director::getInstance()->getRunningScene()->getName() != "GameScene")
-	{
-		// Å‘åHP
-		auto maxHP = Sprite::create("Setting/maxHP.png");
-		addChild(maxHP);
-		maxHP->setPosition(Vec2(
-			menuImag->getPosition().x - menuImag->getContentSize().width / 3.0f,
-			menuImag->getPosition().y * 1.3f
-		));
 
-		_hpLabel = Label::createWithTTF(std::to_string(_maxHP), "fonts/arial.ttf", 50.0f);
-		addChild(_hpLabel);
-		_hpLabel->setPosition(Vec2(menuImag->getPosition().x + menuImag->getContentSize().width / 4.0f,
-			maxHP->getPosition().y));
-		_hpLabel->setColor(cocos2d::Color3B(0.0f, 0.0f, 0.0f));
+	// Å‘åHP
+	auto maxHP = Sprite::create("Setting/maxHP.png");
+	addChild(maxHP);
+	maxHP->setPosition(Vec2(
+		menuImag->getPosition().x - menuImag->getContentSize().width / 3.0f,
+		menuImag->getPosition().y * 1.3f
+	));
 
-		auto HP_right = MenuItemImage::create(
-			"Setting/right.png",
-			"Setting/right.png",
-			CC_CALLBACK_1(SettingLayer::HP, this, 1));
-		HP_right->setAnchorPoint(Point(0.0f, 0.5f));
-		HP_right->setPosition(Vec2(
-			_hpLabel->getPosition().x + 40.0f,
-			maxHP->getPosition().y
-		));
-		auto HP_rightMenu = Menu::create(HP_right, nullptr);
-		HP_rightMenu->setPosition(Vec2::ZERO);
-		addChild(HP_rightMenu);
+	_hpLabel = Label::createWithTTF(std::to_string(_maxHP), "fonts/arial.ttf", 50.0f);
+	addChild(_hpLabel);
+	_hpLabel->setPosition(Vec2(menuImag->getPosition().x + menuImag->getContentSize().width / 4.0f,
+		maxHP->getPosition().y));
+	_hpLabel->setColor(cocos2d::Color3B(0.0f, 0.0f, 0.0f));
 
-		auto HP_left = MenuItemImage::create(
-			"Setting/left.png",
-			"Setting/left.png",
-			CC_CALLBACK_1(SettingLayer::HP, this, -1));
-		HP_left->setAnchorPoint(Point(1.0f, 0.5f));
-		HP_left->setPosition(Vec2(
-			_hpLabel->getPosition().x - 40.0f,
-			maxHP->getPosition().y
-		));
-		auto HP_leftMenu = Menu::create(HP_left, nullptr);
-		HP_leftMenu->setPosition(Vec2::ZERO);
-		addChild(HP_leftMenu);
-	}
+	auto HP_right = MenuItemImage::create(
+		"Setting/right.png",
+		"Setting/right.png",
+		CC_CALLBACK_1(SettingLayer::HP, this, 1));
+	HP_right->setAnchorPoint(Point(0.0f, 0.5f));
+	HP_right->setPosition(Vec2(
+		_hpLabel->getPosition().x + 40.0f,
+		maxHP->getPosition().y
+	));
+	auto HP_rightMenu = Menu::create(HP_right, nullptr);
+	HP_rightMenu->setPosition(Vec2::ZERO);
+	addChild(HP_rightMenu);
+
+	auto HP_left = MenuItemImage::create(
+		"Setting/left.png",
+		"Setting/left.png",
+		CC_CALLBACK_1(SettingLayer::HP, this, -1));
+	HP_left->setAnchorPoint(Point(1.0f, 0.5f));
+	HP_left->setPosition(Vec2(
+		_hpLabel->getPosition().x - 40.0f,
+		maxHP->getPosition().y
+	));
+	auto HP_leftMenu = Menu::create(HP_left, nullptr);
+	HP_leftMenu->setPosition(Vec2::ZERO);
+	addChild(HP_leftMenu);
+
 	// Ø¾¯Ä
 	auto reset = MenuItemImage::create(
 		"Setting/reset.png",

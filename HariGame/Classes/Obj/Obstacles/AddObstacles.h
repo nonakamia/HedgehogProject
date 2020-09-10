@@ -8,6 +8,8 @@ enum OBSTACLES
     LADYBUG_G = 316,    // •‚¢‚Ä‚ñ‚Æ‚¤’Ž(—Î)
     BUDS_R = 320,       // ÂÎÞÐ(Ô)
     BUDS_G = 321,       // ÂÎÞÐ(—Î)
+    BOM_R = 322,        // ”š’e(Ô)
+    BOM_G = 323,        // ”š’e(—Î)
     LAMP = 311,         // ×ÝÌß(ºÞ°Ù)
     C_POINT = 312,      // Áª¯¸Îß²ÝÄ
     MAX

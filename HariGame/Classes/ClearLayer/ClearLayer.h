@@ -16,4 +16,5 @@ private:
 	bool _visible;
 
 	void BackStageSelectScene(Ref* pSender);
+	void SromScratch(Ref* pSender);
 };

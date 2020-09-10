@@ -17,7 +17,15 @@ Obj* BlackLadybug::createBlackLadybug(OBJ_COLOR color)
 		}
 
 		pRet->setTag(static_cast<int>(color));
-		pRet->setAnchorPoint(Point(0.5f, 0.5f));
+		pRet->setAnchorPoint(Point(0.5f, 0.0f));
+
+		pRet->setScale(1.5f);
+		pRet->runAction(RepeatForever::create(
+			Sequence::create(
+				ResizeTo::create(0.5f, Size(100.0f, 100.0f)),
+				ResizeTo::create(0.5f, Size(100.0f, 120.0f)),
+				nullptr
+			)));
 
 		pRet->autorelease();
 		return pRet;

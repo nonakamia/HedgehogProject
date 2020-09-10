@@ -63,6 +63,7 @@ list(APPEND GAME_SOURCE
      Classes/menu/setting/SettingLayer.cpp
      Classes/menu/MenuLayer.cpp
      Classes/Obj/Obstacles/BlackLadybug/BlackLadybug.cpp
+     Classes/Obj/Obstacles/Bomb/Bomb.cpp
      Classes/Obj/Obstacles/Buds/Buds.cpp
      Classes/Obj/Obstacles/CheckPoint/CheckPoint.cpp
      Classes/Obj/Obstacles/AddObstacles.cpp
@@ -91,6 +92,7 @@ list(APPEND GAME_HEADER
         Classes/menu/setting/SettingLayer.h
         Classes/menu/MenuLayer.h
         Classes/Obj/Obstacles/BlackLadybug/BlackLadybug.h
+        Classes/Obj/Obstacles/Bomb/Bomb.h
         Classes/Obj/Obstacles/Buds/Buds.h
         Classes/Obj/Obstacles/CheckPoint/CheckPoint.h
         Classes/Obj/Obstacles/AddObstacles.h

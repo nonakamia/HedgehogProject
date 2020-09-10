@@ -1,5 +1,6 @@
 #include "ClearLayer.h"
 #include "Scene/StageSelectScene.h"
+#include "Scene/GameScene.h"
 
 USING_NS_CC;
 
@@ -114,6 +115,25 @@ bool ClearLayer::init()
 	backStageSlectMenu->setPosition(Vec2::ZERO);
 	addChild(backStageSlectMenu);
 
+	// はじめから
+	auto fromScratch = MenuItemImage::create(
+		"menu/fromScratch.png",
+		"menu/fromScratch.png",
+		CC_CALLBACK_1(ClearLayer::SromScratch, this));
+	fromScratch->setPosition(Vec2(
+		clearWaku->getPosition().x,
+		clearWaku->getPosition().y * 0.6f
+	));
+	fromScratch->setScale(0.0f);
+	fromScratch->runAction(Sequence::create(
+		DelayTime::create(1.0f),
+		ScaleTo::create(0.2f, 0.7f),
+		nullptr
+	));
+	auto fromScratchMenu = Menu::create(fromScratch, nullptr);
+	fromScratchMenu->setPosition(Vec2::ZERO);
+	addChild(fromScratchMenu);
+
 
 	return true;
 }
@@ -130,6 +150,28 @@ void ClearLayer::BackStageSelectScene(Ref* pSender)
 	// 0.5秒かけてホワイトアウトしてタイトルに移動する
 	auto* fade = TransitionFadeUp::create(1.0f, stageSelectScene);
 	// PauseLayerを破棄してtitleSceneに遷移する
+	Director::getInstance()->replaceScene(fade);
+
+	_visible = false;
+}
+
+void ClearLayer::SromScratch(Ref* pSender)
+{
+	if (!_visible)
+	{
+		return;
+	}
+
+	// UserDefault呼び出し
+	UserDefault* _userDef = UserDefault::getInstance();
+	// ﾁｪｯｸﾎﾟｲﾝﾄの削除
+	_userDef->setFloatForKey("C_POINT_X", 0.0f);
+	_userDef->setFloatForKey("C_POINT_Y", 0.0f);
+
+	// ｹﾞｰﾑｼｰﾝに画面遷移する。
+	auto scene = (GameScene*)Director::getInstance()->getRunningScene();
+	auto gameScene = GameScene::createGameScene(scene->GetStageName(), scene->GetMapPass());
+	auto* fade = TransitionFade::create(1.0f, gameScene, Color3B::BLACK);
 	Director::getInstance()->replaceScene(fade);
 
 	_visible = false;

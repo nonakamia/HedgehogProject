@@ -1,7 +1,6 @@
 #pragma once
 #include "Obj/Obstacles/Obstacles.h"
 #include "cocos2d.h"
-
 #include "HP/HPMng.h"
 
 

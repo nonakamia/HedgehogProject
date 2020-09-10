@@ -1,8 +1,9 @@
+#include <math.h>
+#include "Split/Split.h"
 #include "Player.h"
 #include "Scene/GameScene.h"
 #include "HP/HPMng.h"
 #include "Action/ActionConvey.h"
-#include <math.h>
 
 USING_NS_CC;
 
@@ -17,6 +18,9 @@ Obj* Player::createPlayer(OBJ_COLOR color)
 		SpriteFrameCache::getInstance()->addSpriteFrame(Sprite::create("player/player_r_jump.png")->getSpriteFrame(), "jump_r");
 		SpriteFrameCache::getInstance()->addSpriteFrame(Sprite::create("player/player_g_jump.png")->getSpriteFrame(), "jump_g");
 
+		SpriteFrameCache::getInstance()->addSpriteFrame(Sprite::create("player/player_r_damage.png")->getSpriteFrame(), "damage_r");
+		SpriteFrameCache::getInstance()->addSpriteFrame(Sprite::create("player/player_g_damage.png")->getSpriteFrame(), "damage_g");
+
 		if (color == OBJ_COLOR::OBJ_RED)
 		{
 			pRet->setSpriteFrame(SpriteFrameCache::getInstance()->getSpriteFrameByName("rotate_r"));
@@ -29,6 +33,7 @@ Obj* Player::createPlayer(OBJ_COLOR color)
 		pRet->setTag(static_cast<int>(color));
 		pRet->setAnchorPoint(cocos2d::Vec2(0.5f, 0.5f));
 		pRet->setVisible(true);
+		((Player*)pRet)->_color = color;
 
 		pRet->autorelease();
 
@@ -62,6 +67,10 @@ Player::Player()
 
 	_blackList[ACTION::FALL].push_back(ACTION::JUMP);
 	_blackList[ACTION::FALL].push_back(ACTION::JUMPING);
+
+	_image[ACTION::ROTATE] = { "rotate_r","rotate_g" };
+	_image[ACTION::DAMAGE] = { "damage_r","damage_g" };
+	_image[ACTION::JUMP] = { "jump_r","jump_g" };
 
 	_rollingAction = nullptr;
 	_damageAction = nullptr;
@@ -105,6 +114,7 @@ bool Player::init()
 	{
 		return false;
 	}
+
 	//@cricket
 #ifdef CK_PLATFORM_WIN
 	_actionBank = CkBank::newBank("Resources/se/action/action.ckb");
@@ -173,8 +183,7 @@ void Player::Rotate()
 					RotateBy::create(1.0f, 360.0f),
 					MoveBy::create(1.0f, Vec2(_moveVec, 0.0f)),
 					nullptr)
-			)
-		);
+		));
 		CC_SAFE_RETAIN(_rollingAction);
 		_action = ACTION::ROLLING;
 	}
@@ -193,6 +202,7 @@ void Player::Jump()
 		_flowerFlag = false;
 		_airTime = 0.8f;
 		_action = ACTION::JUMPING;
+		SetImage(ACTION::JUMP);
 
 		//@cricket
 		if (getName() == "player_behind")
@@ -222,6 +232,10 @@ void Player::Falling()
 		_jumpFlag = false;
 		_time = 0.0f;
 		_vector = 0.0f;
+		if (!_damageFlag)
+		{
+			SetImage(ACTION::ROTATE);
+		}
 		return;
 	}
 
@@ -237,6 +251,10 @@ void Player::Falling()
 		_jumpFlag = false;
 		_time = 0.0f;
 		_vector = 0.0f;
+		if (!_damageFlag)
+		{
+			SetImage(ACTION::ROTATE);
+		}
 	}
 }
 
@@ -253,11 +271,13 @@ void Player::Change(int color)
 	{
 		setSpriteFrame(Sprite::create("player/player_r_rotate.png")->getSpriteFrame());
 		setTag(static_cast<int>(OBJ_COLOR::OBJ_RED));
+		_color = OBJ_COLOR::OBJ_RED;
 	}
 	else if (color == static_cast<int>(OBJ_COLOR::OBJ_GREEN))
 	{
 		setSpriteFrame(Sprite::create("player/player_g_rotate.png")->getSpriteFrame());
 		setTag(static_cast<int>(OBJ_COLOR::OBJ_GREEN));
+		_color = OBJ_COLOR::OBJ_GREEN;
 	}
 }
 
@@ -319,14 +339,17 @@ void Player::DamageAction(cocos2d::Sprite* spite)
 	if ((!_damageFlag)||(spite == this))
 	{
 		//@cricket
-		_damageSE->play();
+		if (spite->getName() != "bomb")
+		{
+			_damageSE->play();
+		}
 
-		if (spite->getName() == "blackLadydug")
+		if ((spite->getName() == "blackLadydug")|| (spite->getName() == "bomb"))
 		{
 			_damageAction = runAction(Sequence::create(
 				Blink::create(1.5f, 10),
 				nullptr
-			));
+				));
 		}
 		else
 		{
@@ -353,6 +376,7 @@ void Player::DamageAction(cocos2d::Sprite* spite)
 		CC_SAFE_RETAIN(_damageAction);
 		//_action = ACTION::DAMAGE;
 		_damageFlag = true;
+		SetImage(ACTION::DAMAGE);
 		return;
 	}	
 }
@@ -365,6 +389,7 @@ void Player::GameOverAction()
 		stopAllActions();
 		CC_SAFE_RELEASE_NULL(_damageAction);
 		CC_SAFE_RELEASE_NULL(_rollingAction);
+		setVisible(true);
 
 		// πﬁ∞—µ∞ ﬁ∞éûÇÃ±∏ºÆ›ÇçsÇ§
 		_gemeOverAction = runAction(FadeOut::create(1.0f));
@@ -477,7 +502,7 @@ void Player::Jumping()
 		}
 		else
 		{
-			_vector = _maxVec * _time / 2.0f;
+			_vector = (_maxVec * _time / 2.0f);
 			setPosition(Vec2(pos.x, pos.y + _vector));
 			_time += 0.1f;
 		}
@@ -519,6 +544,7 @@ void Player::Damage()
 			setVisible(true);
 			CC_SAFE_RELEASE_NULL(_damageAction);
 			_damageFlag = false;
+			SetImage(ACTION::ROTATE);
 
 			if ((_rollingAction == nullptr) && (getName() == "player_front"))
 			{
@@ -529,13 +555,20 @@ void Player::Damage()
 	}
 }
 
-void Player::SetImage(ACTION action)
+bool Player::SetImage(ACTION action)
 {
-	if (action == ACTION::JUMP)
+	if (_image.find(action) == _image.end())
 	{
-		if (getTag() == static_cast<int>(OBJ_COLOR::OBJ_RED))
-		{
-
-		}
+		return false;
 	}
+
+	if (_color == OBJ_COLOR::OBJ_RED)
+	{
+		setSpriteFrame(SpriteFrameCache::getInstance()->getSpriteFrameByName(_image[action].first));
+	}
+	else
+	{
+		setSpriteFrame(SpriteFrameCache::getInstance()->getSpriteFrameByName(_image[action].second));
+	}
+	return true;
 }

@@ -58,6 +58,9 @@
     <Filter Include="ClearLayer">
       <UniqueIdentifier>{c4da241a-682f-4f00-9ea2-7190968bf6f3}</UniqueIdentifier>
     </Filter>
+    <Filter Include="obj\Obstacles\bom">
+      <UniqueIdentifier>{7104266d-1617-41cc-a70a-da2f11dc55a1}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -130,6 +133,9 @@
       <Filter>ClearLayer</Filter>
     </ClCompile>
     <ClCompile Include="..\Classes\RankCheck\RankCheck.cpp" />
+    <ClCompile Include="..\Classes\Obj\Obstacles\Bomb\Bomb.cpp">
+      <Filter>obj\Obstacles\bom</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="main.h">
@@ -140,9 +146,6 @@
     </ClInclude>
     <ClInclude Include="..\Classes\Obj\Obj.h">
       <Filter>obj</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Classes\Obj\player\Player.h">
-      <Filter>obj\player</Filter>
     </ClInclude>
     <ClInclude Include="..\Classes\Scene\BaseScene.h">
       <Filter>scene</Filter>
@@ -205,6 +208,12 @@
       <Filter>ClearLayer</Filter>
     </ClInclude>
     <ClInclude Include="..\Classes\RankCheck\RankCheck.h" />
+    <ClInclude Include="..\Classes\Obj\player\Player.h">
+      <Filter>obj\player</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\Obj\Obstacles\Bomb\Bomb.h">
+      <Filter>obj\Obstacles\bom</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="game.rc">
